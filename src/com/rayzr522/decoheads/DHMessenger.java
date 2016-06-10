@@ -3,18 +3,19 @@ package com.rayzr522.decoheads;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class DHMessenger {
 
-	// private DecoHeads plugin;
-	private Logger logger;
+	private DecoHeads	plugin;
+	private Logger		logger;
 
 	private String prefix = "[DecoHeads] ";
 
 	public DHMessenger(DecoHeads plugin) {
 
-		// this.plugin = plugin;
+		this.plugin = plugin;
 		this.logger = plugin.getLogger();
 
 	}
@@ -40,6 +41,27 @@ public class DHMessenger {
 	public void msg(Player p, String msg) {
 
 		p.sendMessage(TextUtils.colorize(prefix + msg));
+
+	}
+
+	public void err(String err, boolean disable) {
+
+		info("---------- ERROR ----------");
+
+		info("DecoHeads has encountered an error:");
+		info(err);
+
+		if (disable) {
+
+			info("DecoHeads will now be disabled.");
+			info("---------------------------");
+			Bukkit.getPluginManager().disablePlugin(plugin);
+
+		} else {
+
+			info("---------------------------");
+
+		}
 
 	}
 

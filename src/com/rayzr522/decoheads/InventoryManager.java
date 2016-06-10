@@ -14,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("unused")
 public class InventoryManager {
 
-	public static final String	INV_NAME	= TextUtils.colorize("&d&e&c&o" + "&c&l&nDecoHeads");
-	public static final String	DIVIDER		= TextUtils.colorize("&8 |#|&e ");
+	public static final String	INV_NAME	= TextUtils.colorize("&r&c&l&n" + "DecoHeads");
+	public static final String	DIVIDER		= TextUtils.colorize("&8 |&e ");
 
 	private static List<ItemStack> heads;
 

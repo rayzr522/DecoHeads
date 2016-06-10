@@ -23,6 +23,14 @@ public class DecoHeads extends JavaPlugin {
 
 		logger = new DHMessenger(this);
 
+		if (Reflector.getVersion().startsWith("v1_7_") || Reflector.getVersion().startsWith("v1_6_") || Reflector.getVersion().startsWith("v1_5_") || Reflector.getVersion().startsWith("v1_4_") || Reflector.getVersion().startsWith("v1_3_")
+			|| Reflector.getVersion().startsWith("v1_2_") || Reflector.getVersion().startsWith("v1_1_")) {
+
+			err("DecoHeads is only compatible with Minecraft 1.8+", true);
+			return;
+
+		}
+
 		listener = new DHListener(this);
 		getServer().getPluginManager().registerEvents(listener, this);
 
@@ -51,6 +59,12 @@ public class DecoHeads extends JavaPlugin {
 	public void log(String msg) {
 
 		logger.info(msg);
+
+	}
+
+	public void err(String err, boolean disable) {
+
+		logger.err(err, disable);
 
 	}
 

@@ -46,9 +46,9 @@ public class Reflector {
 
 		} catch (Exception e) {
 
+			
 			e.printStackTrace();
-			System.err.println("Failed to load Reflector. Disabling DecoHeads.");
-			Bukkit.getServer().getPluginManager().disablePlugin(DecoHeads.INSTANCE);
+			DecoHeads.INSTANCE.err("Failed to load Reflector", true);
 
 		}
 
