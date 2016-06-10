@@ -22,15 +22,15 @@ public class DHListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 
-		Inventory inv = e.getClickedInventory();
-
-		if (e.isShiftClick()) { return; }
-
-		if (!inv.getName().startsWith(InventoryManager.INV_NAME)) { return; }
+		Inventory inv = e.getInventory();
 
 		if (!(e.getWhoClicked() instanceof Player)) { return; }
 
+		if (!inv.getName().startsWith(InventoryManager.INV_NAME)) { return; }
+
 		e.setCancelled(true);
+
+		if (e.getRawSlot() >= 54) { return; }
 
 		ItemStack clicked = e.getCurrentItem();
 		Player p = (Player) e.getWhoClicked();
