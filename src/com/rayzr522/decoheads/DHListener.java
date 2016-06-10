@@ -1,10 +1,12 @@
 
 package com.rayzr522.decoheads;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -49,6 +51,25 @@ public class DHListener implements Listener {
 	//
 	// }
 
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+
+		Inventory inv = e.getClickedInventory();
+
+		if (!inv.getName().startsWith(InventoryManager.INV_NAME)) { return; }
+
+		if (!(e.getWhoClicked() instanceof Player)) { return; }
+
+		e.setCancelled(true);
+
+		if (e.getCurrentItem().getType() == Material.SKULL_ITEM) {
+
+			((Player) e.getWhoClicked()).getInventory().addItem(ItemUtils.setLore(e.getCurrentItem().clone(), "", "&7Made with &c&lDecoHeads", ""));
+
+		}
+
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 
@@ -59,9 +80,7 @@ public class DHListener implements Listener {
 			// e.getPlayer().getInventory().addItem(item);
 			// }
 
-			Inventory inv = Bukkit.createInventory(e.getPlayer(), 54);
-			inv.setContents(InventoryManager.getInventory(0));
-			e.getPlayer().openInventory(inv);
+			e.getPlayer().openInventory(InventoryManager.getInventory(0));
 
 		}
 

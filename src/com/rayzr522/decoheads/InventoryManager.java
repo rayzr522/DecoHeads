@@ -4,17 +4,25 @@ package com.rayzr522.decoheads;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+@SuppressWarnings("unused")
 public class InventoryManager {
 
 	public static final String	INV_NAME	= TextUtils.colorize("&d&e&c&o" + "&c&l&nDecoHeads");
-	public static final String	DIVIDER		= " &8||&e ";
+	public static final String	DIVIDER		= TextUtils.colorize("&8 |#|&e ");
 
 	private static List<ItemStack> heads;
+	
+	public static final int WIDTH = 7;
+	public static final int HEIGHT = 3;
+	
+	public static final int SIZE = WIDTH * HEIGHT;
 
 	public static void loadHeads(DecoHeads plugin) {
 
@@ -26,7 +34,7 @@ public class InventoryManager {
 
 			ConfigurationSection section = config.getConfigurationSection("heads." + name);
 			System.out.println("Adding head: " + name);
-			heads.add(ItemUtils.setLore(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name), "", "&7Made with &c&lDecoHeads", ""));
+			heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
 
 		}
 
@@ -40,7 +48,9 @@ public class InventoryManager {
 
 	}
 
-	public static ItemStack[] getInventory(int page) {
+	public static Inventory getInventory(int page) {
+
+		Inventory inv = Bukkit.createInventory(null, 54, INV_NAME + DIVIDER + "Page " + (page + 1));
 
 		ItemStack[] items = new ItemStack[54];
 
@@ -50,12 +60,13 @@ public class InventoryManager {
 
 		}
 
-		setItem(items, BUTTON("Previous Page"), 2, 5);
-		setItem(items, BUTTON("Next Page"), 6, 5);
+		// Re-enable this when multi-page support is set up
+		// setItem(items, BUTTON("Previous Page"), 2, 5);
+		// setItem(items, BUTTON("Next Page"), 6, 5);
 
-		int offset = page * 24;
+		int offset = page * SIZE;
 
-		for (int i = 0; i < 24; i++) {
+		for (int i = 0; i < SIZE; i++) {
 
 			int pos = offset + i;
 
@@ -65,11 +76,13 @@ public class InventoryManager {
 
 			}
 
-			setItem(items, heads.get(pos), 1 + i % 8, 1 + i / 8);
+			setItem(items, heads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
 
 		}
 
-		return items;
+		inv.setContents(items);
+
+		return inv;
 
 	}
 
@@ -84,7 +97,7 @@ public class InventoryManager {
 	public static int getPage(String invName) {
 
 		try {
-			return Integer.parseInt(TextUtils.uncolorize(invName).split(DIVIDER)[1].replace("Page ", ""));
+			return Integer.parseInt(invName.split(DIVIDER)[1].replace("Page ", ""));
 		} catch (Exception e) {
 			return -1;
 		}
