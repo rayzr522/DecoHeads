@@ -8,6 +8,14 @@ import org.bukkit.entity.Player;
 
 public class DHCommand implements CommandExecutor {
 
+	private DecoHeads plugin;
+
+	public DHCommand(DecoHeads plugin) {
+
+		this.plugin = plugin;
+
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
 
@@ -19,10 +27,19 @@ public class DHCommand implements CommandExecutor {
 		}
 
 		if (cmd.equalsIgnoreCase("decoheads") || cmd.equalsIgnoreCase("dh") || cmd.equalsIgnoreCase("heads")) {
-
+			
 			Player p = (Player) sender;
 
-			p.openInventory(InventoryManager.getInventory(0));
+			if (args.length > 0 && (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("reload"))) {
+				
+				plugin.reloadConfig();
+				plugin.msg(p, "Config reloaded!");
+
+			} else {
+
+				p.openInventory(InventoryManager.getInventory(1));
+
+			}
 
 		}
 

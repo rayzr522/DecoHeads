@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class DHListener implements Listener {
 
@@ -23,15 +24,38 @@ public class DHListener implements Listener {
 
 		Inventory inv = e.getClickedInventory();
 
+		if (e.isShiftClick()) { return; }
+
 		if (!inv.getName().startsWith(InventoryManager.INV_NAME)) { return; }
 
 		if (!(e.getWhoClicked() instanceof Player)) { return; }
 
 		e.setCancelled(true);
 
-		if (e.getCurrentItem().getType() == Material.SKULL_ITEM) {
+		ItemStack clicked = e.getCurrentItem();
+		Player p = (Player) e.getWhoClicked();
 
-			((Player) e.getWhoClicked()).getInventory().addItem(ItemUtils.setLore(e.getCurrentItem().clone(), "", "&7Made with &c&lDecoHeads", ""));
+		if (clicked.getType() == Material.SKULL_ITEM) {
+
+			p.getInventory().addItem(ItemUtils.setLore(clicked.clone(), "", "&7Made with &c&lDecoHeads", ""));
+
+		} else if (InventoryManager.isButton(clicked)) {
+
+			boolean next = clicked.getItemMeta().getDisplayName().contains("Next");
+
+			int page = InventoryManager.getPage(inv.getName());
+
+			if (next) {
+
+				p.closeInventory();
+				p.openInventory(InventoryManager.getInventory(page + 1));
+
+			} else {
+
+				p.closeInventory();
+				p.openInventory(InventoryManager.getInventory(page - 1));
+
+			}
 
 		}
 
