@@ -9,4 +9,4 @@ commands:
     aliases:
     - dh
     - heads
-    #permission: decoheads.use
+    usage: /decoheads [reload|rl]

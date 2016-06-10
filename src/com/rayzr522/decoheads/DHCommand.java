@@ -27,15 +27,29 @@ public class DHCommand implements CommandExecutor {
 		}
 
 		if (cmd.equalsIgnoreCase("decoheads") || cmd.equalsIgnoreCase("dh") || cmd.equalsIgnoreCase("heads")) {
-			
+
 			Player p = (Player) sender;
 
 			if (args.length > 0 && (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("reload"))) {
-				
+
+				if (!p.hasPermission("decoheads.reload")) {
+
+					plugin.msg(p, "&cYou don't have permission to do that!");
+					return true;
+
+				}
+
 				plugin.reloadConfig();
 				plugin.msg(p, "Config reloaded!");
 
 			} else {
+
+				if (!p.hasPermission("decoheads.use")) {
+
+					plugin.msg(p, "&cYou don't have permission to do that!");
+					return true;
+
+				}
 
 				p.openInventory(InventoryManager.getInventory(1));
 
