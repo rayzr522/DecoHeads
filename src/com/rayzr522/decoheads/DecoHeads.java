@@ -30,9 +30,13 @@ public class DecoHeads extends JavaPlugin {
 
 		logger.setPrefix(config.getString("prefix"));
 
-		log("DecoHeads v" + getDescription().getVersion() + " enabled!");
-
 		InventoryManager.loadHeads(this);
+
+		DHCommand executor = new DHCommand();
+
+		getCommand("decoheads").setExecutor(executor);
+
+		log("DecoHeads v" + getDescription().getVersion() + " enabled!");
 
 	}
 
