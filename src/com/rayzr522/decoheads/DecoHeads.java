@@ -4,8 +4,6 @@ package com.rayzr522.decoheads;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.rayzr522.decoheads.type.ClassType;
-
 public class DecoHeads extends JavaPlugin {
 
 	public static DecoHeads INSTANCE;
@@ -14,8 +12,8 @@ public class DecoHeads extends JavaPlugin {
 
 	private DHListener listener;
 
-	private DHConfigHandler configHandler;
-	private YamlConfiguration config;
+	private DHConfigHandler		configHandler;
+	private YamlConfiguration	config;
 
 	@Override
 	public void onEnable() {
@@ -34,8 +32,7 @@ public class DecoHeads extends JavaPlugin {
 
 		log("DecoHeads v" + getDescription().getVersion() + " enabled!");
 
-		System.out.println(Reflector.getVersion());
-		System.out.println(Reflector.getClass(ClassType.CRAFTBUKKIT, "CraftServer"));
+		InventoryManager.loadHeads(this);
 
 	}
 
