@@ -1,3 +1,4 @@
+
 package com.rayzr522.decoheads;
 
 import java.lang.reflect.Constructor;
@@ -16,16 +17,16 @@ public class Reflector {
 
 	private static String version = "";
 
-	public static Class<?> CRAFT_PLAYER;
-	public static Class<?> CRAFT_ENTITY;
-	public static Class<?> CRAFT_SERVER;
-	public static Class<?> CRAFT_WORLD;
-	public static Class<?> CRAFT_ITEM_STACK;
+	public static Class<?>	CRAFT_PLAYER;
+	public static Class<?>	CRAFT_ENTITY;
+	public static Class<?>	CRAFT_SERVER;
+	public static Class<?>	CRAFT_WORLD;
+	public static Class<?>	CRAFT_ITEM_STACK;
 
-	private static Method PLAYER_HANDLE;
-	private static Method ENTITY_HANDLE;
-	private static Method SERVER_HANDLE;
-	private static Method WORLD_HANDLE;
+	private static Method	PLAYER_HANDLE;
+	private static Method	ENTITY_HANDLE;
+	private static Method	SERVER_HANDLE;
+	private static Method	WORLD_HANDLE;
 
 	static {
 
@@ -46,7 +47,6 @@ public class Reflector {
 
 		} catch (Exception e) {
 
-			
 			e.printStackTrace();
 			DecoHeads.INSTANCE.err("Failed to load Reflector", true);
 
@@ -77,7 +77,7 @@ public class Reflector {
 
 			if (m.getName().equals(name)) {
 
-				return m;
+			return m;
 
 			}
 
@@ -95,7 +95,7 @@ public class Reflector {
 
 				if (m.getParameterTypes() == params) {
 
-					return m;
+				return m;
 
 				}
 
@@ -135,7 +135,7 @@ public class Reflector {
 
 			if (constr.getParameterTypes().length == numParams) {
 
-				return constr;
+			return constr;
 
 			}
 
