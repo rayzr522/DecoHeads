@@ -30,17 +30,46 @@ public class DHCommand implements CommandExecutor {
 
 			Player p = (Player) sender;
 
-			if (args.length > 0 && (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("reload"))) {
+			if (args.length > 0) {
 
-				if (!p.hasPermission("decoheads.reload")) {
+				if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
 
-					plugin.msg(p, "&cYou don't have permission to do that!");
-					return true;
+					if (!p.hasPermission("decoheads.reload")) {
+
+						plugin.msg(p, "&cYou don't have permission to do that!");
+						return true;
+
+					}
+
+					plugin.reloadConfig();
+					plugin.msg(p, "Config reloaded!");
 
 				}
 
-				plugin.reloadConfig();
-				plugin.msg(p, "Config reloaded!");
+				try {
+
+					int page = Integer.parseInt(args[0]);
+
+					if (page >= 1 && page <= InventoryManager.maxPages()) {
+
+						if (!p.hasPermission("decoheads.use")) {
+
+							plugin.msg(p, "&cYou don't have permission to do that!");
+							return true;
+
+						}
+
+						p.openInventory(InventoryManager.getInventory(page));
+
+					} else {
+
+						plugin.msg(p, "&cNo such page (min: 1, max: " + InventoryManager.maxPages() + ")");
+
+					}
+
+				} catch (Exception e) {
+
+				}
 
 			} else {
 
@@ -58,6 +87,7 @@ public class DHCommand implements CommandExecutor {
 		}
 
 		return true;
+
 	}
 
 }
