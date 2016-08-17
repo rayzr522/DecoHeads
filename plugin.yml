@@ -1,6 +1,6 @@
 name: DecoHeads
 main: com.rayzr522.decoheads.DecoHeads
-version: 1.2
+version: 1.3
 description: Adds lots of decorative heads that can be used for building / design
 author: Rayzr522
 commands:
@@ -9,4 +9,4 @@ commands:
     aliases:
     - dh
     - heads
-    usage: /decoheads [reload|rl|page #]
+    usage: /decoheads [reload|rl|search text|find text|page #]

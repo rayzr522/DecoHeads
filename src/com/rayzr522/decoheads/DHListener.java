@@ -26,7 +26,7 @@ public class DHListener implements Listener {
 
 		if (!(e.getWhoClicked() instanceof Player)) { return; }
 
-		if (!inv.getName().startsWith(InventoryManager.INV_NAME)) { return; }
+		if (!(e.getInventory().getHolder() instanceof MenuHolder)) { return; }
 
 		e.setCancelled(true);
 
@@ -34,6 +34,7 @@ public class DHListener implements Listener {
 
 		ItemStack clicked = e.getCurrentItem();
 		Player p = (Player) e.getWhoClicked();
+		MenuHolder holder = (MenuHolder) e.getInventory().getHolder();
 
 		if (clicked.getType() == Material.SKULL_ITEM) {
 
@@ -48,12 +49,12 @@ public class DHListener implements Listener {
 			if (next) {
 
 				p.closeInventory();
-				p.openInventory(InventoryManager.getInventory(page + 1));
+				p.openInventory(InventoryManager.getInventory(p, holder.getFilter(), page + 1));
 
 			} else {
 
 				p.closeInventory();
-				p.openInventory(InventoryManager.getInventory(page - 1));
+				p.openInventory(InventoryManager.getInventory(p, holder.getFilter(), page - 1));
 
 			}
 

@@ -4,25 +4,25 @@ package com.rayzr522.decoheads;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("unused")
 public class InventoryManager {
 
-	public static final String	INV_NAME	= TextUtils.colorize("&r&c&l&n" + "DecoHeads");
-	public static final String	DIVIDER		= TextUtils.colorize("&8 |&e ");
+	public static final String		INV_NAME	= TextUtils.colorize("&r&c&l&n" + "DecoHeads");
+	public static final String		DIVIDER		= TextUtils.colorize("&8 |&e ");
 
-	private static List<ItemStack> heads;
+	private static List<ItemStack>	heads;
 
-	public static final int	WIDTH	= 7;
-	public static final int	HEIGHT	= 3;
+	public static final int			WIDTH		= 7;
+	public static final int			HEIGHT		= 3;
 
-	public static final int SIZE = WIDTH * HEIGHT;
+	public static final int			SIZE		= WIDTH * HEIGHT;
 
 	public static void loadHeads(DecoHeads plugin) {
 
@@ -33,16 +33,22 @@ public class InventoryManager {
 		for (String name : config.getConfigurationSection("heads").getKeys(false)) {
 
 			ConfigurationSection section = config.getConfigurationSection("heads." + name);
-						heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
+			heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
+
+		}
+
+		if (heads.size() < 1) {
+
+			plugin.logger.err("Failed to load any heads.", true);
 
 		}
 
 	}
 
-	private static final ItemStack EMPTY = ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
+	private static final ItemStack	EMPTY			= ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
 
-	private static ItemStack	BUTTON_ENABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
-	private static ItemStack	BUTTON_DISABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+	private static ItemStack		BUTTON_ENABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+	private static ItemStack		BUTTON_DISABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
 
 	private static ItemStack BUTTON(String name, boolean enabled) {
 
@@ -56,9 +62,38 @@ public class InventoryManager {
 
 	}
 
-	public static Inventory getInventory(int page) {
+	private static List<ItemStack> searchHeads(String filter) {
 
-		Inventory inv = Bukkit.createInventory(null, 54, INV_NAME + DIVIDER + "Page " + page);
+		if (filter == null || filter.equals("")) { return heads; }
+
+		filter = filter.toLowerCase();
+
+		List<ItemStack> filteredHeads = new ArrayList<ItemStack>();
+
+		for (ItemStack item : heads) {
+
+			if (item == null || item.getType() == Material.AIR || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()) {
+				break;
+			}
+
+			String name = TextUtils.stripColor(item.getItemMeta().getDisplayName()).toLowerCase();
+			if (name.contains(filter)) {
+				filteredHeads.add(item);
+			}
+
+		}
+
+		return filteredHeads;
+	}
+
+	public static Inventory getInventory(Player player, String filter, int page) {
+
+		List<ItemStack> filteredHeads = searchHeads(filter);
+
+		if (filteredHeads == null || filteredHeads.size() < 1) { return null; }
+
+		Inventory inv = MenuHolder.makeInv(player, INV_NAME + DIVIDER + "Page " + page, 54);
+		((MenuHolder) inv.getHolder()).setFilter(filter);
 
 		ItemStack[] items = new ItemStack[54];
 
@@ -69,21 +104,21 @@ public class InventoryManager {
 		}
 
 		setItem(items, BUTTON("Previous Page", page > 1), 2, 5);
-		setItem(items, BUTTON("Next Page", page < maxPages()), 6, 5);
+		setItem(items, BUTTON("Next Page", page < maxPages(filteredHeads)), 6, 5);
 
 		int offset = (page - 1) * SIZE;
-		
+
 		for (int i = 0; i < SIZE; i++) {
 
 			int pos = offset + i;
-			
-			if (pos >= heads.size()) {
+
+			if (pos >= filteredHeads.size()) {
 
 				break;
 
 			}
 
-			setItem(items, heads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
+			setItem(items, filteredHeads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
 
 		}
 
@@ -118,6 +153,10 @@ public class InventoryManager {
 	}
 
 	public static int maxPages() {
+		return maxPages(heads);
+	}
+
+	public static int maxPages(List<ItemStack> heads) {
 		return (int) Math.floor(heads.size() / SIZE);
 	}
 
