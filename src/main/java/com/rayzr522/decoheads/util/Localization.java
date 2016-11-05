@@ -29,12 +29,7 @@ public class Localization {
 
     private HashMap<String, String> messages;
 
-    /**
-     * Loads all the messages from a config file
-     * 
-     * @param config the file to load all messages from
-     */
-    public void load(YamlConfiguration config) {
+    private Localization(YamlConfiguration config) {
         messages = new HashMap<String, String>();
 
         HashMap<String, String> raw = new HashMap<String, String>();
@@ -47,6 +42,15 @@ public class Localization {
         for (Entry<String, String> entry : raw.entrySet()) {
             messages.put(entry.getKey(), parse(raw, entry));
         }
+    }
+
+    /**
+     * Loads all the messages from a config file
+     * 
+     * @param config the file to load all messages from
+     */
+    public static Localization load(YamlConfiguration config) {
+        return new Localization(config);
     }
 
     /**
@@ -82,7 +86,8 @@ public class Localization {
      * 
      * @param key the key of the message
      * @param strings the strings to use for substitution
-     * @return the message
+     * @return The message, or the key itself if no message was found for that
+     *         key
      */
     public String tr(String key, String... strings) {
         if (!messages.containsKey(key)) {

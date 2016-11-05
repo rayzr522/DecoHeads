@@ -1,7 +1,8 @@
 
 package com.rayzr522.decoheads;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.io.IOException;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,21 +11,22 @@ import com.rayzr522.decoheads.gui.GuiListener;
 import com.rayzr522.decoheads.gui.InventoryManager;
 import com.rayzr522.decoheads.util.ConfigHandler;
 import com.rayzr522.decoheads.util.DHMessenger;
+import com.rayzr522.decoheads.util.Localization;
+import com.rayzr522.decoheads.util.Metrics;
 import com.rayzr522.decoheads.util.Reflector;
 
 public class DecoHeads extends JavaPlugin {
 
-    private static DecoHeads  instance;
+    private static DecoHeads instance;
 
-    public DHMessenger        logger;
-    private GuiListener       listener;
+    public DHMessenger       logger;
+    private GuiListener      listener;
 
-    private ConfigHandler     configHandler;
-    private YamlConfiguration config;
+    private ConfigHandler    configHandler;
+    private Localization     localization;
 
     @Override
     public void onEnable() {
-
         instance = this;
 
         logger = new DHMessenger(this);
@@ -38,45 +40,66 @@ public class DecoHeads extends JavaPlugin {
         getServer().getPluginManager().registerEvents(listener, this);
 
         configHandler = new ConfigHandler(this);
-        config = configHandler.getConfig("config.yml");
+        localization = Localization.load(configHandler.getConfig("messages.yml"));
 
-        logger.setPrefix(config.getString("prefix"));
+        logger.setPrefix(localization.getMessagePrefix());
 
         InventoryManager.loadHeads(this);
 
         setupCommands();
 
-        log("DecoHeads v" + getDescription().getVersion() + " enabled!");
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            // Ignore this, metrics failed to start
+        }
 
     }
 
     private void setupCommands() {
+        // Currently only one command, I'll probably add more in the future
         getCommand("decoheads").setExecutor(new CommandDecoHeads(this));
     }
 
-    @Override
-    public void onDisable() {
-
-        log("DecoHeads v" + getDescription().getVersion() + " disabled!");
-
-    }
-
+    /**
+     * Logs a message to the console
+     * 
+     * @param msg the message to print
+     */
     public void log(String msg) {
-
         logger.info(msg);
-
     }
 
+    /**
+     * Logs an error to the console with the option to disable the plugin after
+     * logging. Generally this should only be used for extremely SEVERE errors!
+     * 
+     * @param err the error message
+     * @param disable whether or not to disable the plugin after loggin
+     */
     public void err(String err, boolean disable) {
-
         logger.err(err, disable);
-
     }
 
     public void msg(Player p, String string) {
-
         logger.msg(p, string);
+    }
 
+    public Localization getLocalization() {
+        return localization;
+    }
+
+    /**
+     * @param key the key of the message
+     * @param strings the strings to use for substitution
+     * @return The message, or the key itself if no message was found for that
+     *         key
+     * @see com.rayzr522.decoheads.util.Localization#tr(java.lang.String,
+     *      java.lang.String[])
+     */
+    public String tr(String key, String... strings) {
+        return localization.tr(key, strings);
     }
 
     /**
