@@ -6,7 +6,5 @@ author: Rayzr522
 commands:
   decoheads:
     description: Opens the DecoHeads inventory
-    aliases:
-    - dh
-    - heads
-    usage: /decoheads [reload|rl|search text|find text|page #]
+    aliases: [dh, heads]
+    usage: Oops! Something went wrong!

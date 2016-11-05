@@ -1,16 +1,14 @@
 prefix: '&8[&6&lDecoHeads&8]&e '
-gui:
-    title: "&4&lDecoHeads &cGUI &8|&6 Page &l{0}"
-no-permission: "&cYou don't have permission to do that!"
-config:
-
-
 command:
+    no-permission: "&cYou don't have permission to do that!"
     only-players: "&cOnly players in-game can use this command"
     decoheads:
+        usage: "Usage: &7/decoheads [reload|rl|search <text>|find <text>|page#]"
         invalid-page: "&cNo such page (min: 1, max: {0})"
         reloaded: "&eConfig reloaded"
         find:
             no-search: "&cYou must specify what to search for!"
             no-heads-found: "No heads were found that matched '{0}'"
-            usage: "/decoheads search <text>"
+            usage: "Usage: &7/decoheads search <text>"
+gui:
+    title: "&4&lDecoHeads &cGUI &8|&6 Page &l{0}"

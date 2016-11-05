@@ -20,12 +20,7 @@ public class Localization {
      * Matches any valid YAML path inside of double square brackets.
      * Example: [[some.path.here]]
      */
-    private static final Pattern    VAR_SUBSTITUTION   = Pattern.compile("\\[\\[([a-z_.-]+)\\]\\]");
-    /**
-     * Matches any positional parameter
-     * Example: {0}, {5}, {23}
-     */
-    private static final Pattern    POSITION_PARAMETER = Pattern.compile("\\{(\\d+)\\}");
+    private static final Pattern    VAR_SUBSTITUTION = Pattern.compile("\\[\\[([a-z_.-]+)\\]\\]");
 
     private HashMap<String, String> messages;
 
@@ -35,6 +30,9 @@ public class Localization {
         HashMap<String, String> raw = new HashMap<String, String>();
         // First run: load all messages
         for (String key : config.getKeys(true)) {
+            if (config.isConfigurationSection(key)) {
+                continue;
+            }
             raw.put(key, config.get(key, "ERR").toString());
         }
 
@@ -94,9 +92,8 @@ public class Localization {
             return key;
         }
         String message = messages.get(key);
-        Matcher matcher = POSITION_PARAMETER.matcher(message);
-        while (matcher.find()) {
-            message = message.replaceAll(Pattern.quote(matcher.group()), "" + Integer.parseInt(matcher.group(1)));
+        for (int i = 0; i < strings.length; i++) {
+            message = message.replace("{" + i + "}", strings[i].toString());
         }
         return TextUtils.colorize(message);
     }

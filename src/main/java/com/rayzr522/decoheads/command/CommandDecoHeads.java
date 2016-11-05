@@ -34,7 +34,7 @@ public class CommandDecoHeads implements CommandExecutor {
         Player p = (Player) sender;
 
         if (!p.hasPermission("decoheads.use")) {
-            plugin.msg(p, plugin.tr("no-permission"));
+            plugin.msg(p, plugin.tr("command.no-permission"));
             return true;
         }
 
@@ -53,10 +53,10 @@ public class CommandDecoHeads implements CommandExecutor {
             }
 
             plugin.reload();
-            plugin.msg(p, plugin.tr("config.reloaded"));
+            plugin.msg(p, plugin.tr("command.decoheads.reloaded"));
 
         } else if (arg.equals("search") || arg.equals("find")) {
-
+        
             if (args.length < 2) {
                 plugin.msg(p, plugin.tr("command.decoheads.find.no-search"));
                 plugin.msg(p, plugin.tr("command.decoheads.find.usage"));
@@ -71,8 +71,9 @@ public class CommandDecoHeads implements CommandExecutor {
             } else {
                 p.openInventory(inv);
             }
-
+        
         } else if (arg.matches("\\d+")) {
+        
             int page = Integer.parseInt(arg);
 
             if (page < 1 || page > InventoryManager.maxPages()) {
@@ -80,10 +81,13 @@ public class CommandDecoHeads implements CommandExecutor {
             } else {
                 p.openInventory(InventoryManager.getInventory(p, "", page));
             }
+            
+        } else {
+            
+            plugin.msg(p, plugin.tr("command.decoheads.usage"));
+            
         }
-
         return true;
-
     }
 
 }
