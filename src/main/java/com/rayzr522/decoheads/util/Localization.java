@@ -25,7 +25,7 @@ public class Localization {
      * Matches any positional parameter
      * Example: {0}, {5}, {23}
      */
-    private static final Pattern    POSITION_PARAMETER = Pattern.compile("{(\\d+)}");
+    private static final Pattern    POSITION_PARAMETER = Pattern.compile("\\{(\\d+)\\}");
 
     private HashMap<String, String> messages;
 
@@ -89,7 +89,7 @@ public class Localization {
      * @return The message, or the key itself if no message was found for that
      *         key
      */
-    public String tr(String key, String... strings) {
+    public String tr(String key, Object... strings) {
         if (!messages.containsKey(key)) {
             return key;
         }

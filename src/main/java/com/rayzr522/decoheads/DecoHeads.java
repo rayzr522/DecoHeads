@@ -31,7 +31,7 @@ public class DecoHeads extends JavaPlugin {
 
         logger = new DHMessenger(this);
 
-        if (Reflector.getMajorVersion() < 8) {
+        if (Reflector.getMinorVersion() < 8) {
             err("DecoHeads is only compatible with Minecraft 1.8+", true);
             return;
         }
@@ -39,12 +39,10 @@ public class DecoHeads extends JavaPlugin {
         listener = new GuiListener(this);
         getServer().getPluginManager().registerEvents(listener, this);
 
+        // Create the config handler
         configHandler = new ConfigHandler(this);
-        localization = Localization.load(configHandler.getConfig("messages.yml"));
-
-        logger.setPrefix(localization.getMessagePrefix());
-
-        InventoryManager.loadHeads(this);
+        // Load all config stuff
+        reload();
 
         setupCommands();
 
@@ -55,6 +53,18 @@ public class DecoHeads extends JavaPlugin {
             // Ignore this, metrics failed to start
         }
 
+    }
+
+    public void reload() {
+        reloadConfig();
+        // Just ensure that the config.yml file exists
+        configHandler.getConfig("config.yml");
+        // Load the localization from the config
+        localization = Localization.load(configHandler.getConfig("messages.yml"));
+
+        logger.setPrefix(localization.getMessagePrefix());
+
+        InventoryManager.loadHeads(this);
     }
 
     private void setupCommands() {
@@ -98,7 +108,7 @@ public class DecoHeads extends JavaPlugin {
      * @see com.rayzr522.decoheads.util.Localization#tr(java.lang.String,
      *      java.lang.String[])
      */
-    public String tr(String key, String... strings) {
+    public String tr(String key, Object... strings) {
         return localization.tr(key, strings);
     }
 

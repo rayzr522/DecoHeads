@@ -19,15 +19,12 @@ import com.rayzr522.decoheads.util.TextUtils;
 @SuppressWarnings("unused")
 public class InventoryManager {
 
-    public static final String     INV_NAME = TextUtils.colorize("&r&c&l&n" + "DecoHeads");
-    public static final String     DIVIDER  = TextUtils.colorize("&8 |&e ");
-
     private static List<ItemStack> heads;
 
-    public static final int        WIDTH    = 7;
-    public static final int        HEIGHT   = 3;
+    public static final int        WIDTH  = 7;
+    public static final int        HEIGHT = 3;
 
-    public static final int        SIZE     = WIDTH * HEIGHT;
+    public static final int        SIZE   = WIDTH * HEIGHT;
 
     public static void loadHeads(DecoHeads plugin) {
         FileConfiguration config = plugin.getConfig();
@@ -128,11 +125,8 @@ public class InventoryManager {
         for (int i = 0; i < SIZE; i++) {
 
             int pos = offset + i;
-
             if (pos >= filteredHeads.size()) {
-
                 break;
-
             }
 
             setItem(items, filteredHeads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
@@ -155,10 +149,14 @@ public class InventoryManager {
 
     }
 
+    /**
+     * Checks if the given item is an enabled button
+     * 
+     * @param item the item
+     * @return
+     */
     public static boolean isButton(ItemStack item) {
-
-        return item.getType() == BUTTON_ENABLED.getType() && item.getDurability() == BUTTON_ENABLED.getDurability();
-
+        return BUTTON_ENABLED.isSimilar(item);
     }
 
     public static int maxPages() {
