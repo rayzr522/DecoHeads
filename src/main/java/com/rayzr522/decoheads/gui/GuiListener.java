@@ -1,19 +1,21 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.gui;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class DHListener implements Listener {
+import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.util.ItemUtils;
+
+public class GuiListener implements Listener {
 
     public DecoHeads plugin;
 
-    public DHListener(DecoHeads plugin) {
+    public GuiListener(DecoHeads plugin) {
 
         this.plugin = plugin;
 
@@ -22,13 +24,15 @@ public class DHListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
 
-        Inventory inv = e.getInventory();
-
         if (!(e.getWhoClicked() instanceof Player)) {
             return;
         }
 
         if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
+            return;
+        }
+
+        if (!ItemUtils.isValid(e.getCurrentItem())) {
             return;
         }
 
@@ -50,7 +54,7 @@ public class DHListener implements Listener {
 
             boolean next = clicked.getItemMeta().getDisplayName().contains("Next");
 
-            int page = InventoryManager.getPage(inv.getName());
+            int page = holder.getPage();
 
             if (next) {
 

@@ -1,5 +1,5 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -9,9 +9,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.rayzr522.decoheads.type.ClassType;
-import com.rayzr522.decoheads.type.HandleType;
-import com.rayzr522.decoheads.type.PacketType;
+import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.util.type.ClassType;
+import com.rayzr522.decoheads.util.type.HandleType;
+import com.rayzr522.decoheads.util.type.PacketType;
 
 public class Reflector {
 
@@ -32,7 +33,8 @@ public class Reflector {
 
         try {
 
-            version = Bukkit.getServer().getClass().getName().split("\\.")[3];
+            String[] split = Bukkit.getServer().getClass().getPackage().getName().split("\\.");
+            version = split[split.length - 1];
 
             CRAFT_PLAYER = getClass(ClassType.CRAFTBUKKIT, "entity.CraftPlayer");
             CRAFT_ENTITY = getClass(ClassType.CRAFTBUKKIT, "entity.CraftEntity");
@@ -48,16 +50,22 @@ public class Reflector {
         } catch (Exception e) {
 
             e.printStackTrace();
-            DecoHeads.INSTANCE.err("Failed to load Reflector", true);
+            DecoHeads.getInstance().err("Failed to load Reflector", true);
 
         }
 
     }
 
     public static String getVersion() {
-
         return version;
+    }
 
+    public static int getMajorVersion() {
+        return Integer.parseInt(getVersion().substring(1).split("_")[0]);
+    }
+
+    public static int getMinorVersion() {
+        return Integer.parseInt(getVersion().substring(1).split("_")[1]);
     }
 
     public static Class<?> getClass(ClassType type, String name) {

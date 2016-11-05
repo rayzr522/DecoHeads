@@ -1,5 +1,5 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.util;
 
 import org.bukkit.ChatColor;
 

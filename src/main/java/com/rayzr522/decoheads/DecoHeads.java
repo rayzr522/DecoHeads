@@ -5,49 +5,53 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.rayzr522.decoheads.command.CommandDecoHeads;
+import com.rayzr522.decoheads.gui.GuiListener;
+import com.rayzr522.decoheads.gui.InventoryManager;
+import com.rayzr522.decoheads.util.ConfigHandler;
+import com.rayzr522.decoheads.util.DHMessenger;
+import com.rayzr522.decoheads.util.Reflector;
+
 public class DecoHeads extends JavaPlugin {
 
-    public static DecoHeads   INSTANCE;
+    private static DecoHeads  instance;
 
     public DHMessenger        logger;
+    private GuiListener       listener;
 
-    private DHListener        listener;
-
-    private DHConfigHandler   configHandler;
+    private ConfigHandler     configHandler;
     private YamlConfiguration config;
 
     @Override
     public void onEnable() {
 
-        INSTANCE = this;
+        instance = this;
 
         logger = new DHMessenger(this);
 
-        if (Reflector.getVersion().startsWith("v1_7_") || Reflector.getVersion().startsWith("v1_6_") || Reflector.getVersion().startsWith("v1_5_") || Reflector.getVersion().startsWith("v1_4_")
-                || Reflector.getVersion().startsWith("v1_3_")
-                || Reflector.getVersion().startsWith("v1_2_") || Reflector.getVersion().startsWith("v1_1_")) {
-
+        if (Reflector.getMajorVersion() < 8) {
             err("DecoHeads is only compatible with Minecraft 1.8+", true);
             return;
-
         }
 
-        listener = new DHListener(this);
+        listener = new GuiListener(this);
         getServer().getPluginManager().registerEvents(listener, this);
 
-        configHandler = new DHConfigHandler(this);
-        config = configHandler.loadConfig("config.yml");
+        configHandler = new ConfigHandler(this);
+        config = configHandler.getConfig("config.yml");
 
         logger.setPrefix(config.getString("prefix"));
 
         InventoryManager.loadHeads(this);
 
-        DHCommand executor = new DHCommand(this);
-
-        getCommand("decoheads").setExecutor(executor);
+        setupCommands();
 
         log("DecoHeads v" + getDescription().getVersion() + " enabled!");
 
+    }
+
+    private void setupCommands() {
+        getCommand("decoheads").setExecutor(new CommandDecoHeads(this));
     }
 
     @Override
@@ -73,6 +77,13 @@ public class DecoHeads extends JavaPlugin {
 
         logger.msg(p, string);
 
+    }
+
+    /**
+     * @return the instance of this plugin
+     */
+    public static DecoHeads getInstance() {
+        return instance;
     }
 
 }

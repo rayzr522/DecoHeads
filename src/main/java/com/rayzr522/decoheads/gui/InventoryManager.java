@@ -1,5 +1,5 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.util.CustomHead;
+import com.rayzr522.decoheads.util.ItemUtils;
+import com.rayzr522.decoheads.util.TextUtils;
 
 @SuppressWarnings("unused")
 public class InventoryManager {
@@ -25,24 +30,32 @@ public class InventoryManager {
     public static final int        SIZE     = WIDTH * HEIGHT;
 
     public static void loadHeads(DecoHeads plugin) {
-
         FileConfiguration config = plugin.getConfig();
 
         heads = new ArrayList<ItemStack>();
 
-        for (String name : config.getConfigurationSection("heads").getKeys(false)) {
+        ConfigurationSection headsSection = config.getConfigurationSection("heads");
+
+        for (String name : headsSection.getKeys(false)) {
+            if (!headsSection.isConfigurationSection(name)) {
+                continue;
+            }
 
             ConfigurationSection section = config.getConfigurationSection("heads." + name);
+            if (!section.contains("texture") || !section.isString("texture")) {
+                plugin.log(String.format("The head '%s' did not have a key of type '%s' named '%s'", name, "String", "texture"));
+                continue;
+            }
+            if (!section.contains("uuid") || !section.isString("uuid")) {
+                plugin.log(String.format("The head '%s' did not have a key of type '%s' named '%s'", name, "String", "texture"));
+                continue;
+            }
             heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
-
         }
 
         if (heads.size() < 1) {
-
-            plugin.logger.err("Failed to load any heads.", true);
-
+            plugin.logger.err("No heads were found in the config!", true);
         }
-
     }
 
     private static final ItemStack EMPTY           = ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
@@ -74,7 +87,7 @@ public class InventoryManager {
 
         for (ItemStack item : heads) {
 
-            if (item == null || item.getType() == Material.AIR || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()) {
+            if (!ItemUtils.isValid(item) || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()) {
                 break;
             }
 
@@ -96,8 +109,8 @@ public class InventoryManager {
             return null;
         }
 
-        Inventory inv = MenuHolder.makeInv(player, INV_NAME + DIVIDER + "Page " + page, 54);
-        ((MenuHolder) inv.getHolder()).setFilter(filter);
+        MenuHolder holder = new MenuHolder(player, page, filter);
+        Inventory inv = holder.getInventory();
 
         ItemStack[] items = new ItemStack[54];
 
@@ -139,16 +152,6 @@ public class InventoryManager {
         }
 
         inv[x + y * 9] = item;
-
-    }
-
-    public static int getPage(String invName) {
-
-        try {
-            return Integer.parseInt(invName.replace(DIVIDER, "__").split("__")[1].replace("Page ", ""));
-        } catch (Exception e) {
-            return -1;
-        }
 
     }
 

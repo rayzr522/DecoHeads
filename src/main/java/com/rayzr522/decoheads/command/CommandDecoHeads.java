@@ -1,5 +1,5 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.command;
 
 import java.util.Arrays;
 
@@ -9,11 +9,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class DHCommand implements CommandExecutor {
+import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.gui.InventoryManager;
+import com.rayzr522.decoheads.util.ArrayUtils;
+
+public class CommandDecoHeads implements CommandExecutor {
 
     private DecoHeads plugin;
 
-    public DHCommand(DecoHeads plugin) {
+    public CommandDecoHeads(DecoHeads plugin) {
 
         this.plugin = plugin;
 

@@ -1,4 +1,4 @@
-package com.rayzr522.decoheads.type;
+package com.rayzr522.decoheads.util.type;
 
 public enum ClassType {
 

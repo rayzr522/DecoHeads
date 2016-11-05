@@ -1,13 +1,16 @@
 
-package com.rayzr522.decoheads;
+package com.rayzr522.decoheads.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import com.rayzr522.decoheads.DecoHeads;
 
 public class CustomHead {
 
@@ -44,13 +47,16 @@ public class CustomHead {
         } catch (Exception e) {
 
             e.printStackTrace();
-            DecoHeads.INSTANCE.err("Failed to load CustomHead", true);
+            DecoHeads.getInstance().err("Failed to load CustomHead", true);
 
         }
 
     }
 
     public static ItemStack getHead(String texture, String id, String name) {
+        Objects.requireNonNull(texture);
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(name);
 
         String colorName = TextUtils.colorize(name);
 
@@ -62,7 +68,7 @@ public class CustomHead {
         try {
 
             Object profile = GAMEPROFILE_CONSTRUCTOR.newInstance(new Object[] {
-                    UUID.fromString(id), TextUtils.stripColor(colorName)
+                    UUID.fromString(id), name
             });
             Object properties = GET_PROPERTIES.invoke(profile, new Object[0]);
             INSERT_PROPERTY.invoke(properties, new Object[] {
@@ -75,7 +81,7 @@ public class CustomHead {
 
         } catch (Exception e) {
 
-            System.err.println("Failed to get create profile for custom player head:");
+            System.err.println("Failed to create fake GameProfile for custom player head:");
             e.printStackTrace();
 
         }
