@@ -8,35 +8,35 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class MenuHolder implements InventoryHolder {
 
-	private Inventory	inventory;
-	private String		filter;
+    private Inventory inventory;
+    private String    filter;
 
-	public MenuHolder(Inventory inventory, String filter) {
-		this.inventory = inventory;
-		this.filter = filter;
-	}
+    public MenuHolder(Inventory inventory, String filter) {
+        this.inventory = inventory;
+        this.filter = filter;
+    }
 
-	public static Inventory makeInv(Player player, String title, int rows) {
+    public static Inventory makeInv(Player player, String title, int rows) {
 
-		MenuHolder holder = new MenuHolder(Bukkit.createInventory(player, rows * 9, title), "");
+        MenuHolder holder = new MenuHolder(Bukkit.createInventory(player, rows * 9, title), "");
 
-		return Bukkit.createInventory(holder, rows, title);
+        return Bukkit.createInventory(holder, rows, title);
 
-	}
+    }
 
-	public void setFilter(String filter) {
-		this.filter = filter;
-	}
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
 
-	public String getFilter() {
+    public String getFilter() {
 
-		return filter == null ? "" : filter;
+        return filter == null ? "" : filter;
 
-	}
+    }
 
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
 
 }

@@ -8,61 +8,61 @@ import org.bukkit.entity.Player;
 
 public class DHMessenger {
 
-	private DecoHeads	plugin;
-	private Logger		logger;
+    private DecoHeads plugin;
+    private Logger    logger;
 
-	private String prefix = "[DecoHeads] ";
+    private String    prefix = "[DecoHeads] ";
 
-	public DHMessenger(DecoHeads plugin) {
+    public DHMessenger(DecoHeads plugin) {
 
-		this.plugin = plugin;
-		this.logger = plugin.getLogger();
+        this.plugin = plugin;
+        this.logger = plugin.getLogger();
 
-	}
+    }
 
-	public void setPrefix(String prefix) {
+    public void setPrefix(String prefix) {
 
-		this.prefix = prefix;
+        this.prefix = prefix;
 
-	}
+    }
 
-	public String getPrefix() {
+    public String getPrefix() {
 
-		return prefix;
+        return prefix;
 
-	}
+    }
 
-	public void info(String msg) {
+    public void info(String msg) {
 
-		logger.info(msg);
+        logger.info(msg);
 
-	}
+    }
 
-	public void msg(Player p, String msg) {
+    public void msg(Player p, String msg) {
 
-		p.sendMessage(TextUtils.colorize(prefix + msg));
+        p.sendMessage(TextUtils.colorize(prefix + msg));
 
-	}
+    }
 
-	public void err(String err, boolean disable) {
+    public void err(String err, boolean disable) {
 
-		info("---------- ERROR ----------");
+        info("---------- ERROR ----------");
 
-		info("DecoHeads has encountered an error:");
-		info(err);
+        info("DecoHeads has encountered an error:");
+        info(err);
 
-		if (disable) {
+        if (disable) {
 
-			info("DecoHeads will now be disabled.");
-			info("---------------------------");
-			Bukkit.getPluginManager().disablePlugin(plugin);
+            info("DecoHeads will now be disabled.");
+            info("---------------------------");
+            Bukkit.getPluginManager().disablePlugin(plugin);
 
-		} else {
+        } else {
 
-			info("---------------------------");
+            info("---------------------------");
 
-		}
+        }
 
-	}
+    }
 
 }

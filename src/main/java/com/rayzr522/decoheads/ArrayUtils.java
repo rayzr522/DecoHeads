@@ -3,22 +3,24 @@ package com.rayzr522.decoheads;
 
 public class ArrayUtils {
 
-	public static String concat(Object[] arr, String filler) {
+    public static String concat(Object[] arr, String filler) {
 
-		if (arr == null || arr.length < 1) { return ""; }
+        if (arr == null || arr.length < 1) {
+            return "";
+        }
 
-		filler = filler == null ? "" : filler;
+        filler = filler == null ? "" : filler;
 
-		String output = arr[0].toString();
+        String output = arr[0].toString();
 
-		for (int i = 1; i < arr.length; i++) {
+        for (int i = 1; i < arr.length; i++) {
 
-			output += filler + arr[i].toString();
+            output += filler + arr[i].toString();
 
-		}
+        }
 
-		return output;
+        return output;
 
-	}
+    }
 
 }

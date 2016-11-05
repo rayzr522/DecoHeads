@@ -14,150 +14,156 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("unused")
 public class InventoryManager {
 
-	public static final String		INV_NAME	= TextUtils.colorize("&r&c&l&n" + "DecoHeads");
-	public static final String		DIVIDER		= TextUtils.colorize("&8 |&e ");
+    public static final String     INV_NAME = TextUtils.colorize("&r&c&l&n" + "DecoHeads");
+    public static final String     DIVIDER  = TextUtils.colorize("&8 |&e ");
 
-	private static List<ItemStack>	heads;
+    private static List<ItemStack> heads;
 
-	public static final int			WIDTH		= 7;
-	public static final int			HEIGHT		= 3;
+    public static final int        WIDTH    = 7;
+    public static final int        HEIGHT   = 3;
 
-	public static final int			SIZE		= WIDTH * HEIGHT;
+    public static final int        SIZE     = WIDTH * HEIGHT;
 
-	public static void loadHeads(DecoHeads plugin) {
+    public static void loadHeads(DecoHeads plugin) {
 
-		FileConfiguration config = plugin.getConfig();
+        FileConfiguration config = plugin.getConfig();
 
-		heads = new ArrayList<ItemStack>();
+        heads = new ArrayList<ItemStack>();
 
-		for (String name : config.getConfigurationSection("heads").getKeys(false)) {
+        for (String name : config.getConfigurationSection("heads").getKeys(false)) {
 
-			ConfigurationSection section = config.getConfigurationSection("heads." + name);
-			heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
+            ConfigurationSection section = config.getConfigurationSection("heads." + name);
+            heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
 
-		}
+        }
 
-		if (heads.size() < 1) {
+        if (heads.size() < 1) {
 
-			plugin.logger.err("Failed to load any heads.", true);
+            plugin.logger.err("Failed to load any heads.", true);
 
-		}
+        }
 
-	}
+    }
 
-	private static final ItemStack	EMPTY			= ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
+    private static final ItemStack EMPTY           = ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
 
-	private static ItemStack		BUTTON_ENABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
-	private static ItemStack		BUTTON_DISABLED	= new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+    private static ItemStack       BUTTON_ENABLED  = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+    private static ItemStack       BUTTON_DISABLED = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
 
-	private static ItemStack BUTTON(String name, boolean enabled) {
+    private static ItemStack BUTTON(String name, boolean enabled) {
 
-		return ItemUtils.setName((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), (enabled ? "&a" : "&c") + "&l" + name);
+        return ItemUtils.setName((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), (enabled ? "&a" : "&c") + "&l" + name);
 
-	}
+    }
 
-	private static ItemStack BUTTON(String name) {
+    private static ItemStack BUTTON(String name) {
 
-		return BUTTON(name, true);
+        return BUTTON(name, true);
 
-	}
+    }
 
-	private static List<ItemStack> searchHeads(String filter) {
+    private static List<ItemStack> searchHeads(String filter) {
 
-		if (filter == null || filter.equals("")) { return heads; }
+        if (filter == null || filter.equals("")) {
+            return heads;
+        }
 
-		filter = filter.toLowerCase();
+        filter = filter.toLowerCase();
 
-		List<ItemStack> filteredHeads = new ArrayList<ItemStack>();
+        List<ItemStack> filteredHeads = new ArrayList<ItemStack>();
 
-		for (ItemStack item : heads) {
+        for (ItemStack item : heads) {
 
-			if (item == null || item.getType() == Material.AIR || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()) {
-				break;
-			}
+            if (item == null || item.getType() == Material.AIR || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()) {
+                break;
+            }
 
-			String name = TextUtils.stripColor(item.getItemMeta().getDisplayName()).toLowerCase();
-			if (name.contains(filter)) {
-				filteredHeads.add(item);
-			}
+            String name = TextUtils.stripColor(item.getItemMeta().getDisplayName()).toLowerCase();
+            if (name.contains(filter)) {
+                filteredHeads.add(item);
+            }
 
-		}
+        }
 
-		return filteredHeads;
-	}
+        return filteredHeads;
+    }
 
-	public static Inventory getInventory(Player player, String filter, int page) {
+    public static Inventory getInventory(Player player, String filter, int page) {
 
-		List<ItemStack> filteredHeads = searchHeads(filter);
+        List<ItemStack> filteredHeads = searchHeads(filter);
 
-		if (filteredHeads == null || filteredHeads.size() < 1) { return null; }
+        if (filteredHeads == null || filteredHeads.size() < 1) {
+            return null;
+        }
 
-		Inventory inv = MenuHolder.makeInv(player, INV_NAME + DIVIDER + "Page " + page, 54);
-		((MenuHolder) inv.getHolder()).setFilter(filter);
+        Inventory inv = MenuHolder.makeInv(player, INV_NAME + DIVIDER + "Page " + page, 54);
+        ((MenuHolder) inv.getHolder()).setFilter(filter);
 
-		ItemStack[] items = new ItemStack[54];
+        ItemStack[] items = new ItemStack[54];
 
-		for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
 
-			setItem(items, EMPTY, i, 5);
+            setItem(items, EMPTY, i, 5);
 
-		}
+        }
 
-		setItem(items, BUTTON("Previous Page", page > 1), 2, 5);
-		setItem(items, BUTTON("Next Page", page < maxPages(filteredHeads)), 6, 5);
+        setItem(items, BUTTON("Previous Page", page > 1), 2, 5);
+        setItem(items, BUTTON("Next Page", page < maxPages(filteredHeads)), 6, 5);
 
-		int offset = (page - 1) * SIZE;
+        int offset = (page - 1) * SIZE;
 
-		for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
 
-			int pos = offset + i;
+            int pos = offset + i;
 
-			if (pos >= filteredHeads.size()) {
+            if (pos >= filteredHeads.size()) {
 
-				break;
+                break;
 
-			}
+            }
 
-			setItem(items, filteredHeads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
+            setItem(items, filteredHeads.get(pos), 8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH);
 
-		}
+        }
 
-		inv.setContents(items);
+        inv.setContents(items);
 
-		return inv;
+        return inv;
 
-	}
+    }
 
-	public static void setItem(ItemStack[] inv, ItemStack item, int x, int y) {
+    public static void setItem(ItemStack[] inv, ItemStack item, int x, int y) {
 
-		if (x + y * 9 > inv.length) { return; }
+        if (x + y * 9 > inv.length) {
+            return;
+        }
 
-		inv[x + y * 9] = item;
+        inv[x + y * 9] = item;
 
-	}
+    }
 
-	public static int getPage(String invName) {
+    public static int getPage(String invName) {
 
-		try {
-			return Integer.parseInt(invName.replace(DIVIDER, "__").split("__")[1].replace("Page ", ""));
-		} catch (Exception e) {
-			return -1;
-		}
+        try {
+            return Integer.parseInt(invName.replace(DIVIDER, "__").split("__")[1].replace("Page ", ""));
+        } catch (Exception e) {
+            return -1;
+        }
 
-	}
+    }
 
-	public static boolean isButton(ItemStack item) {
+    public static boolean isButton(ItemStack item) {
 
-		return item.getType() == BUTTON_ENABLED.getType() && item.getDurability() == BUTTON_ENABLED.getDurability();
+        return item.getType() == BUTTON_ENABLED.getType() && item.getDurability() == BUTTON_ENABLED.getDurability();
 
-	}
+    }
 
-	public static int maxPages() {
-		return maxPages(heads);
-	}
+    public static int maxPages() {
+        return maxPages(heads);
+    }
 
-	public static int maxPages(List<ItemStack> heads) {
-		return (int) Math.floor(heads.size() / SIZE);
-	}
+    public static int maxPages(List<ItemStack> heads) {
+        return (int) Math.floor(heads.size() / SIZE);
+    }
 
 }
