@@ -3,7 +3,6 @@
  */
 package com.rayzr522.decoheads.util;
 
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,14 +19,15 @@ public class Localization {
      * Matches any valid YAML path inside of double square brackets.
      * Example: [[some.path.here]]
      */
-    private static final Pattern    VAR_SUBSTITUTION = Pattern.compile("\\[\\[([a-z_.-]+)\\]\\]");
+    private static final Pattern      VAR_SUBSTITUTION = Pattern.compile("\\[\\[([a-z_.-]+)\\]\\]");
 
-    private HashMap<String, String> messages;
+    private CompatMap<String, String> messages;
 
     private Localization(YamlConfiguration config) {
-        messages = new HashMap<String, String>();
 
-        HashMap<String, String> raw = new HashMap<String, String>();
+        messages = new CompatMap<String, String>();
+
+        CompatMap<String, String> raw = new CompatMap<String, String>();
         // First run: load all messages
         for (String key : config.getKeys(true)) {
             if (config.isConfigurationSection(key)) {
@@ -56,7 +56,7 @@ public class Localization {
      * @param entry the current entry
      * @return the parsed string
      */
-    private String parse(HashMap<String, String> raw, Entry<String, String> entry) {
+    private String parse(CompatMap<String, String> raw, Entry<String, String> entry) {
         // 1. Color the text
         String output = TextUtils.colorize(entry.getValue());
         Matcher matcher;
