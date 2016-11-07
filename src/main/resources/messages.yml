@@ -6,7 +6,7 @@ command:
     only-players: "&cOnly players in-game can use this command"
     decoheads:
         usage: "Usage: &7/decoheads [reload|rl|search <text>|find <text>|page#]"
-        invalid-page: "&cNo such page (min: 1, max: {0})"
+        invalid-page: "&cPage {0} does not exist (min: 1, max: {1})"
         reloaded: "&eConfig reloaded"
         find:
             no-search: "&cYou must specify what to search for!"

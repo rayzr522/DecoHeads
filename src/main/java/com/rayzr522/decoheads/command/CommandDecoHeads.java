@@ -74,10 +74,17 @@ public class CommandDecoHeads implements CommandExecutor {
 
         } else if (arg.matches("\\d+")) {
 
-            int page = Integer.parseInt(arg);
+            int page;
+            try {
+                page = Integer.parseInt(arg);
+            } catch (NumberFormatException e) {
+                // Will basically only happen if the number is too big
+                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", arg, InventoryManager.maxPages()));
+                return true;
+            }
 
             if (page < 1 || page > InventoryManager.maxPages()) {
-                plugin.msg(p, plugin.tr("commands.decoheads.invalid-page", InventoryManager.maxPages()));
+                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", page, InventoryManager.maxPages()));
             } else {
                 p.openInventory(InventoryManager.getInventory(p, "", page));
             }

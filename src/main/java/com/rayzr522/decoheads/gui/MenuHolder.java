@@ -15,7 +15,7 @@ public class MenuHolder implements InventoryHolder {
     private int       page;
 
     public MenuHolder(Player player, int page, String filter) {
-        this.inventory = Bukkit.createInventory(this, 54, DecoHeads.getInstance().tr("gui.title", page + 1));
+        this.inventory = Bukkit.createInventory(this, 54, DecoHeads.getInstance().tr("gui.title", page));
         this.filter = filter;
         this.page = page;
     }
