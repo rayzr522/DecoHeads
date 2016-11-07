@@ -16,3 +16,8 @@ command:
 
 gui:
     title: "&c&l&nDecoHeads&8 |&e Page {0}"
+
+
+item:
+    name: "&e&n{0}"
+    lore: "\n&c&oMade with DecoHeads!\n"

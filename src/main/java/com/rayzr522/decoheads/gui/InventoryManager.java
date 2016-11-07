@@ -47,7 +47,7 @@ public class InventoryManager {
                 plugin.log(String.format("The head '%s' did not have a key of type '%s' named '%s'", name, "String", "texture"));
                 continue;
             }
-            heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), "&e&n" + name));
+            heads.add(CustomHead.getHead(section.getString("texture"), section.getString("uuid"), plugin.tr("item.name", name)));
         }
 
         if (heads.size() < 1) {
@@ -156,7 +156,7 @@ public class InventoryManager {
      * @return
      */
     public static boolean isButton(ItemStack item) {
-        return BUTTON_ENABLED.isSimilar(item);
+        return ItemUtils.isValid(item) && (BUTTON_ENABLED.getType() == item.getType()) && (BUTTON_ENABLED.getAmount() == item.getAmount()) && (BUTTON_ENABLED.getDurability() == item.getDurability());
     }
 
     public static int maxPages() {

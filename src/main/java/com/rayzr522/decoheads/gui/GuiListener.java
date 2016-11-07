@@ -16,14 +16,11 @@ public class GuiListener implements Listener {
     public DecoHeads plugin;
 
     public GuiListener(DecoHeads plugin) {
-
         this.plugin = plugin;
-
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-
         if (!(e.getWhoClicked() instanceof Player)) {
             return;
         }
@@ -47,11 +44,9 @@ public class GuiListener implements Listener {
         MenuHolder holder = (MenuHolder) e.getInventory().getHolder();
 
         if (clicked.getType() == Material.SKULL_ITEM) {
-
-            p.getInventory().addItem(ItemUtils.setLore(clicked.clone(), "", "&7Made with &c&lDecoHeads", ""));
+            p.getInventory().addItem(ItemUtils.setLore(clicked.clone(), plugin.tr("item.lore").split("\n")));
 
         } else if (InventoryManager.isButton(clicked)) {
-
             boolean next = clicked.getItemMeta().getDisplayName().contains("Next");
 
             int page = holder.getPage();
