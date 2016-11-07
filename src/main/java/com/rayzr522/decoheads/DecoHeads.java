@@ -3,7 +3,6 @@ package com.rayzr522.decoheads;
 
 import java.io.IOException;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
