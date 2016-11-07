@@ -1,4 +1,6 @@
 prefix: '&8[&6&lDecoHeads&8]&e '
+
+
 command:
     no-permission: "&cYou don't have permission to do that!"
     only-players: "&cOnly players in-game can use this command"
@@ -10,5 +12,7 @@ command:
             no-search: "&cYou must specify what to search for!"
             no-heads-found: "No heads were found that matched '{0}'"
             usage: "Usage: &7/decoheads search <text>"
+
+
 gui:
-    title: "&4&lDecoHeads &cGUI &8|&6 Page &l{0}"
+    title: "&c&l&nDecoHeads&8 |&e Page {0}"
