@@ -21,3 +21,8 @@ gui:
 item:
     name: "&e&n{0}"
     lore: "\n&c&oMade with DecoHeads!\n"
+
+
+button:
+    next-page: "Next Page"
+    previous-page: "Previous Page"

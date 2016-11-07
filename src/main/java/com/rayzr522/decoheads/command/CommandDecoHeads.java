@@ -53,7 +53,11 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            plugin.reload();
+            // Load all config stuff
+            if (!plugin.reload()) {
+                plugin.err("The config failed to load", true);
+                return true;
+            }
             plugin.msg(p, plugin.tr("command.decoheads.reloaded"));
 
         } else if (arg.equals("search") || arg.equals("find")) {
@@ -101,11 +105,17 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("reload", "rl", "search", "find", "page#");
+            return sort(Arrays.asList("reload", "rl", "search", "find", "#"), args[0]);
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
-            return InventoryManager.headsList(args);
+            String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
+            return sort(InventoryManager.headsList(filter), filter);
         }
         return Collections.emptyList();
+    }
+
+    private List<String> sort(List<String> list, String filter) {
+        Collections.sort(list, new MatchComparator(filter));
+        return list;
     }
 
 }

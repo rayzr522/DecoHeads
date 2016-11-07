@@ -46,12 +46,12 @@ public class DHMessenger {
         if (disable) {
 
             info("DecoHeads will now be disabled.");
-            info("---------------------------");
+            info("-----------------------------------------------");
             Bukkit.getPluginManager().disablePlugin(plugin);
 
         } else {
 
-            info("---------------------------");
+            info("-----------------------------------------------");
 
         }
     }

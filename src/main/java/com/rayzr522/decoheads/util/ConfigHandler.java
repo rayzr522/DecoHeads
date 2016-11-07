@@ -13,6 +13,9 @@ public class ConfigHandler {
 
     public ConfigHandler(DecoHeads plugin) {
         this.plugin = plugin;
+        if (!plugin.getDataFolder().exists()) {
+            plugin.getDataFolder().mkdirs();
+        }
     }
 
     public File getFile(String name) {
@@ -20,22 +23,19 @@ public class ConfigHandler {
     }
 
     public YamlConfiguration getConfig(String name) {
-        File file = getFile(name);
-
-        if (!file.exists()) {
+        if (!getFile(name).exists()) {
             if (plugin.getResource(name) == null) {
                 plugin.log("Failed to load config file '" + name + "'");
                 return null;
             }
             saveDefaultFile(name);
-            file = getFile(name);
         }
 
-        return YamlConfiguration.loadConfiguration(file);
+        return YamlConfiguration.loadConfiguration(getFile(name));
     }
 
     public void saveDefaultFile(String name) {
-        plugin.saveResource(name, false);
+        plugin.saveResource(name, true);
         plugin.log("Loaded default file for " + name);
     }
 

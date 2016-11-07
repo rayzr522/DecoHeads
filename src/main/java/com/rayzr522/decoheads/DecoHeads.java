@@ -3,8 +3,10 @@ package com.rayzr522.decoheads;
 
 import java.io.IOException;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.rayzr522.decoheads.command.CommandDecoHeads;
 import com.rayzr522.decoheads.gui.GuiListener;
@@ -42,29 +44,44 @@ public class DecoHeads extends JavaPlugin {
         // Create the config handler
         configHandler = new ConfigHandler(this);
         // Load all config stuff
-        reload();
+        if (!reload()) {
+            err("The config failed to load", true);
+            return;
+        }
 
         setupCommands();
 
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-            // Ignore this, metrics failed to start
-        }
+        new BukkitRunnable() {
+            public void run() {
+                try {
+                    Metrics metrics = new Metrics(instance);
+                    metrics.start();
+                } catch (IOException e) {
+                    instance.log("Failed to start Metrics!");
+                }
+            }
+        }.runTaskLater(this, 1L);
 
     }
 
-    public void reload() {
-        reloadConfig();
-        // Just ensure that the config.yml file exists
-        configHandler.getConfig("config.yml");
-        // Load the localization from the config
-        localization = Localization.load(configHandler.getConfig("messages.yml"));
+    @Override
+    public void onDisable() {
+        instance = null;
+    }
 
-        logger.setPrefix(localization.getMessagePrefix());
+    public boolean reload() {
+        try {
+            // Load the localization from the config
+            localization = Localization.load(configHandler.getConfig("messages.yml"));
+            logger.setPrefix(localization.getMessagePrefix());
 
-        InventoryManager.loadHeads(this);
+            // Load all the heads
+            return InventoryManager.loadHeads(this);
+        } catch (Exception e) {
+            // What the heck!? Who knows...
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void setupCommands() {
@@ -119,6 +136,13 @@ public class DecoHeads extends JavaPlugin {
      */
     public static DecoHeads getInstance() {
         return instance;
+    }
+
+    /**
+     * @return
+     */
+    public ConfigHandler getConfigHandler() {
+        return configHandler;
     }
 
 }

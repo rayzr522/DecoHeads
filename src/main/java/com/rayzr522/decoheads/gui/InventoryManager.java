@@ -2,8 +2,6 @@
 package com.rayzr522.decoheads.gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -15,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.rayzr522.decoheads.DecoHeads;
-import com.rayzr522.decoheads.util.ArrayUtils;
 import com.rayzr522.decoheads.util.CustomHead;
 import com.rayzr522.decoheads.util.ItemUtils;
 import com.rayzr522.decoheads.util.TextUtils;
@@ -30,8 +27,8 @@ public class InventoryManager {
 
     public static final int        SIZE   = WIDTH * HEIGHT;
 
-    public static void loadHeads(DecoHeads plugin) {
-        FileConfiguration config = plugin.getConfig();
+    public static boolean loadHeads(DecoHeads plugin) {
+        FileConfiguration config = plugin.getConfigHandler().getConfig("heads.yml");
 
         heads = new ArrayList<ItemStack>();
 
@@ -55,8 +52,10 @@ public class InventoryManager {
         }
 
         if (heads.size() < 1) {
-            plugin.logger.err("No heads were found in the config!", true);
+            plugin.log("No heads were found in config.yml");
+            return false;
         }
+        return true;
     }
 
     private static final ItemStack EMPTY           = ItemUtils.setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), " ");
@@ -121,8 +120,8 @@ public class InventoryManager {
 
         }
 
-        setItem(items, BUTTON("Previous Page", page > 1), 2, 5);
-        setItem(items, BUTTON("Next Page", page < maxPages(filteredHeads)), 6, 5);
+        setItem(items, BUTTON(DecoHeads.getInstance().tr("button.previous-page"), page > 1), 2, 5);
+        setItem(items, BUTTON(DecoHeads.getInstance().tr("button.next-page"), page < maxPages(filteredHeads)), 6, 5);
 
         int offset = (page - 1) * SIZE;
 
@@ -175,17 +174,10 @@ public class InventoryManager {
      * @param args the current args
      * @return a list of all the names of the heads
      */
-    public static List<String> headsList(String[] args) {
-        if (args.length < 2) {
-            return Collections.emptyList();
-        }
-        String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
+    public static List<String> headsList(String filter) {
         List<String> headsList = new ArrayList<String>();
         for (ItemStack item : heads) {
             String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-            if (name.equalsIgnoreCase(filter)) {
-                return Collections.emptyList();
-            }
             if (!name.startsWith(filter)) {
                 continue;
             }
