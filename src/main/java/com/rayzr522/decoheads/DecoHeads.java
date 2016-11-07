@@ -69,7 +69,9 @@ public class DecoHeads extends JavaPlugin {
 
     private void setupCommands() {
         // Currently only one command, I'll probably add more in the future
-        getCommand("decoheads").setExecutor(new CommandDecoHeads(this));
+        CommandDecoHeads commandDecoHeads = new CommandDecoHeads(this);
+        getCommand("decoheads").setExecutor(commandDecoHeads);
+        getCommand("decoHeads").setTabCompleter(commandDecoHeads);
     }
 
     /**

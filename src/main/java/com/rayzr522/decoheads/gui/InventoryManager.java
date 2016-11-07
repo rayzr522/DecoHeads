@@ -2,8 +2,11 @@
 package com.rayzr522.decoheads.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.util.ArrayUtils;
 import com.rayzr522.decoheads.util.CustomHead;
 import com.rayzr522.decoheads.util.ItemUtils;
 import com.rayzr522.decoheads.util.TextUtils;
@@ -165,6 +169,29 @@ public class InventoryManager {
 
     public static int maxPages(List<ItemStack> heads) {
         return (int) Math.floor(heads.size() / SIZE);
+    }
+
+    /**
+     * @param args the current args
+     * @return a list of all the names of the heads
+     */
+    public static List<String> headsList(String[] args) {
+        if (args.length < 2) {
+            return Collections.emptyList();
+        }
+        String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
+        List<String> headsList = new ArrayList<String>();
+        for (ItemStack item : heads) {
+            String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+            if (name.equalsIgnoreCase(filter)) {
+                return Collections.emptyList();
+            }
+            if (!name.startsWith(filter)) {
+                continue;
+            }
+            headsList.add(name);
+        }
+        return headsList;
     }
 
 }

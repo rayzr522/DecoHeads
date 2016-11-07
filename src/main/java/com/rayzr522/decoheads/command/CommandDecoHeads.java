@@ -2,10 +2,13 @@
 package com.rayzr522.decoheads.command;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -13,14 +16,12 @@ import com.rayzr522.decoheads.DecoHeads;
 import com.rayzr522.decoheads.gui.InventoryManager;
 import com.rayzr522.decoheads.util.ArrayUtils;
 
-public class CommandDecoHeads implements CommandExecutor {
+public class CommandDecoHeads implements CommandExecutor, TabCompleter {
 
     private DecoHeads plugin;
 
     public CommandDecoHeads(DecoHeads plugin) {
-
         this.plugin = plugin;
-
     }
 
     @Override
@@ -95,6 +96,16 @@ public class CommandDecoHeads implements CommandExecutor {
 
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) {
+            return Arrays.asList("reload", "rl", "search", "find", "page#");
+        } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
+            return InventoryManager.headsList(args);
+        }
+        return Collections.emptyList();
     }
 
 }
