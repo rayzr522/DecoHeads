@@ -9,7 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.rayzr522.decoheads.command.CommandDecoHeads;
 import com.rayzr522.decoheads.gui.GuiListener;
-import com.rayzr522.decoheads.gui.InventoryManager;
 import com.rayzr522.decoheads.util.ConfigHandler;
 import com.rayzr522.decoheads.util.DHMessenger;
 import com.rayzr522.decoheads.util.Localization;
@@ -26,6 +25,8 @@ public class DecoHeads extends JavaPlugin {
     private ConfigHandler    configHandler;
     private Localization     localization;
 
+    private HeadManager      headManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -40,8 +41,11 @@ public class DecoHeads extends JavaPlugin {
         listener = new GuiListener(this);
         getServer().getPluginManager().registerEvents(listener, this);
 
+        headManager = new HeadManager(this);
+
         // Create the config handler
         configHandler = new ConfigHandler(this);
+
         // Load all config stuff
         if (!reload()) {
             err("The config failed to load", true);
@@ -75,7 +79,7 @@ public class DecoHeads extends JavaPlugin {
             logger.setPrefix(localization.getMessagePrefix());
 
             // Load all the heads
-            return InventoryManager.loadHeads(this);
+            return headManager.load();
         } catch (Exception e) {
             // What the heck!? Who knows...
             e.printStackTrace();
@@ -142,6 +146,13 @@ public class DecoHeads extends JavaPlugin {
      */
     public ConfigHandler getConfigHandler() {
         return configHandler;
+    }
+
+    /**
+     * @return The {@link HeadManager}
+     */
+    public HeadManager getHeadManager() {
+        return headManager;
     }
 
 }
