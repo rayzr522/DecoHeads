@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import com.rayzr522.decoheads.DecoHeads;
 import com.rayzr522.decoheads.Head;
 import com.rayzr522.decoheads.HeadButton;
-import com.rayzr522.decoheads.util.ItemUtils;
 
 /**
  * @author Rayzr
@@ -50,9 +49,9 @@ public class HeadsGui extends Gui {
         init();
     }
 
-    private Button makeButton(String label, boolean enabled) {
-        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), Dimension.ONE, (e) -> {
-            e.getPlayer().getInventory().addItem(ItemUtils.setLore(e.getItem().clone(), plugin.tr("item.lore").split("\n")));
+    private Button makeButton(String label, Dimension position, boolean enabled) {
+        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), position, Dimension.ONE, (e) -> {
+            // TODO: Go to the next/previous page
         }, (enabled ? "&a" : "&c") + "&l" + label);
     }
 
@@ -67,10 +66,10 @@ public class HeadsGui extends Gui {
             return;
         }
 
-        addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE), new Dimension(9, 1), " "), new Dimension(0, 5));
+        addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(0, 5), new Dimension(9, 1), " "));
 
-        addComponent(makeButton(plugin.tr("button.previous-page"), page > 1), new Dimension(2, 5));
-        addComponent(makeButton(DecoHeads.getInstance().tr("button.next-page"), page < plugin.getHeadManager().maxPages(filteredHeads)), new Dimension(6, 5));
+        addComponent(makeButton(plugin.tr("button.previous-page"), new Dimension(2, 5), page > 1));
+        addComponent(makeButton(DecoHeads.getInstance().tr("button.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads)));
 
         int offset = (page - 1) * SIZE;
 
@@ -81,7 +80,7 @@ public class HeadsGui extends Gui {
                 break;
             }
 
-            addComponent(new HeadButton(filteredHeads.get(pos)), new Dimension(8 - WIDTH + i % WIDTH, 4 - HEIGHT + i / WIDTH));
+            addComponent(new HeadButton(filteredHeads.get(pos), new Dimension(OFFSET_X + i % WIDTH, OFFSET_Y + i / WIDTH)));
 
         }
 

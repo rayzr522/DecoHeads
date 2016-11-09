@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.gui.HeadsGui;
 import com.rayzr522.decoheads.gui.InventoryManager;
 import com.rayzr522.decoheads.util.ArrayUtils;
 
@@ -40,7 +41,8 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 1) {
-            p.openInventory(InventoryManager.getInventory(p, "", 1));
+//            p.openInventory(InventoryManager.getInventory(p, "", 1));
+            new HeadsGui(p, 1, null).render();
             return true;
         }
 

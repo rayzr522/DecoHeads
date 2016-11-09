@@ -26,8 +26,8 @@ public class Label extends Component {
      * @param item
      * @param size
      */
-    public Label(ItemStack item, Dimension size, String name, String... lore) {
-        super(item, size);
+    public Label(ItemStack item, Dimension size, Dimension position, String name, String... lore) {
+        super(item, size, position);
         this.name = name;
         this.lore = Arrays.asList(lore);
     }

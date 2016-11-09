@@ -14,14 +14,13 @@ import com.rayzr522.decoheads.util.ItemUtils;
  */
 public class HeadButton extends Component {
 
-    public HeadButton(Head head) {
-        super(head.getItem(), Dimension.ONE);
+    public HeadButton(Head head, Dimension position) {
+        super(ItemUtils.setName(head.getItem(), DecoHeads.getInstance().tr("item.name", head.getName())), position, Dimension.ONE);
     }
 
     @Override
     public void onClick(ClickEvent e) {
         e.getPlayer().getInventory().addItem(ItemUtils.setLore(item.clone(), DecoHeads.getInstance().tr("item.lore").split("\n")));
-        e.setShouldClose(true);
     }
 
 }

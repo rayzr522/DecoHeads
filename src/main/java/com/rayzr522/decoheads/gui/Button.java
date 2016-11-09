@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public class Button extends Label {
 
     private Consumer<ClickEvent> clickHandler;
-    private boolean              closeOnClick = true;
+    private boolean              closeOnClick = false;
 
     /**
      * @param item the button icon
@@ -23,8 +23,8 @@ public class Button extends Label {
      * @param name the button name
      * @param lore the button lore
      */
-    public Button(ItemStack item, Dimension size, Consumer<ClickEvent> clickHandler, String name, String... lore) {
-        super(item, size, name, lore);
+    public Button(ItemStack item, Dimension size, Dimension position, Consumer<ClickEvent> clickHandler, String name, String... lore) {
+        super(item, size, position, name, lore);
         this.clickHandler = clickHandler;
     }
 
@@ -63,7 +63,7 @@ public class Button extends Label {
 
     /**
      * @param closeOnClick set whether or not to close on click. Defaults to
-     *            {@code true}
+     *            {@code false}
      */
     public void setCloseOnClick(boolean closeOnClick) {
         this.closeOnClick = closeOnClick;

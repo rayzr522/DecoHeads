@@ -17,14 +17,16 @@ public abstract class Component {
 
     protected ItemStack item;
     protected Dimension size;
+    protected Dimension position;
 
     /**
-     * Constructs a new component with the given item icon and size
+     * Constructs a new component with the given item icon, size and position
      * 
      * @param item the item to display
      * @param size the size of the component
+     * @param position the position of the component
      */
-    public Component(ItemStack item, Dimension size) {
+    public Component(ItemStack item, Dimension size, Dimension position) {
         Objects.requireNonNull(item);
         Objects.requireNonNull(size);
         if (item.getType() == Material.AIR) {
@@ -92,5 +94,19 @@ public abstract class Component {
     }
 
     public abstract void onClick(ClickEvent e);
+
+    /**
+     * @return the position of this Component
+     */
+    public Dimension getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Dimension position) {
+        this.position = position;
+    }
 
 }

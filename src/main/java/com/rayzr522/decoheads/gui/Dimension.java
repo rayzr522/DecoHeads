@@ -30,7 +30,6 @@ public class Dimension {
     public Dimension(int x, int y) {
         this.x = x;
         this.y = y;
-        validate();
     }
 
     /**
@@ -59,15 +58,6 @@ public class Dimension {
      */
     public void setY(int y) {
         this.y = y;
-    }
-
-    /**
-     * Checks if {@link #x} and {@link #y} are both valid
-     */
-    public void validate() {
-        if (x <= 0 || y <= 0) {
-            throw new IllegalArgumentException("Width and height cannot be less than 1!");
-        }
     }
 
     /**
