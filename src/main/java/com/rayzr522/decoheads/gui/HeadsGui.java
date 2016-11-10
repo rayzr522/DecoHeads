@@ -50,7 +50,7 @@ public class HeadsGui extends Gui {
     }
 
     private Button makeButton(String label, Dimension position, boolean enabled) {
-        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), position, Dimension.ONE, (e) -> {
+        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), Dimension.ONE, position, (e) -> {
             // TODO: Go to the next/previous page
         }, (enabled ? "&a" : "&c") + "&l" + label);
     }
@@ -66,7 +66,7 @@ public class HeadsGui extends Gui {
             return;
         }
 
-        addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(0, 5), new Dimension(9, 1), " "));
+        addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(9, 1), new Dimension(0, 5), " "));
 
         addComponent(makeButton(plugin.tr("button.previous-page"), new Dimension(2, 5), page > 1));
         addComponent(makeButton(DecoHeads.getInstance().tr("button.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads)));
@@ -75,12 +75,13 @@ public class HeadsGui extends Gui {
 
         for (int i = 0; i < SIZE; i++) {
 
-            int pos = offset + i;
+            final int pos = offset + i;
             if (pos >= filteredHeads.size()) {
                 break;
             }
 
-            addComponent(new HeadButton(filteredHeads.get(pos), new Dimension(OFFSET_X + i % WIDTH, OFFSET_Y + i / WIDTH)));
+            final Head head = filteredHeads.get(pos);
+            addComponent(new HeadButton(head, new Dimension(OFFSET_X + i % WIDTH, OFFSET_Y + i / WIDTH)));
 
         }
 

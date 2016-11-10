@@ -77,4 +77,9 @@ public class Head {
         return CustomHead.getHead(texture, uuid, name);
     }
 
+    @Override
+    public String toString() {
+        return "Head [name=" + name + ", uuid=" + uuid + ", texture=" + texture + "]";
+    }
+
 }

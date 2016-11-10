@@ -3,6 +3,7 @@
  */
 package com.rayzr522.decoheads.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ import com.rayzr522.decoheads.util.TextUtils;
  */
 public class Gui implements InventoryHolder {
 
-    private List<Component> components;
+    private List<Component> components = new ArrayList<Component>();
     private Player          player;
     private Inventory       inventory;
     private Dimension       size;

@@ -34,6 +34,7 @@ public abstract class Component {
         }
         this.item = item;
         this.size = size;
+        this.position = position;
     }
 
     /**
