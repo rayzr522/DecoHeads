@@ -1,5 +1,5 @@
 
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 /**
  * An immutable class representing an X size and a Y size
@@ -67,7 +67,7 @@ public class Dimension {
      * @return Whether this dimension fits inside the {@code other} dimension
      */
     public boolean fitsInside(Dimension other) {
-        return x <= other.getX() && y <= other.getY();
+        return x >= 0 && y >= 0 && x <= other.getX() && y <= other.getY();
     }
 
     /**

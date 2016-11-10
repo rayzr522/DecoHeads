@@ -10,11 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import com.rayzr522.decoheads.DecoHeads;
 import com.rayzr522.decoheads.gui.HeadsGui;
-import com.rayzr522.decoheads.gui.InventoryManager;
 import com.rayzr522.decoheads.util.ArrayUtils;
 
 public class CommandDecoHeads implements CommandExecutor, TabCompleter {
@@ -41,7 +39,6 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 1) {
-//            p.openInventory(InventoryManager.getInventory(p, "", 1));
             new HeadsGui(p, 1, null).render();
             return true;
         }
@@ -71,12 +68,12 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             }
 
             String search = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
-            Inventory inv = InventoryManager.getInventory(p, search, 1);
+            HeadsGui gui = new HeadsGui(p, 1, search);
 
-            if (inv == null) {
+            if (gui.getHeads().size() < 1) {
                 plugin.msg(p, plugin.tr("command.decoheads.find.no-heads-found", search));
             } else {
-                p.openInventory(inv);
+                gui.render();
             }
 
         } else if (arg.matches("\\d+")) {
@@ -86,14 +83,14 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
                 page = Integer.parseInt(arg);
             } catch (NumberFormatException e) {
                 // Will basically only happen if the number is too big
-                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", arg, InventoryManager.maxPages()));
+                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", arg, plugin.getHeadManager().maxPages()));
                 return true;
             }
 
-            if (page < 1 || page > InventoryManager.maxPages()) {
-                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", page, InventoryManager.maxPages()));
+            if (page < 1 || page > plugin.getHeadManager().maxPages()) {
+                plugin.msg(p, plugin.tr("command.decoheads.invalid-page", page, plugin.getHeadManager().maxPages()));
             } else {
-                p.openInventory(InventoryManager.getInventory(p, "", page));
+                new HeadsGui(p, page, "").render();
             }
 
         } else {
@@ -110,7 +107,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             return sort(Arrays.asList("reload", "rl", "search", "find", "#"), args[0]);
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
             String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
-            return sort(InventoryManager.headsList(filter), filter);
+            return sort(plugin.getHeadManager().headsList(filter), filter);
         }
         return Collections.emptyList();
     }

@@ -3,6 +3,7 @@
  */
 package com.rayzr522.decoheads.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -11,7 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.rayzr522.decoheads.DecoHeads;
 import com.rayzr522.decoheads.Head;
-import com.rayzr522.decoheads.HeadButton;
+import com.rayzr522.decoheads.gui.system.Button;
+import com.rayzr522.decoheads.gui.system.Dimension;
+import com.rayzr522.decoheads.gui.system.Gui;
+import com.rayzr522.decoheads.gui.system.Label;
 
 /**
  * @author Rayzr
@@ -47,12 +51,28 @@ public class HeadsGui extends Gui {
         this.filter = filter;
 
         init();
+        System.out.println(getInventory().getClass().getCanonicalName());
     }
 
     private Button makeButton(String label, Dimension position, boolean enabled) {
-        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), Dimension.ONE, position, (e) -> {
-            // TODO: Go to the next/previous page
+        return new Button((enabled ? BUTTON_ENABLED : BUTTON_DISABLED).clone(), Dimension.ONE, position, e -> {
         }, (enabled ? "&a" : "&c") + "&l" + label);
+    }
+
+    private void refresh() {
+        setComponents(new ArrayList<>());
+        init();
+        render();
+    }
+
+    /**
+     * Gets all the heads (with the given filter)
+     * 
+     * @return All the heads, filtered with the filter from
+     *         {@link #HeadsGui(Player, int, String)}
+     */
+    public List<Head> getHeads() {
+        return plugin.getHeadManager().searchHeads(filter);
     }
 
     /**
@@ -60,27 +80,46 @@ public class HeadsGui extends Gui {
      */
     private void init() {
 
-        List<Head> filteredHeads = plugin.getHeadManager().searchHeads(filter);
-
-        if (filteredHeads == null || filteredHeads.size() < 1) {
-            return;
-        }
+        List<Head> filteredHeads = getHeads();
 
         addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(9, 1), new Dimension(0, 5), " "));
 
-        addComponent(makeButton(plugin.tr("button.previous-page"), new Dimension(2, 5), page > 1));
-        addComponent(makeButton(DecoHeads.getInstance().tr("button.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads)));
+        Button previousPage = makeButton(plugin.tr("button.previous-page"), new Dimension(2, 5), page > 1);
+        Button nextPage = makeButton(DecoHeads.getInstance().tr("button.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads));
+
+        previousPage.setClickHandler(e -> {
+            if (page <= 1) {
+                return;
+            }
+            page--;
+            refresh();
+        });
+
+        nextPage.setClickHandler(e -> {
+            if (page >= plugin.getHeadManager().maxPages(filteredHeads)) {
+                return;
+            }
+            page++;
+            refresh();
+        });
+
+        addComponent(nextPage);
+        addComponent(previousPage);
+
+        if (filteredHeads.size() < 1) {
+            return;
+        }
 
         int offset = (page - 1) * SIZE;
 
         for (int i = 0; i < SIZE; i++) {
 
-            final int pos = offset + i;
+            int pos = offset + i;
             if (pos >= filteredHeads.size()) {
                 break;
             }
 
-            final Head head = filteredHeads.get(pos);
+            Head head = filteredHeads.get(pos);
             addComponent(new HeadButton(head, new Dimension(OFFSET_X + i % WIDTH, OFFSET_Y + i / WIDTH)));
 
         }

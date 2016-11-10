@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 import java.util.function.Consumer;
 

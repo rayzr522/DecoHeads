@@ -1,5 +1,6 @@
 prefix: '&8[&6&lDecoHeads&8]&e '
 
+# ------------------------------------------------------------------------------------------ #
 
 command:
     no-permission: "&cYou don't have permission to do that!"
@@ -15,14 +16,22 @@ command:
 
 
 gui:
-    title: "&c&l&nDecoHeads&8 |&e Page {0}"
+    title: "&c&l&nDecoHeads"
 
+# ------------------------------------------------------------------------------------------ #
 
 item:
     name: "&e&n{0}"
     lore: "\n&c&oMade with DecoHeads!\n"
 
+# ------------------------------------------------------------------------------------------ #
 
 button:
     next-page: "Next Page"
     previous-page: "Previous Page"
+    page-number: "&bCurrent page: &3{0}"
+
+# ------------------------------------------------------------------------------------------ #
+
+# Don't change this unless you want your config to reset
+version: 1

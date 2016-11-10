@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import com.rayzr522.decoheads.util.TextUtils;
  */
 public class Gui implements InventoryHolder {
 
-    private List<Component> components = new ArrayList<Component>();
+    private List<Component> components = new ArrayList<>();
     private Player          player;
     private Inventory       inventory;
     private Dimension       size;
@@ -38,6 +38,8 @@ public class Gui implements InventoryHolder {
     }
 
     public void render() {
+        
+        inventory.setContents(new ItemStack[0]);
 
         for (Component comp : components) {
             Dimension position = comp.getPosition();
@@ -48,8 +50,10 @@ public class Gui implements InventoryHolder {
             comp.render(player, this, position);
         }
 
-        player.closeInventory();
-        player.openInventory(getInventory());
+        if (player.getOpenInventory().getTopInventory().getHolder() != this) {
+            player.closeInventory();
+            player.openInventory(getInventory());
+        }
 
     }
 
@@ -82,13 +86,11 @@ public class Gui implements InventoryHolder {
      * @param e the event itself
      */
     public void onClick(InventoryClickEvent e) {
-        int x = e.getRawSlot() % 9;
-        int y = e.getRawSlot() / 9;
-        Dimension pos = new Dimension(x, y);
+        Dimension pos = new Dimension(e.getRawSlot() % 9, e.getRawSlot() / 9);
         components.stream().filter(comp -> {
-            return new Dimension(x, y).subtract(comp.getPosition()).fitsInside(comp.getSize());
+            return pos.subtract(comp.getPosition()).fitsInside(comp.getSize());
         }).reduce((a, b) -> b).ifPresent(comp -> {
-            ClickEvent event = new ClickEvent((Player) e.getWhoClicked(), e.getCurrentItem(), e.getClick(), pos.subtract(comp.getPosition()));
+            ClickEvent event = new ClickEvent((Player) e.getWhoClicked(), this, e.getCurrentItem(), e.getClick(), pos.subtract(comp.getPosition()));
             comp.onClick(event);
             e.setCancelled(event.isCancelled());
             if (event.shouldClose()) {
@@ -109,6 +111,20 @@ public class Gui implements InventoryHolder {
         }
         components.add(comp);
         return true;
+    }
+
+    /**
+     * @return the components
+     */
+    public List<Component> getComponents() {
+        return new ArrayList<>(components);
+    }
+
+    /**
+     * @param components the components to set
+     */
+    public void setComponents(List<Component> components) {
+        this.components = new ArrayList<>(components);
     }
 
 }

@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.rayzr522.decoheads.command.CommandDecoHeads;
-import com.rayzr522.decoheads.gui.GuiListener;
+import com.rayzr522.decoheads.gui.system.GuiListener;
 import com.rayzr522.decoheads.util.ConfigHandler;
 import com.rayzr522.decoheads.util.DHMessenger;
 import com.rayzr522.decoheads.util.Localization;
@@ -75,7 +75,7 @@ public class DecoHeads extends JavaPlugin {
     public boolean reload() {
         try {
             // Load the localization from the config
-            localization = Localization.load(configHandler.getConfig("messages.yml"));
+            localization = Localization.load(this, "messages.yml");
             logger.setPrefix(localization.getMessagePrefix());
 
             // Load all the heads

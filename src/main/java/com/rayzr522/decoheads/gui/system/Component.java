@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 import java.util.Objects;
 
@@ -14,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
  *
  */
 public abstract class Component {
+
+    private static int  counter;
+    private final int   ID = counter++;
 
     protected ItemStack item;
     protected Dimension size;
@@ -108,6 +111,15 @@ public abstract class Component {
      */
     public void setPosition(Dimension position) {
         this.position = position;
+    }
+
+    /**
+     * Gets the unique ID of this component
+     * 
+     * @return The unique ID
+     */
+    public int getID() {
+        return ID;
     }
 
 }

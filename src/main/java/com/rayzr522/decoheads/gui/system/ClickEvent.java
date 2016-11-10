@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rayzr522.decoheads.gui;
+package com.rayzr522.decoheads.gui.system;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public class ClickEvent {
 
     private Player    player;
+    private Gui       gui;
     private ItemStack item;
     private ClickType type;
     private int       offsetX;
@@ -21,8 +22,9 @@ public class ClickEvent {
     private boolean   cancelled   = true;
     private boolean   shouldClose = false;
 
-    public ClickEvent(Player player, ItemStack item, ClickType type, Dimension offset) {
+    public ClickEvent(Player player, Gui gui, ItemStack item, ClickType type, Dimension offset) {
         this.player = player;
+        this.gui = gui;
         this.item = item;
         this.type = type;
         this.offsetX = offset.getX();
@@ -92,6 +94,13 @@ public class ClickEvent {
      */
     public void setShouldClose(boolean shouldClose) {
         this.shouldClose = shouldClose;
+    }
+
+    /**
+     * @return The Gui that this event is associated with
+     */
+    public Gui getGui() {
+        return gui;
     }
 
 }

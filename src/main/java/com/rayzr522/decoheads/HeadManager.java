@@ -3,6 +3,7 @@
  */
 package com.rayzr522.decoheads;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +18,9 @@ import com.rayzr522.decoheads.gui.HeadsGui;
  */
 public class HeadManager {
 
-    private static List<Head> heads;
+    private List<Head> heads;
 
-    private DecoHeads         plugin;
+    private DecoHeads  plugin;
 
     /**
      * @param decoHeads
@@ -60,7 +61,7 @@ public class HeadManager {
         String filter2 = filter.toLowerCase();
 
         return heads.stream()
-                .filter(head -> head.getName().contains(filter2))
+                .filter(head -> head.getName().toLowerCase().contains(filter2))
                 .collect(Collectors.toList());
     }
 
@@ -70,6 +71,21 @@ public class HeadManager {
 
     public int maxPages(List<Head> heads) {
         return heads.size() / HeadsGui.SIZE;
+    }
+
+    /**
+     * @param args the current args
+     * @return a list of all the names of the heads
+     */
+    public List<String> headsList(String filter) {
+        List<String> headsList = new ArrayList<String>();
+        for (Head head : heads) {
+            if (!head.getName().startsWith(filter)) {
+                continue;
+            }
+            headsList.add(head.getName());
+        }
+        return headsList;
     }
 
 }
