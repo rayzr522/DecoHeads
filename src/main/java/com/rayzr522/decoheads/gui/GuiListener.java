@@ -1,6 +1,7 @@
 
 package com.rayzr522.decoheads.gui;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +48,8 @@ public class GuiListener implements Listener {
             p.getInventory().addItem(ItemUtils.setLore(clicked.clone(), plugin.tr("item.lore").split("\n")));
 
         } else if (InventoryManager.isButton(clicked)) {
-            boolean next = clicked.getItemMeta().getDisplayName().contains("Next");
+            boolean next = ChatColor.stripColor(clicked.getItemMeta().getDisplayName())
+                    .equals(ChatColor.stripColor(plugin.tr("button.next-page")));
 
             int page = holder.getPage();
 
