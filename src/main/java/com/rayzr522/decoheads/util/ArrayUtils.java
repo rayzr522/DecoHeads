@@ -15,7 +15,7 @@ public class ArrayUtils {
         if (list == null || list.size() < 1) {
             return list;
         }
-        return list.stream().map(TextUtils::colorize).collect(Collectors.toList());
+        return list.stream().map(str -> "&r" + str).map(TextUtils::colorize).collect(Collectors.toList());
     }
 
 }

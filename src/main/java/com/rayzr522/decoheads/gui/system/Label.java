@@ -44,7 +44,7 @@ public class Label extends Component {
     public ItemStack simpleRender(Player player, int offsetX, int offsetY) {
         ItemStack newItem = item.clone();
         ItemMeta meta = newItem.getItemMeta();
-        meta.setDisplayName(TextUtils.colorize(name));
+        meta.setDisplayName(TextUtils.colorize("&r" + name));
         meta.setLore(ArrayUtils.colorize(lore));
         newItem.setItemMeta(meta);
         return newItem;
