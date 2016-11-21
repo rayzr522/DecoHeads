@@ -96,7 +96,7 @@ public class HeadsGui extends Gui {
             }
         }, plugin.tr("button.heads.current-page.name", page), plugin.tr("button.heads.current-page.lore").split("\n"));
         if (lastGui != null) {
-            currentPage.addLore(plugin.tr("buttons.heads.current-page.back").split("\n"));
+            currentPage.addLore(plugin.tr("button.heads.current-page.back").split("\n"));
         }
 
         addComponent(currentPage);

@@ -37,7 +37,7 @@ public class CategoryGui extends Gui {
             Head head = heads.get((int) (Math.random() * (heads.size() - 1)));
 
             Button button = new Button(head.getItem(), Dimension.ONE, category.getPosition(), e -> {
-                new HeadsGui(e.getPlayer(), 1, h -> h.getCategory() == category).render();
+                new HeadsGui(e.getPlayer(), 1, h -> h.getCategory() == category, this).render();
             }, DecoHeads.getInstance().tr("button.categories.category.name", DecoHeads.getInstance().tr("category." + category.getKey())),
                     DecoHeads.getInstance().tr("button.categories.category.lore").split("\n"));
 
