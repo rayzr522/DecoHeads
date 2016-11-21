@@ -3,7 +3,9 @@
  */
 package com.rayzr522.decoheads.gui.system;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -78,7 +80,7 @@ public class Label extends Component {
      * @param lore the lore to set
      */
     public void setLore(String... lore) {
-        this.lore = Arrays.asList(lore);
+        setLore(Arrays.asList(lore));
     }
 
     /**
@@ -86,6 +88,17 @@ public class Label extends Component {
      */
     public void setLore(List<String> lore) {
         this.lore = lore;
+    }
+
+    public void addLore(String... lore) {
+        addLore(Arrays.asList(lore));
+    }
+
+    public void addLore(List<String> lore) {
+        ArrayList<String> newLore = new ArrayList<String>();
+        newLore.addAll(this.lore);
+        newLore.addAll(lore);
+        this.lore = Collections.unmodifiableList(newLore);
     }
 
 }

@@ -5,6 +5,7 @@ package com.rayzr522.decoheads;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,7 +19,7 @@ import com.rayzr522.decoheads.gui.HeadsGui;
  */
 public class HeadManager {
 
-    private List<Head> heads;
+    private List<Head> heads = new ArrayList<Head>();
 
     private DecoHeads  plugin;
 
@@ -33,13 +34,23 @@ public class HeadManager {
      * @return Whether anything was actually loaded
      */
     public boolean load() {
-        FileConfiguration config = plugin.getConfigHandler().getConfig("heads.yml");
+        heads.clear();
 
+        FileConfiguration config = plugin.getConfigHandler().getConfig("heads.yml");
         ConfigurationSection headsSection = config.getConfigurationSection("heads");
 
-        heads = headsSection.getKeys(false).stream().filter(headsSection::isConfigurationSection)
-                .map(key -> Head.deserialize(key, headsSection.getConfigurationSection(key)))
-                .filter(head -> head != null).collect(Collectors.toList());
+        for (Category category : Category.values()) {
+
+            ConfigurationSection categorySection = headsSection.getConfigurationSection(category.getKey());
+            if (categorySection == null) {
+                throw new IllegalStateException("Could not find config section for heads category '" + category.getKey() + "'");
+            }
+
+            heads.addAll(categorySection.getKeys(false).stream().filter(categorySection::isConfigurationSection)
+                    .map(key -> Head.deserialize(key, category, categorySection.getConfigurationSection(key)))
+                    .filter(head -> head != null).collect(Collectors.toList()));
+
+        }
 
         if (heads.size() < 1) {
             plugin.log("No heads were found in heads.yml");
@@ -53,15 +64,13 @@ public class HeadManager {
      * @param filter
      * @return
      */
-    public List<Head> searchHeads(String filter) {
-        if (filter == null || filter.equals("")) {
+    public List<Head> searchHeads(Predicate<Head> filter) {
+        if (filter == null) {
             return heads;
         }
 
-        String filter2 = filter.toLowerCase();
-
         return heads.stream()
-                .filter(head -> head.getName().toLowerCase().contains(filter2))
+                .filter(filter)
                 .collect(Collectors.toList());
     }
 
@@ -70,11 +79,11 @@ public class HeadManager {
     }
 
     public int maxPages(List<Head> heads) {
-        return heads.size() / HeadsGui.SIZE;
+        return (int) Math.ceil((double) heads.size() / (double) HeadsGui.SIZE);
     }
 
     /**
-     * @param args the current args
+     * @param filter the current input
      * @return a list of all the names of the heads
      */
     public List<String> headsList(String filter) {

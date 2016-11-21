@@ -12,8 +12,10 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import com.rayzr522.decoheads.DecoHeads;
+import com.rayzr522.decoheads.gui.CategoryGui;
 import com.rayzr522.decoheads.gui.HeadsGui;
 import com.rayzr522.decoheads.util.ArrayUtils;
+import com.rayzr522.decoheads.util.NamePredicate;
 
 public class CommandDecoHeads implements CommandExecutor, TabCompleter {
 
@@ -39,7 +41,8 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 1) {
-            new HeadsGui(p, 1, null).render();
+            // new HeadsGui(p, 1, null).render();
+            new CategoryGui(p).render();
             return true;
         }
 
@@ -68,7 +71,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             }
 
             String search = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
-            HeadsGui gui = new HeadsGui(p, 1, search);
+            HeadsGui gui = new HeadsGui(p, 1, new NamePredicate(search));
 
             if (gui.getHeads().size() < 1) {
                 plugin.msg(p, plugin.tr("command.decoheads.find.no-heads-found", search));
@@ -90,7 +93,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             if (page < 1 || page > plugin.getHeadManager().maxPages()) {
                 plugin.msg(p, plugin.tr("command.decoheads.invalid-page", page, plugin.getHeadManager().maxPages()));
             } else {
-                new HeadsGui(p, page, "").render();
+                new HeadsGui(p, page, null).render();
             }
 
         } else {

@@ -17,25 +17,27 @@ import com.rayzr522.decoheads.util.CustomHead;
  */
 public class Head {
 
-    private String name;
-    private String uuid;
-    private String texture;
+    private String   name;
+    private String   uuid;
+    private String   texture;
+    private Category category;
 
-    private Head(String name, String uuid, String texture) {
+    public Head(String name, String uuid, String texture, Category category) {
         this.name = name;
         this.uuid = uuid;
         this.texture = texture;
+        this.category = category;
     }
 
     /**
      * @param name the name of the head
      * @param data the head data
      */
-    public static Head deserialize(String name, ConfigurationSection data) {
+    public static Head deserialize(String name, Category category, ConfigurationSection data) {
         if (!data.isString("uuid") || !data.isString("texture")) {
             return null;
         }
-        return new Head(name, data.get("uuid").toString(), data.get("texture").toString());
+        return new Head(name, data.getString("uuid"), data.getString("texture"), category);
     }
 
     public Map<String, Object> serialize() {
@@ -71,6 +73,13 @@ public class Head {
      */
     void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return The category of this head
+     */
+    public Category getCategory() {
+        return category;
     }
 
     public ItemStack getItem() {

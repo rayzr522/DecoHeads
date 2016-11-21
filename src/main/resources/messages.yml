@@ -1,4 +1,4 @@
-prefix: '&8[&6&lDecoHeads&8]&e '
+prefix: '&8[&b&lDecoHeads&8]&3 '
 
 # ------------------------------------------------------------------------------------------ #
 
@@ -16,20 +16,55 @@ command:
 
 
 gui:
-    title: "&c&l&nDecoHeads"
+    heads:
+        title: "&3&l&nDecoHeads"
+    categories:
+        title: "&3&l&nCategories"
 
 # ------------------------------------------------------------------------------------------ #
 
 item:
-    name: "&e&n{0}"
-    lore: "\n&c&oMade with DecoHeads!\n"
+    name: "&8» &b&n{0}&8 «"
+    lore: "\n&7&oMade with DecoHeads\n "
 
 # ------------------------------------------------------------------------------------------ #
 
 button:
-    next-page: "Next Page"
-    previous-page: "Previous Page"
-    page-number: "&bCurrent page: &3{0}"
+    categories:
+        category:
+            name: "&8» &3{0}&8 «"
+            lore: |
+                &7&oPress this button to
+                &7&oopen the heads GUI for
+                &7&othis category.
+    heads:
+        next-page: "Next Page"
+        previous-page: "Previous Page"
+        current-page:
+            name: "&3Current page: &b{0}"
+            lore: |
+                &7&oUse the buttons to the
+                &7&oleft and right of this to
+                &7&ogo to different pages.
+            back: |
+
+                &7&oPress this to go back
+
+# ------------------------------------------------------------------------------------------ #
+
+category:
+    food: "Food"
+    tech: "Technology"
+    letters: "Letters & Symbols"
+    colors: "Colors"
+    mini-blocks: "Miniature Blocks"
+    household-items: "Household Items"
+    mobs: "Mobs & Animals"
+    characters: "Characters & Video Games"
+    pokemon: "Pokémon"
+    flags: "Flags"
+    emoji: "Emoticons"
+    misc: "Miscellaneous"
 
 # ------------------------------------------------------------------------------------------ #
 
