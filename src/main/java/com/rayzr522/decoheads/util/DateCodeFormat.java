@@ -20,10 +20,11 @@ public class DateCodeFormat extends DateFormat {
     @Override
     public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
         return toAppendTo
+                .append(date.getHours())
                 .append(date.getMinutes())
                 .append(date.getSeconds()).append("_")
-                .append(date.getDate()).append("_")
-                .append(date.getMonth()).append("_")
+                .append(date.getDate())
+                .append(date.getMonth())
                 .append(String.valueOf(date.getYear() + 1900).substring(2));
     }
 

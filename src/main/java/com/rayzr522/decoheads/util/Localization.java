@@ -3,16 +3,13 @@
  */
 package com.rayzr522.decoheads.util;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.common.io.Files;
 import com.rayzr522.decoheads.DecoHeads;
 
 /**
@@ -24,7 +21,7 @@ public class Localization {
     /**
      * The version to check in the config
      */
-    public static final int           VERSION          = 1;
+    public static final int           CONFIG_VERSION          = 1;
 
     /**
      * Matches any valid YAML path inside of double square brackets.
@@ -36,7 +33,16 @@ public class Localization {
 
     private Localization(DecoHeads plugin, String path) throws IOException {
 
-        YamlConfiguration config = updateConfig(plugin, path);
+        YamlConfiguration config = ConfigVersionChecker.updateConfig(path, CONFIG_VERSION,
+                "--------------------------------------------------------------",
+                "Upgraded Localization config to v" + CONFIG_VERSION,
+                "Please take a look at the new messages.yml to see what changes",
+                "have been made, and then feel free to copy your customized",
+                "settings from your backed-up messages.yml over to the new one.",
+                "",
+                "This feature is in place so that the developer can add new",
+                "messages, and have it update in everyone else's config files.",
+                "--------------------------------------------------------------");
 
         messages = new CompatMap<String, String>();
 
@@ -53,45 +59,6 @@ public class Localization {
         for (Entry<String, String> entry : raw.entrySet()) {
             messages.put(entry.getKey(), parse(raw, entry));
         }
-    }
-
-    private YamlConfiguration updateConfig(DecoHeads plugin, String path) throws IOException {
-        YamlConfiguration config = plugin.getConfigHandler().getConfig(path);
-
-        File current = plugin.getConfigHandler().getFile(path);
-        File backup = plugin.getConfigHandler().getFile(path + ".ERR.backup");
-
-        Files.copy(current, backup);
-
-        int tries = 0;
-        while (!config.contains("version") || !config.isInt("version") || config.getInt("version") != VERSION) {
-            tries++;
-            if (tries > 10) {
-                throw new IllegalStateException("Caught in an infinite loop while trying to update the Localization version! Please restore using the messages.yml.ERR.backup file!");
-            }
-
-            File file = plugin.getConfigHandler().getFile(path);
-            String newName = path + "." + new DateCodeFormat().format(new Date()) + ".backup";
-            file.renameTo(plugin.getConfigHandler().getFile(newName));
-            plugin.getConfigHandler().getFile(path).delete();
-            config = plugin.getConfigHandler().getConfig(path);
-        }
-
-        backup.delete();
-
-        if (tries > 0) {
-            plugin.log("--------------------------------------------------------------");
-            plugin.log("Upgraded Localization config to v" + config.getInt("version"));
-            plugin.log("Please take a look at the new messages.yml to see what changes");
-            plugin.log("have been made, and then feel free to copy your customized");
-            plugin.log("settings from your backed-up messages.yml over to the new one.");
-            plugin.log("");
-            plugin.log("This feature is in place so that the developer can add new");
-            plugin.log("messages, and have it update in everyone else's config files.");
-            plugin.log("--------------------------------------------------------------");
-        }
-
-        return config;
     }
 
     /**

@@ -3,15 +3,17 @@
  */
 package com.rayzr522.decoheads;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.rayzr522.decoheads.gui.HeadsGui;
+import com.rayzr522.decoheads.util.ConfigVersionChecker;
 
 /**
  * @author Rayzr
@@ -19,9 +21,11 @@ import com.rayzr522.decoheads.gui.HeadsGui;
  */
 public class HeadManager {
 
-    private List<Head> heads = new ArrayList<Head>();
+    public static final int CONFIG_VERSION = 1;
 
-    private DecoHeads  plugin;
+    private List<Head>      heads          = new ArrayList<Head>();
+
+    private DecoHeads       plugin;
 
     /**
      * @param decoHeads
@@ -32,11 +36,22 @@ public class HeadManager {
 
     /**
      * @return Whether anything was actually loaded
+     * @throws IOException
      */
-    public boolean load() {
+    public boolean load() throws IOException {
         heads.clear();
 
-        FileConfiguration config = plugin.getConfigHandler().getConfig("heads.yml");
+        YamlConfiguration config = ConfigVersionChecker.updateConfig("heads.yml", CONFIG_VERSION,
+                "--------------------------------------------------------------",
+                "Upgraded Heads config to v" + CONFIG_VERSION,
+                "Please take a look at the new heads.yml to see what changes",
+                "have been made, and then feel free to copy your customized",
+                "settings from your backed-up heads.yml over to the new one.",
+                "",
+                "This feature is in place so that the developer can change the",
+                "config system without it breaking for people with old configs.",
+                "--------------------------------------------------------------");
+        
         ConfigurationSection headsSection = config.getConfigurationSection("heads");
 
         for (Category category : Category.values()) {
