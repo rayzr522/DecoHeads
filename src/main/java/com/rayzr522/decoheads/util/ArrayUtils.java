@@ -1,26 +1,21 @@
 
 package com.rayzr522.decoheads.util;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ArrayUtils {
 
     public static String concat(Object[] arr, String filler) {
+        return Arrays.stream(arr).map(Object::toString).collect(Collectors.joining(filler));
+    }
 
-        if (arr == null || arr.length < 1) {
-            return "";
+    public static List<String> colorize(List<String> list) {
+        if (list == null || list.size() < 1) {
+            return list;
         }
-
-        filler = filler == null ? "" : filler;
-
-        String output = arr[0].toString();
-
-        for (int i = 1; i < arr.length; i++) {
-
-            output += filler + arr[i].toString();
-
-        }
-
-        return output;
-
+        return list.stream().map(str -> "&r" + str).map(TextUtils::colorize).collect(Collectors.toList());
     }
 
 }
