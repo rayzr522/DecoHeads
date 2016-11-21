@@ -14,6 +14,7 @@ command:
             no-heads-found: "No heads were found that matched '{0}'"
             usage: "Usage: &7/decoheads search <text>"
 
+# ------------------------------------------------------------------------------------------ #
 
 gui:
     heads:
@@ -68,5 +69,5 @@ category:
 
 # ------------------------------------------------------------------------------------------ #
 
-# Don't change this unless you want your config to reset
+# Don't change this number unless you want your config to reset
 version: 1

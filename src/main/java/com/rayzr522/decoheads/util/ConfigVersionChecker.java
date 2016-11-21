@@ -1,13 +1,14 @@
 package com.rayzr522.decoheads.util;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Date;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.common.io.Files;
 import com.rayzr522.decoheads.DecoHeads;
 
 /**
@@ -18,13 +19,14 @@ public class ConfigVersionChecker {
 
     public static YamlConfiguration updateConfig(String path, int targetVersion, String... updateMessage) throws IOException {
         DecoHeads plugin = DecoHeads.getInstance();
+        ConfigHandler ch = plugin.getConfigHandler();
 
-        YamlConfiguration config = plugin.getConfigHandler().getConfig(path);
+        YamlConfiguration config = ch.getConfig(path);
 
-        File current = plugin.getConfigHandler().getFile(path);
-        File backup = plugin.getConfigHandler().getFile(path + ".ERR.backup");
+        Path current = ch.getFile(path).toPath();
+        Path backup = ch.getFile(path + ".ERR.backup").toPath();
 
-        Files.copy(current, backup);
+        Files.copy(current, backup, StandardCopyOption.REPLACE_EXISTING);
 
         int tries = 0;
         while (!config.contains("version") || !config.isInt("version") || config.getInt("version") != targetVersion) {
@@ -33,20 +35,15 @@ public class ConfigVersionChecker {
                 throw new IllegalStateException("Caught in an infinite loop while trying to update a config! Please restore using the " + path + ".ERR.backup file!");
             }
 
-            File file = plugin.getConfigHandler().getFile(path);
-            String newName = path + "." + new DateCodeFormat().format(new Date()) + ".backup";
-            if (!file.renameTo(plugin.getConfigHandler().getFile(newName))) {
-                throw new IOException("Failed to backup old files! Please restore using the " + path + ".ERR.backup file!");
-            }
-            if (!plugin.getConfigHandler().getFile(path).delete()) {
-                throw new IOException("Failed to delete old files! Please restore using the " + path + ".ERR.backup file!");
-            }
-            config = plugin.getConfigHandler().getConfig(path);
+            Path file = ch.getFile(path).toPath();
+            Path newPath = ch.getFile(path + "." + new DateCodeFormat().format(new Date()) + ".backup").toPath();
+            Files.move(file, newPath, StandardCopyOption.REPLACE_EXISTING);
+            Files.deleteIfExists(file);
+
+            config = ch.getConfig(path);
         }
 
-        if (!backup.delete()) {
-            plugin.err("Failed to delete the temporary backup file at " + path + ".ERR.backup. Please delete this file manually.", false);
-        }
+        Files.deleteIfExists(backup);
 
         if (tries > 0) {
             Arrays.stream(updateMessage).forEach(plugin::log);

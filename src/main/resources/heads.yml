@@ -497,6 +497,12 @@ heads:
         Football Helmet:
             texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ3YjYyYWNhMjg0NDViOGUxMWVhMTc1MGVlYWNkOTc5MzJmYTM3YmE3NDQ3Njg1NzNlOGRjNThhNmFmMSJ9fX0='
             uuid: 'fe7d85f9-8961-4208-95ad-339d87bb4c7d'
+        Illusion Block:
+            texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyYzU5ZmNkOTI2MjVlYzRkNTc4MTU5YTVmZDViZDQyNDdlMzgyZDQ5NDcyODRjZjUwZjk5OWM4NDExNmMwIn19fQ=='
+            uuid: '85539318-37d9-44d2-94f6-fc9b7f67bfc6'
+        Illusion Block 2:
+            texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQ2MmRkZmE1NTNjZTc4NjgzYmU0NzdiOGQ4NjU0ZjNkZmMzYWEyOTY5ODA4NDc4Yzk4N2FiODhjMzc2YTAifX19'
+            uuid: 'd27723ec-8f68-4bbf-a2b0-58f0adf0b7f9'
         Eye:
             texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmNlZjg3NzcyYWZkODViNDY4ZjRjN2ZiOTU3MWUzMTQzNWVmNzY1YWQ0MTNmZTQ2MDI2MjE1MDQyM2UyMDIxIn19fQ=='
             uuid: 'f9f975e2-cdf7-411b-9323-f5db9969f4e2'
@@ -1927,12 +1933,6 @@ heads:
         Green Core:
             texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzM1YTIxZDk1ZTg1OTc3NTlmYjI1OWM5NTFlYTY4ZTFhZDMzNzRjYTQxZTU2ZWYxMjZmZmFiZmUwM2MxZTAifX19'
             uuid: '4fb52742-0d4a-4836-a61a-30d6c1bfce50'
-        Illusion Block:
-            texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyYzU5ZmNkOTI2MjVlYzRkNTc4MTU5YTVmZDViZDQyNDdlMzgyZDQ5NDcyODRjZjUwZjk5OWM4NDExNmMwIn19fQ=='
-            uuid: '85539318-37d9-44d2-94f6-fc9b7f67bfc6'
-        Illusion Block 2:
-            texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQ2MmRkZmE1NTNjZTc4NjgzYmU0NzdiOGQ4NjU0ZjNkZmMzYWEyOTY5ODA4NDc4Yzk4N2FiODhjMzc2YTAifX19'
-            uuid: 'd27723ec-8f68-4bbf-a2b0-58f0adf0b7f9'
         Dragon Ball 1:
             texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDkyOTlkYzAyYzM1ZjFiYzFhNjg5NWQ3ZmMyOGRlNzdjYTg5MGQwNjYzY2VjNWRjZDZlYTg0NjBhZjExMjEifX19'
             uuid: 'bb69009e-efe8-4fef-a895-9ef238b30219'
@@ -2532,5 +2532,5 @@ heads:
             texture: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWE5YTgwMWYxMTljNjMxYTljOWZhMDQ3YTJjMjViYzBiNmNiZjkwODIzN2Q3NGNiMWE0MTA4NTEwN2M1OTcifX19'
             uuid: 'c20f81a4-89dc-41a4-9384-6be0ea7abd02'
 
-# Do NOT change this unless you know what you're doing
+# Don't change this number unless you want your config to reset
 version: 1
