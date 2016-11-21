@@ -16,10 +16,8 @@ public class DHMessenger {
     private String    prefix = "[DecoHeads] ";
 
     public DHMessenger(DecoHeads plugin) {
-
         this.plugin = plugin;
         this.logger = plugin.getLogger();
-
     }
 
     public void setPrefix(String prefix) {
@@ -44,15 +42,11 @@ public class DHMessenger {
         info(err);
 
         if (disable) {
-
             info("DecoHeads will now be disabled.");
             info("-----------------------------------------------");
             Bukkit.getPluginManager().disablePlugin(plugin);
-
         } else {
-
             info("-----------------------------------------------");
-
         }
     }
 }

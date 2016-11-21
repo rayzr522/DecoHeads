@@ -154,11 +154,8 @@ public class Reflector {
     }
 
     public static Object getHandle(HandleType type, Object object) {
-
         try {
-
             switch (type) {
-
                 case ENTITY:
                     return ENTITY_HANDLE.invoke(object, new Object[] {});
                 case PLAYER:
@@ -167,17 +164,12 @@ public class Reflector {
                     return SERVER_HANDLE.invoke(object, new Object[] {});
                 case WORLD:
                     return WORLD_HANDLE.invoke(object, new Object[] {});
-                default:
-                    return null;
-
             }
-
         } catch (Exception e) {
-
+            e.printStackTrace();
             return null;
-
         }
-
+        return null;
     }
 
     public static Object getNMSItem(ItemStack item) {
@@ -211,11 +203,7 @@ public class Reflector {
         }
 
         public static Class<?> getPacket(PacketType type, String name) {
-
-            return Reflector.getClass(ClassType.NMS, "Packet" + type.prefix + name);
-
+            return Reflector.getClass(ClassType.NMS, "Packet" + type.getPrefix() + name);
         }
-
     }
-
 }

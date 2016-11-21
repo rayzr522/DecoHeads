@@ -5,12 +5,17 @@ public enum PacketType {
     PlayOut("PlayOut"),
     PlayIn("PlayIn");
 
-    public String prefix;
+    private final String prefix;
 
     PacketType(String prefix) {
-
         this.prefix = prefix;
+    }
 
+    /**
+     * @return the packet prefix
+     */
+    public String getPrefix() {
+        return prefix;
     }
 
 }

@@ -25,14 +25,10 @@ public class CustomHead {
     private static Constructor<?> PROPERTY_CONSTRUCTOR;
 
     static {
-
         try {
-
-            // Might look familiar to mrCookieSlime :P
-            // If you (mrCookieSlime) have a problem with this, just let me
-            // know...
-            // I guess I could try to find a different way, although yours was
-            // pretty good
+            // I somewhat copied this from mrCookieSlime, but I only really used
+            // his code as a base so I could see what classes I needed to access
+            // via Reflection and all that fun stuff :P
 
             GAMEPROFILE = Class.forName("com.mojang.authlib.GameProfile");
             PROPERTY = Class.forName("com.mojang.authlib.properties.Property");
@@ -45,12 +41,9 @@ public class CustomHead {
             INSERT_PROPERTY = Reflector.getMethod(PROPERTY_MAP, "put");
 
         } catch (Exception e) {
-
             e.printStackTrace();
             DecoHeads.getInstance().err("Failed to load CustomHead", true);
-
         }
-
     }
 
     public static ItemStack getHead(String texture, String id, String name) {
@@ -80,16 +73,12 @@ public class CustomHead {
             Reflector.setFieldValue(meta, "profile", profile);
 
         } catch (Exception e) {
-
             System.err.println("Failed to create fake GameProfile for custom player head:");
             e.printStackTrace();
-
         }
 
         item.setItemMeta(meta);
 
         return item;
-
     }
-
 }

@@ -35,12 +35,18 @@ public class ConfigVersionChecker {
 
             File file = plugin.getConfigHandler().getFile(path);
             String newName = path + "." + new DateCodeFormat().format(new Date()) + ".backup";
-            file.renameTo(plugin.getConfigHandler().getFile(newName));
-            plugin.getConfigHandler().getFile(path).delete();
+            if (!file.renameTo(plugin.getConfigHandler().getFile(newName))) {
+                throw new IOException("Failed to backup old files! Please restore using the " + path + ".ERR.backup file!");
+            }
+            if (!plugin.getConfigHandler().getFile(path).delete()) {
+                throw new IOException("Failed to delete old files! Please restore using the " + path + ".ERR.backup file!");
+            }
             config = plugin.getConfigHandler().getConfig(path);
         }
 
-        backup.delete();
+        if (!backup.delete()) {
+            plugin.err("Failed to delete the temporary backup file at " + path + ".ERR.backup. Please delete this file manually.", false);
+        }
 
         if (tries > 0) {
             Arrays.stream(updateMessage).forEach(plugin::log);

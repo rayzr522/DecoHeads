@@ -20,7 +20,6 @@ public class DecoHeads extends JavaPlugin {
     private static DecoHeads instance;
 
     public DHMessenger       logger;
-    private GuiListener      listener;
 
     private ConfigHandler    configHandler;
     private Localization     localization;
@@ -38,9 +37,7 @@ public class DecoHeads extends JavaPlugin {
             return;
         }
 
-        listener = new GuiListener(this);
-        getServer().getPluginManager().registerEvents(listener, this);
-
+        // Create the head manager (but don't load anything yet)
         headManager = new HeadManager(this);
 
         // Create the config handler
@@ -53,6 +50,8 @@ public class DecoHeads extends JavaPlugin {
         }
 
         setupCommands();
+
+        getServer().getPluginManager().registerEvents(new GuiListener(), this);
 
         new BukkitRunnable() {
             public void run() {

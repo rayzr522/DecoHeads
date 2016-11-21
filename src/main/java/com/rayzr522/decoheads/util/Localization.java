@@ -21,7 +21,7 @@ public class Localization {
     /**
      * The version to check in the config
      */
-    public static final int           CONFIG_VERSION          = 1;
+    public static final int           CONFIG_VERSION   = 1;
 
     /**
      * Matches any valid YAML path inside of double square brackets.
@@ -83,7 +83,7 @@ public class Localization {
         // 2. Variable substitution
         matcher = VAR_SUBSTITUTION.matcher(output);
         while (matcher.find()) {
-            output.replaceAll(matcher.group(), raw.getOrDefault(matcher.group(1), matcher.group(1)));
+            output = output.replaceAll(matcher.group(), raw.getOrDefault(matcher.group(1), matcher.group(1)));
         }
 
         return output;

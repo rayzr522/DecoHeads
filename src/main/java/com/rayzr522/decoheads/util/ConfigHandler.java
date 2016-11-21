@@ -14,7 +14,9 @@ public class ConfigHandler {
     public ConfigHandler(DecoHeads plugin) {
         this.plugin = plugin;
         if (!plugin.getDataFolder().exists()) {
-            plugin.getDataFolder().mkdirs();
+            if (!plugin.getDataFolder().mkdirs()) {
+                plugin.err("Failed to create the plugin data folder at " + plugin.getDataFolder().getAbsolutePath(), false);
+            }
         }
     }
 

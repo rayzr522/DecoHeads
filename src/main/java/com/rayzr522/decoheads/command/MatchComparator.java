@@ -3,14 +3,17 @@
  */
 package com.rayzr522.decoheads.command;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * @author Rayzr
  *
  */
-public class MatchComparator implements Comparator<String> {
-    private String filter;
+public class MatchComparator implements Comparator<String>, Serializable {
+    private static final long serialVersionUID = 3701492487376136251L;
+
+    private String            filter;
 
     public MatchComparator(String filter) {
         this.filter = filter;
