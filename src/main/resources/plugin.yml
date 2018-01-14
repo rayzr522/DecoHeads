@@ -1,8 +1,9 @@
 name: DecoHeads
-main: com.rayzr522.decoheads.DecoHeads
-version: 1.4
+main: me.rayzr522.decoheads.DecoHeads
+version: ${project.version}
 description: Adds lots of decorative heads that can be used for building / design
 author: Rayzr522
+url: ${project.url}
 commands:
   decoheads:
     description: Opens the DecoHeads inventory
