@@ -4,7 +4,7 @@
 
     <groupId>me.rayzr522</groupId>
     <artifactId>decoheads</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <name>DecoHeads</name>
     <description>Adds lots of decorative heads that can be used for building / design</description>
     <url>https://git.io/decoheads</url>
