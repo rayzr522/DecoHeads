@@ -3,9 +3,9 @@ package me.rayzr522.decoheads.util;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ public class Localization {
     /**
      * The version to check in the config
      */
-    private static final int CONFIG_VERSION = 1;
+    private static final int CONFIG_VERSION = 2;
 
     /**
      * Matches any valid YAML path inside of double square brackets.
@@ -39,8 +39,6 @@ public class Localization {
                 "This feature is in place so that the developer can add new",
                 "messages, and have it update in everyone else's config files.",
                 "--------------------------------------------------------------");
-
-        messages = new HashMap<>();
 
         // First run: load all messages
         Map<String, String> raw = config.getKeys(true).stream()
@@ -82,7 +80,7 @@ public class Localization {
         }
         String message = messages.get(key);
         for (int i = 0; i < strings.length; i++) {
-            message = message.replace("{" + i + "}", strings[i].toString());
+            message = message.replace("{" + i + "}", Objects.toString(strings[i]));
         }
         return TextUtils.colorize(message);
     }

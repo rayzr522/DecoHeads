@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class ConfigHandler {
 
@@ -28,7 +29,13 @@ public class ConfigHandler {
         if (!getFile(name).exists() && plugin.getResource(name) != null) {
             plugin.saveResource(name, false);
         }
-        return YamlConfiguration.loadConfiguration(getFile(name));
+
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(getFile(name));
+        if (plugin.getResource(name) != null) {
+            config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(name))));
+        }
+
+        return config;
     }
 
     public void saveConfig(String name, FileConfiguration config) throws IOException {

@@ -74,7 +74,7 @@ public abstract class Component {
      * @param gui    the gui itself
      * @param offset the offset of the component
      */
-    public void render(Player player, Gui gui, Dimension offset) {
+    public void render(Player player, GUI gui, Dimension offset) {
         for (int x = 0; x < size.getX(); x++) {
             for (int y = 0; y < size.getY(); y++) {
                 gui.setItem(offset.getX() + x, offset.getY() + y, simpleRender(player, x, y));

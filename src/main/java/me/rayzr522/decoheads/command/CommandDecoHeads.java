@@ -1,8 +1,8 @@
 package me.rayzr522.decoheads.command;
 
 import me.rayzr522.decoheads.DecoHeads;
-import me.rayzr522.decoheads.gui.CategoryGui;
-import me.rayzr522.decoheads.gui.HeadsGui;
+import me.rayzr522.decoheads.gui.CategoryGUI;
+import me.rayzr522.decoheads.gui.HeadsGUI;
 import me.rayzr522.decoheads.util.ArrayUtils;
 import me.rayzr522.decoheads.util.NamePredicate;
 import org.bukkit.command.Command;
@@ -26,7 +26,6 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
-
         if (!(sender instanceof Player)) {
             sender.sendMessage(plugin.tr("command.only-players"));
             return true;
@@ -34,29 +33,19 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
 
         Player p = (Player) sender;
 
-        if (!p.hasPermission("decoheads.use")) {
-            p.sendMessage(plugin.tr("command.no-permission"));
+        if (!plugin.checkPermission("use", p, true)) {
             return true;
         }
 
         if (args.length < 1) {
-            // new HeadsGui(p, 1, null).render();
-            new CategoryGui(p).render();
+            // new HeadsGUI(p, 1, null).render();
+            new CategoryGUI(p).render();
             return true;
         }
 
-        String arg = args[0].toLowerCase();
+        String sub = args[0].toLowerCase();
 
-        if (arg.equals("reload") || arg.equals("rl")) {
-            if (!p.hasPermission("decoheads.reload")) {
-                p.sendMessage(plugin.tr("no-permission"));
-                return true;
-            }
-
-            // Load all config stuff
-            plugin.reload();
-            p.sendMessage(plugin.tr("command.decoheads.reloaded"));
-        } else if (arg.equals("search") || arg.equals("find")) {
+        if (sub.equals("search") || sub.equals("find")) {
             if (args.length < 2) {
                 p.sendMessage(plugin.tr("command.decoheads.find.no-search"));
                 p.sendMessage(plugin.tr("command.decoheads.find.usage"));
@@ -64,27 +53,27 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             }
 
             String search = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
-            HeadsGui gui = new HeadsGui(p, 1, new NamePredicate(search));
+            HeadsGUI gui = new HeadsGUI(p, 1, new NamePredicate(search));
 
             if (gui.getHeads().size() < 1) {
                 p.sendMessage(plugin.tr("command.decoheads.find.no-heads-found", search));
             } else {
                 gui.render();
             }
-        } else if (arg.matches("\\d+")) {
+        } else if (sub.matches("\\d+")) {
             int page;
             try {
-                page = Integer.parseInt(arg);
+                page = Integer.parseInt(sub);
             } catch (NumberFormatException e) {
                 // Will basically only happen if the number is too big
-                p.sendMessage(plugin.tr("command.decoheads.invalid-page", arg, plugin.getHeadManager().maxPages()));
+                p.sendMessage(plugin.tr("command.decoheads.invalid-page", sub, plugin.getHeadManager().maxPages()));
                 return true;
             }
 
             if (page < 1 || page > plugin.getHeadManager().maxPages()) {
                 p.sendMessage(plugin.tr("command.decoheads.invalid-page", page, plugin.getHeadManager().maxPages()));
             } else {
-                new HeadsGui(p, page, null).render();
+                new HeadsGUI(p, page, null).render();
             }
         } else {
             p.sendMessage(plugin.tr("command.decoheads.usage"));

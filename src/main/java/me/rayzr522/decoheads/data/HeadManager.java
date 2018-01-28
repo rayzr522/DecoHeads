@@ -5,7 +5,7 @@ package me.rayzr522.decoheads.data;
 
 import me.rayzr522.decoheads.Category;
 import me.rayzr522.decoheads.DecoHeads;
-import me.rayzr522.decoheads.gui.HeadsGui;
+import me.rayzr522.decoheads.gui.HeadsGUI;
 import me.rayzr522.decoheads.util.NamePredicate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -83,7 +83,7 @@ public class HeadManager {
     }
 
     public int maxPages(List<Head> heads) {
-        return (int) Math.ceil((double) heads.size() / (double) HeadsGui.SIZE);
+        return (int) Math.ceil((double) heads.size() / (double) HeadsGUI.SIZE);
     }
 
     public int maxPages() {

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class ClickEvent {
 
     private Player player;
-    private Gui gui;
+    private GUI gui;
     private ItemStack item;
     private ClickType type;
     private int offsetX;
@@ -21,7 +21,7 @@ public class ClickEvent {
     private boolean cancelled = true;
     private boolean shouldClose = false;
 
-    public ClickEvent(Player player, Gui gui, ItemStack item, ClickType type, Dimension offset) {
+    ClickEvent(Player player, GUI gui, ItemStack item, ClickType type, Dimension offset) {
         this.player = player;
         this.gui = gui;
         this.item = item;
@@ -96,9 +96,9 @@ public class ClickEvent {
     }
 
     /**
-     * @return The Gui that this event is associated with
+     * @return The GUI that this event is associated with
      */
-    public Gui getGui() {
+    public GUI getGui() {
         return gui;
     }
 

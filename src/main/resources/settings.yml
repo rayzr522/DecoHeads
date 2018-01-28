@@ -1,0 +1,7 @@
+economy:
+    # Use economy?
+    enabled: false
+    # Show heads that have no cost?
+    show-free-heads: false
+    # Default cost for heads. This is used when the cost of a head is set to -1.
+    default-cost: 0.0

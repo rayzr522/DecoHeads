@@ -6,15 +6,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class GuiListener implements Listener {
+public class GUIListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player)) {
+        if (e.getWhoClicked() == null || e.getInventory() == null) {
             return;
         }
 
-        if (!(e.getInventory().getHolder() instanceof Gui)) {
+        if (!(e.getWhoClicked() instanceof Player) || !(e.getInventory().getHolder() instanceof GUI)) {
             return;
         }
 
@@ -24,13 +24,12 @@ public class GuiListener implements Listener {
 
         e.setCancelled(true);
 
+        // They clicked outside of the top inventory, in their own inventory.
         if (e.getRawSlot() >= e.getInventory().getSize()) {
             return;
         }
 
-        Gui holder = (Gui) e.getInventory().getHolder();
-
-        holder.onClick(e);
+        ((GUI) e.getInventory().getHolder()).onClick(e);
     }
 
 }

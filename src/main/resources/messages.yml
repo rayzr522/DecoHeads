@@ -3,16 +3,28 @@ prefix: '&8[&b&lDecoHeads&8]&3 '
 # ------------------------------------------------------------------------------------------ #
 
 command:
-    no-permission: "&cYou don't have permission to do that!"
+    no-permission: "&cYou need the permission '{0}' to do that!"
     only-players: "&cOnly players in-game can use this command"
+    not-a-decimal: "&c'{0}' is not a valid decimal number!"
     decoheads:
-        usage: "Usage: &7/decoheads [reload|rl|search <text>|find <text>|page#]"
+        usage: "Usage: &7/decoheads [search <text>]|<page>"
         invalid-page: "&cPage {0} does not exist (min: 1, max: {1})"
-        reloaded: "&eConfig reloaded"
         find:
+            usage: "Usage: &7/decoheads search <text>"
             no-search: "&cYou must specify what to search for!"
             no-heads-found: "No heads were found that matched '{0}'"
-            usage: "Usage: &7/decoheads search <text>"
+    decoheadsadmin:
+        usage: "Usage: &7/decoheadsadmin reload|settings|editor"
+        reloaded: "&eConfig & settings reloaded"
+
+# ------------------------------------------------------------------------------------------ #
+
+economy:
+    # 3.7 money -> "$3.7"
+    price-format: "${0}"
+    free: "free"
+    not-enough-money: "&cYou don't have {0}!"
+    failed: "&cFailed to withdraw {0}"
 
 # ------------------------------------------------------------------------------------------ #
 
@@ -21,12 +33,38 @@ gui:
         title: "&3&l&nDecoHeads"
     categories:
         title: "&3&l&nCategories"
+    settings:
+        title: "&3&l&nSettings"
+        economy:
+            name: "Use Economy?"
+        show-free-heads:
+            name: "Show Free Heads?"
+    search:
+        prompt: "&ePlease enter a term to search for heads:"
+        searching: "&eSearching for '{0}'... please select a head"
+    editor:
+        title: "&3&l&nHead Editor"
+    head-editor:
+        title: "&3&l&n{0}"
+        properties:
+            name:
+                prompt: "&ePlease enter a new name for '{0}':"
+                success: "&eSet name to '{0}'"
+            category:
+                prompt: "&ePlease enter a new category for '{0}' ({1}):"
+                invalid: "&cThe category '{0}' is not valid!"
+                success: "&eSet category to '{0}'"
+            price:
+                prompt: "&ePlease enter a new price for '{0}' (-1 to use default):"
+                success: "&eSet price to {0}"
+
 
 # ------------------------------------------------------------------------------------------ #
 
 item:
     name: "&8» &b&n{0}&8 «"
     lore: "\n&7&oMade with DecoHeads\n "
+    cost: "\n&7Cost: &e{0}"
 
 # ------------------------------------------------------------------------------------------ #
 
@@ -50,6 +88,23 @@ button:
             back: |
 
                 &7&oPress this to go back
+    editor:
+        search:
+            name: "&3Search"
+            lore: |
+                &7&oPress this to search for
+                &7&oa head to edit.
+    head-editor:
+        name: "&3Change Name"
+        category: "&3Change Category"
+        price: "&3Change Price"
+        current-settings:
+            name: "&3Currently editing: &b{0}"
+            lore: |
+                &7UUID: &b{1}
+                &7Category: &b{2}
+                &7Price: &b{3} (real: {4})
+
 
 # ------------------------------------------------------------------------------------------ #
 
@@ -70,4 +125,4 @@ category:
 # ------------------------------------------------------------------------------------------ #
 
 # Don't change this number unless you want your config to reset
-version: 1
+version: 2

@@ -4,6 +4,7 @@
 package me.rayzr522.decoheads.data;
 
 import me.rayzr522.decoheads.Category;
+import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.util.CustomHead;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +34,7 @@ public class Head {
 
         this.texture = config.getString("texture");
         this.uuid = config.getString("uuid", UUID.randomUUID().toString());
-        this.cost = config.getDouble("cost", 0.0);
+        this.cost = config.getDouble("cost", -1);
     }
 
     public static Head load(String name, Category category, ConfigurationSection config) {
@@ -57,8 +58,16 @@ public class Head {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getTexture() {
@@ -71,6 +80,18 @@ public class Head {
 
     public double getCost() {
         return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public double computeCost() {
+        return cost != -1 ? cost : DecoHeads.getInstance().getSettings().getDefaultHeadCost();
+    }
+
+    public boolean hasCost() {
+        return computeCost() > 0.0;
     }
 
     @Override

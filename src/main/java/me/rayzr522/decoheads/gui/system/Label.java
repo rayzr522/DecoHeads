@@ -5,6 +5,7 @@ package me.rayzr522.decoheads.gui.system;
 
 import me.rayzr522.decoheads.util.ArrayUtils;
 import me.rayzr522.decoheads.util.TextUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,12 +38,10 @@ public class Label extends Component {
         this.lore = Arrays.asList(lore);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.rayzr522.decoheads.gui.Component#simpleRender(org.bukkit.entity.
-     * Player, int, int)
-     */
+    public static Label background(int x, int y, int width, int height) {
+        return new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(width, height), new Dimension(x, y), " ");
+    }
+
     @Override
     public ItemStack simpleRender(Player player, int offsetX, int offsetY) {
         ItemStack newItem = item.clone();
@@ -82,15 +81,15 @@ public class Label extends Component {
     /**
      * @param lore the lore to set
      */
-    public void setLore(String... lore) {
-        setLore(Arrays.asList(lore));
+    private void setLore(List<String> lore) {
+        this.lore = lore;
     }
 
     /**
      * @param lore the lore to set
      */
-    private void setLore(List<String> lore) {
-        this.lore = lore;
+    public void setLore(String... lore) {
+        setLore(Arrays.asList(lore));
     }
 
     public void addLore(String... lore) {
