@@ -2,6 +2,7 @@ package me.rayzr522.decoheads;
 
 import me.rayzr522.decoheads.gui.system.Dimension;
 import me.rayzr522.decoheads.util.TextUtils;
+import org.bukkit.command.CommandSender;
 
 /**
  * @author Rayzr
@@ -43,9 +44,16 @@ public enum Category {
         return position;
     }
 
+    /**
+     * @param sender The {@link CommandSender} to check.
+     * @return Whether or not the sender has permission to access this category.
+     */
+    public boolean hasPermission(CommandSender sender) {
+        return DecoHeads.getInstance().checkPermission(String.format("category.%s", key), sender, false);
+    }
+
     @Override
     public String toString() {
         return TextUtils.capitalize(name().replace('_', ' '));
     }
-
 }

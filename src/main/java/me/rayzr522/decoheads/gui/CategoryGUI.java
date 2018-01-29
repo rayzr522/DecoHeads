@@ -26,16 +26,38 @@ public class CategoryGUI extends GUI {
     }
 
     private void init() {
-        addComponent(new Label(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15), new Dimension(9, 5), new Dimension(0, 0), " "));
+        addComponent(Label.background(0, 0, 9, 5));
+        DecoHeads plugin = DecoHeads.getInstance();
 
         for (Category category : Category.values()) {
-            List<Head> heads = plugin.getHeadManager().searchHeads(h -> h.getCategory() == category);
-            Head head = heads.get((int) (Math.random() * (heads.size() - 1)));
+            String categoryName = plugin.tr(String.format("category.%s", category.getKey()));
 
-            Button button = new Button(head.getItem(), Dimension.ONE, category.getPosition(), e -> new HeadsGUI(e.getPlayer(), 1, h -> h.getCategory() == category, this).render(), DecoHeads.getInstance().tr("button.categories.category.name", DecoHeads.getInstance().tr("category." + category.getKey())),
-                    DecoHeads.getInstance().tr("button.categories.category.lore").split("\n"));
+            if (category.hasPermission(getPlayer())) {
+                List<Head> heads = this.plugin.getHeadManager().searchHeads(h -> h.getCategory() == category);
+                Head head = heads.get((int) (Math.random() * (heads.size() - 1)));
 
-            addComponent(button);
+                Button categoryButton = new Button(
+                        head.getItem(),
+                        Dimension.ONE,
+                        category.getPosition(),
+                        e -> new HeadsGUI(e.getPlayer(), 1, h -> h.getCategory() == category, this).render(),
+                        plugin.tr("button.categories.category.name", categoryName),
+                        plugin.tr("button.categories.category.lore").split("\n")
+                );
+
+                addComponent(categoryButton);
+            } else {
+                Button disabledButton = new Button(
+                        new ItemStack(Material.BARRIER),
+                        Dimension.ONE,
+                        category.getPosition(),
+                        e -> plugin.checkPermission(String.format("category.%s", category.getKey()), e.getPlayer(), true),
+                        plugin.tr("button.categories.category-disabled.name", categoryName),
+                        plugin.tr("button.categories.category-disabled.lore").split("\n")
+                );
+
+                addComponent(disabledButton);
+            }
         }
     }
 

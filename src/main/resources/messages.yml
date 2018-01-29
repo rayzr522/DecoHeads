@@ -76,6 +76,11 @@ button:
                 &7&oPress this button to
                 &7&oopen the heads GUI for
                 &7&othis category.
+        category-disabled:
+            name: "&8» &c{0}&8 «"
+            lore: |
+                &7&oYou don't have access
+                &7&oto this category.
     heads:
         next-page: "Next Page"
         previous-page: "Previous Page"

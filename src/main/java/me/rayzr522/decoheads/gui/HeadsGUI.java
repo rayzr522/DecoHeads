@@ -163,7 +163,10 @@ public class HeadsGUI extends GUI {
     }
 
     public List<Head> getHeads() {
-        return plugin.getHeadManager().getHeads().stream().filter(filter).collect(Collectors.toList());
+        return plugin.getHeadManager().getHeads().stream()
+                .filter(head -> head.getCategory().hasPermission(getPlayer()))
+                .filter(filter)
+                .collect(Collectors.toList());
     }
 
     private void onClickHead(ClickEvent e, Head head) {
