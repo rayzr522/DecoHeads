@@ -1,10 +1,16 @@
-name: DecoHeads
-main: com.rayzr522.decoheads.DecoHeads
-version: 1.4
-description: Adds lots of decorative heads that can be used for building / design
+name: ${project.name}
+main: me.rayzr522.decoheads.DecoHeads
+version: ${project.version}
+description: ${project.description}
 author: Rayzr522
+url: ${project.url}
+depend: [Vault]
 commands:
   decoheads:
     description: Opens the DecoHeads inventory
     aliases: [dh, heads]
+    usage: Oops! Something went wrong!
+  decoheadsadmin:
+    description: DecoHeads admin commands
+    aliases: [dhadmin, dha]
     usage: Oops! Something went wrong!
