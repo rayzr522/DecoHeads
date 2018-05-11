@@ -1,6 +1,7 @@
 package me.rayzr522.decoheads.command;
 
 import me.rayzr522.decoheads.DecoHeads;
+import me.rayzr522.decoheads.data.Head;
 import me.rayzr522.decoheads.gui.CategoryGUI;
 import me.rayzr522.decoheads.gui.HeadsGUI;
 import me.rayzr522.decoheads.util.ArrayUtils;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommandDecoHeads implements CommandExecutor, TabCompleter {
 
@@ -84,18 +86,18 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return sort(Arrays.asList("reload", "rl", "search", "find", "#"), args[0]);
+            return Stream.of("reload", "rl", "search", "find", "#")
+                    .sorted(new MatchComparator(args[0]))
+                    .collect(Collectors.toList());
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
             String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
-            return sort(plugin.getHeadManager().matchHeads(filter), filter);
+            return plugin.getHeadManager().getHeadsFor(sender).stream()
+                    .filter(new NamePredicate(filter))
+                    .map(Head::getName)
+                    .sorted(new MatchComparator(filter))
+                    .collect(Collectors.toList());
         }
         return Collections.emptyList();
-    }
-
-    private List<String> sort(List<String> list, String filter) {
-        return list.stream()
-                .sorted(new MatchComparator(filter))
-                .collect(Collectors.toList());
     }
 
 }

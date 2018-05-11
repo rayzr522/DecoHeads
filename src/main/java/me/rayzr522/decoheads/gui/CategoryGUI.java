@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Rayzr
@@ -33,7 +34,9 @@ public class CategoryGUI extends GUI {
             String categoryName = plugin.tr(String.format("category.%s", category.getKey()));
 
             if (category.hasPermission(getPlayer())) {
-                List<Head> heads = this.plugin.getHeadManager().searchHeads(h -> h.getCategory() == category);
+                List<Head> heads = this.plugin.getHeadManager().getHeads().stream()
+                        .filter(head -> head.getCategory() == category)
+                        .collect(Collectors.toList());
                 Head head = heads.get((int) (Math.random() * (heads.size() - 1)));
 
                 Button categoryButton = new Button(

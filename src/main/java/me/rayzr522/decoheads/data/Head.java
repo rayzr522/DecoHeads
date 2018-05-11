@@ -6,8 +6,10 @@ package me.rayzr522.decoheads.data;
 import me.rayzr522.decoheads.Category;
 import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.util.CustomHead;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permissible;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,6 +94,10 @@ public class Head {
 
     public boolean hasCost() {
         return computeCost() > 0.0;
+    }
+
+    public boolean isUseableBy(CommandSender sender) {
+        return DecoHeads.getInstance().checkPermission(String.format("head.%s", name.toLowerCase().replaceAll("[^a-z0-9-]", "-")), sender, false);
     }
 
     @Override

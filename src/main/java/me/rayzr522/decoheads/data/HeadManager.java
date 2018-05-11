@@ -1,12 +1,9 @@
-/**
- *
- */
 package me.rayzr522.decoheads.data;
 
 import me.rayzr522.decoheads.Category;
 import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.gui.HeadsGUI;
-import me.rayzr522.decoheads.util.NamePredicate;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -14,7 +11,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -70,15 +66,10 @@ public class HeadManager {
         return heads;
     }
 
-    public List<Head> searchHeads(Predicate<Head> filter) {
+    public List<Head> getHeadsFor(CommandSender sender) {
         return heads.stream()
-                .filter(filter)
-                .collect(Collectors.toList());
-    }
-
-    public List<String> matchHeads(String query) {
-        return searchHeads(new NamePredicate(query)).stream()
-                .map(Head::getName)
+                .filter(head -> head.getCategory().hasPermission(sender))
+                .filter(head -> head.isUseableBy(sender))
                 .collect(Collectors.toList());
     }
 

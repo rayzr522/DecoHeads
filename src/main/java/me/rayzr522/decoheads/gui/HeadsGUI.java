@@ -1,6 +1,3 @@
-/**
- *
- */
 package me.rayzr522.decoheads.gui;
 
 import me.rayzr522.decoheads.DecoHeads;
@@ -163,8 +160,7 @@ public class HeadsGUI extends GUI {
     }
 
     public List<Head> getHeads() {
-        return plugin.getHeadManager().getHeads().stream()
-                .filter(head -> head.getCategory().hasPermission(getPlayer()))
+        return plugin.getHeadManager().getHeadsFor(getPlayer()).stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
