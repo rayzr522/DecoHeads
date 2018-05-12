@@ -2,10 +2,11 @@ package me.rayzr522.decoheads;
 
 import me.rayzr522.decoheads.command.CommandDecoHeads;
 import me.rayzr522.decoheads.command.CommandDecoHeadsAdmin;
+import me.rayzr522.decoheads.config.Settings;
 import me.rayzr522.decoheads.data.HeadManager;
 import me.rayzr522.decoheads.gui.system.GUIListener;
 import me.rayzr522.decoheads.util.ConfigHandler;
-import me.rayzr522.decoheads.util.Localization;
+import me.rayzr522.decoheads.config.Localization;
 import me.rayzr522.decoheads.util.Reflector;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

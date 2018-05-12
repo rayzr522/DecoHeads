@@ -1,7 +1,7 @@
 package me.rayzr522.decoheads.gui;
 
 import me.rayzr522.decoheads.DecoHeads;
-import me.rayzr522.decoheads.Settings;
+import me.rayzr522.decoheads.config.Settings;
 import me.rayzr522.decoheads.gui.system.Button;
 import me.rayzr522.decoheads.gui.system.Dimension;
 import me.rayzr522.decoheads.gui.system.GUI;

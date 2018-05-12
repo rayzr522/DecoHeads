@@ -1,5 +1,7 @@
-package me.rayzr522.decoheads.util;
+package me.rayzr522.decoheads.config;
 
+import me.rayzr522.decoheads.util.ConfigVersionChecker;
+import me.rayzr522.decoheads.util.TextUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.IOException;
