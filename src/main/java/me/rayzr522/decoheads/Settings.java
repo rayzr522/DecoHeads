@@ -1,10 +1,17 @@
 package me.rayzr522.decoheads;
 
+import me.rayzr522.decoheads.util.ConfigVersionChecker;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.IOException;
 
 public class Settings {
+
+    /**
+     * The version to check in the config
+     */
+    private static final int CONFIG_VERSION = 1;
+
     private final DecoHeads plugin;
     private YamlConfiguration config;
 
@@ -12,8 +19,8 @@ public class Settings {
         this.plugin = plugin;
     }
 
-    void load() {
-        config = plugin.getConfigHandler().getConfig("settings.yml");
+    void load() throws IOException {
+        config = ConfigVersionChecker.updateConfig("settings.yml", CONFIG_VERSION);
     }
 
     public boolean save() {

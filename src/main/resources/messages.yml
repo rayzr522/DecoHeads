@@ -7,12 +7,15 @@ command:
     only-players: "&cOnly players in-game can use this command"
     not-a-decimal: "&c'{0}' is not a valid decimal number!"
     decoheads:
-        usage: "Usage: &7/decoheads [search <text>]|<page>"
+        usage: "Usage: &7/decoheads [search <text>]|[get <username>]|<page>"
         invalid-page: "&cPage {0} does not exist (min: 1, max: {1})"
         find:
             usage: "Usage: &7/decoheads search <text>"
             no-search: "&cYou must specify what to search for!"
             no-heads-found: "No heads were found that matched '{0}'"
+        get:
+            usage: "Usage: &7/decoheads get <username>"
+            given: "Gave you the head of '{0}'"
     decoheadsadmin:
         usage: "Usage: &7/decoheadsadmin reload|settings|editor"
         reloaded: "&eConfig & settings reloaded"
@@ -130,4 +133,4 @@ category:
 # ------------------------------------------------------------------------------------------ #
 
 # Don't change this number unless you want your config to reset
-version: 2
+version: 3

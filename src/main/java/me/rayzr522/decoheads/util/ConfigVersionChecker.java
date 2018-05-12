@@ -7,15 +7,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
  * @author Rayzr
  */
-class ConfigVersionChecker {
+public class ConfigVersionChecker {
 
-    public static YamlConfiguration updateConfig(String path, int targetVersion, String... updateMessage) throws IOException {
+    public static YamlConfiguration updateConfig(String path, int targetVersion) throws IOException {
         DecoHeads plugin = DecoHeads.getInstance();
         ConfigHandler ch = plugin.getConfigHandler();
 
@@ -44,7 +43,18 @@ class ConfigVersionChecker {
         Files.deleteIfExists(backup);
 
         if (tries > 0) {
-            Arrays.stream(updateMessage).forEach(plugin.getLogger()::info);
+            plugin.getLogger().info(
+                    String.format(
+                            "--------------------------------------------------------------\n" +
+                                    "Upgraded %1$s config to v%2$d\n" +
+                                    "Please take a look at the new %1$s to see what changes\n" +
+                                    "have been made, and then feel free to copy your customized\n" +
+                                    "settings from your backed-up %1$s over to the new one.\n" +
+                                    "--------------------------------------------------------------",
+                            path,
+                            targetVersion
+                    )
+            );
         }
 
         return config;

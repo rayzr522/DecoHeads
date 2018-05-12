@@ -18,7 +18,7 @@ public class Localization {
     /**
      * The version to check in the config
      */
-    private static final int CONFIG_VERSION = 2;
+    private static final int CONFIG_VERSION = 3;
 
     /**
      * Matches any valid YAML path inside of double square brackets.
@@ -29,16 +29,7 @@ public class Localization {
     private Map<String, String> messages;
 
     private Localization(String path) throws IOException {
-        YamlConfiguration config = ConfigVersionChecker.updateConfig(path, CONFIG_VERSION,
-                "--------------------------------------------------------------",
-                "Upgraded Localization config to v" + CONFIG_VERSION,
-                "Please take a look at the new messages.yml to see what changes",
-                "have been made, and then feel free to copy your customized",
-                "settings from your backed-up messages.yml over to the new one.",
-                "",
-                "This feature is in place so that the developer can add new",
-                "messages, and have it update in everyone else's config files.",
-                "--------------------------------------------------------------");
+        YamlConfiguration config = ConfigVersionChecker.updateConfig(path, CONFIG_VERSION);
 
         // First run: load all messages
         Map<String, String> raw = config.getKeys(true).stream()
