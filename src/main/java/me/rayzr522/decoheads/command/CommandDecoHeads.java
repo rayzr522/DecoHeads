@@ -6,11 +6,16 @@ import me.rayzr522.decoheads.gui.CategoryGUI;
 import me.rayzr522.decoheads.gui.HeadsGUI;
 import me.rayzr522.decoheads.util.ArrayUtils;
 import me.rayzr522.decoheads.util.NamePredicate;
+import me.rayzr522.decoheads.util.TextUtils;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +67,31 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             } else {
                 gui.render();
             }
+        } else if (sub.equals("get") && plugin.getSettings().isCustomHeadsEnabled()) {
+            if (args.length < 2) {
+                p.sendMessage(plugin.tr("command.decoheads.get.no-username"));
+                p.sendMessage(plugin.tr("command.decoheads.get.usage"));
+                return true;
+            }
+
+            String username = args[1];
+            ItemStack skull = makeSkull(username);
+
+            double cost = plugin.getSettings().getCustomHeadsCost();
+
+            if (plugin.getSettings().isEconomyEnabled() && cost > 0.0) {
+                Economy eco = plugin.getEconomy();
+                if (eco.getBalance(p) < cost) {
+                    p.sendMessage(plugin.tr("economy.not-enough-money", TextUtils.formatPrice(cost)));
+                    return true;
+                }
+                eco.withdrawPlayer(p, cost);
+                p.sendMessage(plugin.tr("command.decoheads.get.given-cost", username, TextUtils.formatPrice(cost)));
+            } else {
+                p.sendMessage(plugin.tr("command.decoheads.get.given", username));
+            }
+
+            p.getInventory().addItem(skull);
         } else if (sub.matches("\\d+")) {
             int page;
             try {
@@ -98,6 +128,15 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
+    }
+
+    @SuppressWarnings("deprecation")
+    public ItemStack makeSkull(String username) {
+        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
+        skullMeta.setOwner(username);
+        head.setItemMeta(skullMeta);
+        return head;
     }
 
 }

@@ -57,4 +57,20 @@ public class Settings {
     public void setDefaultHeadCost(double headCost) {
         config.set("economy.default-cost", headCost);
     }
+
+    public boolean isCustomHeadsEnabled() {
+        return config.getBoolean("custom-heads.enabled");
+    }
+
+    public void setCustomHeadsEnabled(boolean customHeadsEnabled) {
+        config.set("custom-heads.enabled", customHeadsEnabled);
+    }
+
+    public double getCustomHeadsCost() {
+        return config.getDouble("custom-heads.cost");
+    }
+
+    public void setCustomHeadsCost(double customHeadsCost) {
+        config.set("custom-heads.cost", customHeadsCost);
+    }
 }

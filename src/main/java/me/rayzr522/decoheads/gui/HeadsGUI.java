@@ -171,7 +171,7 @@ public class HeadsGUI extends GUI {
         if (head.hasCost() && plugin.getSettings().isEconomyEnabled()) {
             if (plugin.getEconomy().getBalance(e.getPlayer()) < head.computeCost()) {
                 e.setShouldClose(true);
-                e.getPlayer().sendMessage(plugin.tr("economy.not-enough-money", plugin.tr("economy.price-format", TextUtils.formatDecimal(head.computeCost()))));
+                e.getPlayer().sendMessage(plugin.tr("economy.not-enough-money", TextUtils.formatPrice(head.computeCost())));
                 return;
             }
 

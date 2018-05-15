@@ -1,6 +1,8 @@
 custom-heads:
     # Allow getting custom heads by username?
     enabled: true
+    # The cost for custom heads that are retrieved by username.
+    cost: 0.0
 
 economy:
     # Use economy?
@@ -9,7 +11,5 @@ economy:
     show-free-heads: false
     # Default cost for heads. This is used when the cost of a head is set to -1.
     default-cost: 0.0
-    # The cost for custom heads that are retrieved by username.
-    custom-head-cost: 0.0
 
 version: 1

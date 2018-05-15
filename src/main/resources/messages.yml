@@ -4,7 +4,7 @@ prefix: '&8[&b&lDecoHeads&8]&3 '
 
 command:
     no-permission: "&cYou need the permission '{0}' to do that!"
-    only-players: "&cOnly players in-game can use this command"
+    only-players: "&cOnly players in-game can use this command!"
     not-a-decimal: "&c'{0}' is not a valid decimal number!"
     decoheads:
         usage: "Usage: &7/decoheads [search <text>]|[get <username>]|<page>"
@@ -15,7 +15,9 @@ command:
             no-heads-found: "No heads were found that matched '{0}'"
         get:
             usage: "Usage: &7/decoheads get <username>"
+            no-username: "&cYou must specify a username!"
             given: "Gave you the head of '{0}'"
+            given-cost: "Gave you the head of '{0}' for {1}"
     decoheadsadmin:
         usage: "Usage: &7/decoheadsadmin reload|settings|editor"
         reloaded: "&eConfig & settings reloaded"

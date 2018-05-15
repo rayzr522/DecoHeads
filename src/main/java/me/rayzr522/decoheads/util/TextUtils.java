@@ -1,5 +1,6 @@
 package me.rayzr522.decoheads.util;
 
+import me.rayzr522.decoheads.DecoHeads;
 import org.bukkit.ChatColor;
 
 public class TextUtils {
@@ -33,5 +34,9 @@ public class TextUtils {
 
     public static String formatDecimal(double number) {
         return String.format("%.2f", number);
+    }
+
+    public static String formatPrice(double price) {
+        return DecoHeads.getInstance().tr("economy.price-format", formatDecimal(price));
     }
 }
