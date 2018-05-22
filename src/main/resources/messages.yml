@@ -19,8 +19,16 @@ command:
             given: "Gave you the head of '{0}'"
             given-cost: "Gave you the head of '{0}' for {1}"
     decoheadsadmin:
-        usage: "Usage: &7/decoheadsadmin reload|settings|editor"
+        usage: "Usage: &7/decoheadsadmin reload|settings|editor|add"
         reloaded: "&eConfig & settings reloaded"
+        add:
+            usage: "Usage: &7/decoheadsadmin add <name> <category> [cost]"
+            already-exists: "&cThe head '{0}' already exists!"
+            invalid-category: "&c'{0}' is not a valid category. Valid options:&6 {1}"
+            must-hold-head: "&cYou must hold the player head which you wish to add."
+            failed-to-retrieve-texture: "&cFailed to retrieve the head texture. You may need to place the head on the ground and then break it to get it to register."
+            added: "Added the head '{0}' to the category {1} with cost: {2}"
+            added-free: "Added the head '{0}' to the category {1} with no cost"
 
 # ------------------------------------------------------------------------------------------ #
 

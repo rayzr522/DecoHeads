@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -79,5 +80,16 @@ public class HeadManager {
 
     public int maxPages() {
         return maxPages(heads);
+    }
+
+    public Optional<Head> findByName(String name) {
+        return getHeads().stream().filter(head -> head.getName().toLowerCase().equals(name.toLowerCase())).findFirst();
+    }
+
+    public void addHead(Head head) {
+        if (findByName(head.getName()).isPresent()) {
+            throw new IllegalArgumentException("The head '" + head.getName() + "' already exists!");
+        }
+        heads.add(head);
     }
 }

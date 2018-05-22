@@ -9,7 +9,6 @@ import me.rayzr522.decoheads.util.CustomHead;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.Permissible;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +36,14 @@ public class Head {
         this.texture = config.getString("texture");
         this.uuid = config.getString("uuid", UUID.randomUUID().toString());
         this.cost = config.getDouble("cost", -1);
+    }
+
+    public Head(String name, Category category, String texture, UUID uuid, double cost) {
+        this.name = name;
+        this.category = category;
+        this.texture = texture;
+        this.uuid = uuid.toString();
+        this.cost = cost;
     }
 
     public static Head load(String name, Category category, ConfigurationSection config) {
