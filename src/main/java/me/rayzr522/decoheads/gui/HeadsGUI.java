@@ -54,7 +54,7 @@ public class HeadsGUI extends GUI {
     }
 
     public HeadsGUI(Player player, int page, Predicate<Head> filter, GUI lastGUI, BiConsumer<ClickEvent, Head> clickCallback) {
-        super(player, DecoHeads.getInstance().tr("gui.heads.title", page), 6);
+        super(player, DecoHeads.getInstance().tr(false, "gui.heads.title", page), 6);
 
         this.plugin = DecoHeads.getInstance();
         this.page = page;
@@ -74,15 +74,15 @@ public class HeadsGUI extends GUI {
             if (lastGUI != null) {
                 lastGUI.render();
             }
-        }, plugin.tr("button.heads.current-page.name", page), plugin.tr("button.heads.current-page.lore").split("\n"));
+        }, plugin.tr(false, "button.heads.current-page.name", page), plugin.tr(false, "button.heads.current-page.lore").split("\n"));
         if (lastGUI != null) {
-            currentPage.addLore(plugin.tr("button.heads.current-page.back").split("\n"));
+            currentPage.addLore(plugin.tr(false, "button.heads.current-page.back").split("\n"));
         }
 
         addComponent(currentPage);
 
-        Button previousPage = makeButton(plugin.tr("button.heads.previous-page"), new Dimension(2, 5), page > 1);
-        Button nextPage = makeButton(DecoHeads.getInstance().tr("button.heads.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads));
+        Button previousPage = makeButton(plugin.tr(false, "button.heads.previous-page"), new Dimension(2, 5), page > 1);
+        Button nextPage = makeButton(plugin.tr(false, "button.heads.next-page"), new Dimension(6, 5), page < plugin.getHeadManager().maxPages(filteredHeads));
 
         previousPage.setClickHandler(e -> {
             if (page <= 1) {
@@ -128,7 +128,7 @@ public class HeadsGUI extends GUI {
     }
 
     private Component makeHeadButton(Head head, Dimension position) {
-        Component button = new Component(ItemUtils.setName(head.getItem(), DecoHeads.getInstance().tr("item.name", head.getName())), Dimension.ONE, position) {
+        Component button = new Component(ItemUtils.setName(head.getItem(), DecoHeads.getInstance().tr(false, "item.name", head.getName())), Dimension.ONE, position) {
             @Override
             public void onClick(ClickEvent e) {
                 if (clickCallback == null) {
@@ -143,9 +143,9 @@ public class HeadsGUI extends GUI {
 
         if (plugin.getSettings().isEconomyEnabled()) {
             if (head.hasCost() || plugin.getSettings().shouldShowFreeHeads()) {
-                String[] costLore = plugin.tr("item.cost", head.hasCost()
-                        ? plugin.tr("economy.price-format", TextUtils.formatDecimal(head.computeCost()))
-                        : plugin.tr("economy.free")).split("\n");
+                String[] costLore = plugin.tr(false, "item.cost", head.hasCost()
+                        ? TextUtils.formatPrice(head.computeCost())
+                        : plugin.tr(false, "economy.free")).split("\n");
 
                 ItemUtils.setLore(button.getItem(), costLore);
             }
@@ -178,14 +178,14 @@ public class HeadsGUI extends GUI {
             EconomyResponse response = plugin.getEconomy().withdrawPlayer(e.getPlayer(), head.computeCost());
             if (!response.transactionSuccess()) {
                 e.setShouldClose(true);
-                e.getPlayer().sendMessage(plugin.tr("economy.failed", plugin.tr("economy.price-format", TextUtils.formatDecimal(head.computeCost()))));
+                e.getPlayer().sendMessage(plugin.tr("economy.failed", TextUtils.formatPrice(head.computeCost())));
                 return;
             }
         }
 
         ItemStack giveItem = head.getItem();
-        ItemUtils.setName(giveItem, DecoHeads.getInstance().tr("item.name", head.getName()));
-        ItemUtils.setLore(giveItem, DecoHeads.getInstance().tr("item.lore").split("\n"));
+        ItemUtils.setName(giveItem, plugin.tr(false, "item.name", head.getName()));
+        ItemUtils.setLore(giveItem, plugin.tr(false, "item.lore").split("\n"));
         e.getPlayer().getInventory().addItem(giveItem);
     }
 

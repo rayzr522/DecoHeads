@@ -131,7 +131,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     }
 
     @SuppressWarnings("deprecation")
-    public ItemStack makeSkull(String username) {
+    private ItemStack makeSkull(String username) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
         skullMeta.setOwner(username);

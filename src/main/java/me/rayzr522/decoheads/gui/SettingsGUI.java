@@ -25,7 +25,7 @@ public class SettingsGUI extends GUI {
     );
 
     public SettingsGUI(Player player) {
-        super(player, DecoHeads.getInstance().tr("gui.settings.title"), 1);
+        super(player, DecoHeads.getInstance().tr(false, "gui.settings.title"), 1);
 
         init();
     }
@@ -84,7 +84,7 @@ public class SettingsGUI extends GUI {
             ItemSettings settings = itemSettingsSupplier.get();
 
             ItemStack item = new ItemStack(settings.type);
-            ItemUtils.setName(item, settings.nameColor + plugin.tr(String.format("gui.settings.%s.name", id)));
+            ItemUtils.setName(item, settings.nameColor + plugin.tr(false, String.format("gui.settings.%s.name", id)));
             ItemUtils.setLore(item, settings.lore);
 
             return item;

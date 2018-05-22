@@ -19,7 +19,7 @@ public class HeadEditorGUI extends GUI {
     private final Head head;
 
     public HeadEditorGUI(Player player, Head head) {
-        super(player, DecoHeads.getInstance().tr("gui.head-editor.title", head.getName()), 5);
+        super(player, DecoHeads.getInstance().tr(false, "gui.head-editor.title", head.getName()), 5);
         this.head = head;
 
         init();
@@ -40,8 +40,8 @@ public class HeadEditorGUI extends GUI {
                     @Override
                     public ItemStack simpleRender(Player player, int offsetX, int offsetY) {
                         ItemStack item = super.simpleRender(player, offsetX, offsetY);
-                        ItemUtils.setName(item, plugin.tr("button.head-editor.current-settings.name", head.getName()));
-                        ItemUtils.setLore(item, plugin.tr("button.head-editor.current-settings.lore", head.getName(), head.getUUID(), head.getCategory().name(), head.computeCost(), head.getCost()).split("\n"));
+                        ItemUtils.setName(item, plugin.tr(false, "button.head-editor.current-settings.name", head.getName()));
+                        ItemUtils.setLore(item, plugin.tr(false, "button.head-editor.current-settings.lore", head.getName(), head.getUUID(), head.getCategory().name(), head.computeCost(), head.getCost()).split("\n"));
                         return item;
                     }
                 }
@@ -79,7 +79,7 @@ public class HeadEditorGUI extends GUI {
                 e -> Conversations.getDouble(getPlayer(), getPrompt("price"), price -> {
                     head.setCost(price);
                     plugin.save();
-                    getPlayer().sendMessage(getSuccess("price", plugin.tr("economy.price-format", TextUtils.formatDecimal(price))));
+                    getPlayer().sendMessage(getSuccess("price", TextUtils.formatPrice(price)));
 
                     render();
                 }))
@@ -107,7 +107,7 @@ public class HeadEditorGUI extends GUI {
                 new ItemStack(icon),
                 Dimension.ONE, position,
                 clickHandler,
-                DecoHeads.getInstance().tr(String.format("button.head-editor.%s", id))
+                DecoHeads.getInstance().tr(false, String.format("button.head-editor.%s", id))
         );
 
         button.setCloseOnClick(true);

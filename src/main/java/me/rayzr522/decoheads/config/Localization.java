@@ -47,6 +47,10 @@ public class Localization {
         return new Localization(path);
     }
 
+    private static String basename(String key) {
+        return !key.contains(".") ? "" : key.substring(0, key.lastIndexOf("."));
+    }
+
     private String parse(Map<String, String> raw, Entry<String, String> entry) {
         // 1. Color the text
         String output = TextUtils.colorize(entry.getValue());
@@ -68,6 +72,17 @@ public class Localization {
      * key
      */
     public String tr(String key, Object... strings) {
+        return tr(true, key, strings);
+    }
+
+    /**
+     * @param usePrefix Whether or not to prepend the prefix to the message
+     * @param key       the key of the message
+     * @param strings   the strings to use for substitution
+     * @return The message, or the key itself if no message was found for that
+     * key
+     */
+    public String tr(boolean usePrefix, String key, Object... strings) {
         if (!messages.containsKey(key)) {
             return key;
         }
@@ -75,7 +90,14 @@ public class Localization {
         for (int i = 0; i < strings.length; i++) {
             message = message.replace("{" + i + "}", Objects.toString(strings[i]));
         }
-        return TextUtils.colorize(message);
+        return (usePrefix ? resolvePrefix(key) : "") + TextUtils.colorize(message);
+    }
+
+    private String resolvePrefix(String key) {
+        String parent = basename(key);
+        String prefix = messages.getOrDefault(parent + ".prefix", messages.get("prefix"));
+        String prefixAddon = messages.getOrDefault(parent + ".prefix-addon", "");
+        return TextUtils.colorize(prefix + prefixAddon);
     }
 
 }

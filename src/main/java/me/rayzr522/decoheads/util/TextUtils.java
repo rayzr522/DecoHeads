@@ -37,6 +37,6 @@ public class TextUtils {
     }
 
     public static String formatPrice(double price) {
-        return DecoHeads.getInstance().tr("economy.price-format", formatDecimal(price));
+        return DecoHeads.getInstance().tr(false, "economy.price-format", formatDecimal(price));
     }
 }

@@ -22,7 +22,7 @@ public class CategoryGUI extends GUI {
     private DecoHeads plugin = DecoHeads.getInstance();
 
     public CategoryGUI(Player player) {
-        super(player, DecoHeads.getInstance().tr("gui.categories.title"), 5);
+        super(player, DecoHeads.getInstance().tr(false, "gui.categories.title"), 5);
         init();
     }
 
@@ -31,7 +31,7 @@ public class CategoryGUI extends GUI {
         DecoHeads plugin = DecoHeads.getInstance();
 
         for (Category category : Category.values()) {
-            String categoryName = plugin.tr(String.format("category.%s", category.getKey()));
+            String categoryName = plugin.tr(false, String.format("category.%s", category.getKey()));
 
             if (category.hasPermission(getPlayer())) {
                 List<Head> heads = this.plugin.getHeadManager().getHeads().stream()
@@ -44,8 +44,8 @@ public class CategoryGUI extends GUI {
                         Dimension.ONE,
                         category.getPosition(),
                         e -> new HeadsGUI(e.getPlayer(), 1, h -> h.getCategory() == category, this).render(),
-                        plugin.tr("button.categories.category.name", categoryName),
-                        plugin.tr("button.categories.category.lore").split("\n")
+                        plugin.tr(false, "button.categories.category.name", categoryName),
+                        plugin.tr(false, "button.categories.category.lore").split("\n")
                 );
 
                 addComponent(categoryButton);
@@ -55,8 +55,8 @@ public class CategoryGUI extends GUI {
                         Dimension.ONE,
                         category.getPosition(),
                         e -> plugin.checkPermission(String.format("category.%s", category.getKey()), e.getPlayer(), true),
-                        plugin.tr("button.categories.category-disabled.name", categoryName),
-                        plugin.tr("button.categories.category-disabled.lore").split("\n")
+                        plugin.tr(false, "button.categories.category-disabled.name", categoryName),
+                        plugin.tr(false, "button.categories.category-disabled.lore").split("\n")
                 );
 
                 addComponent(disabledButton);

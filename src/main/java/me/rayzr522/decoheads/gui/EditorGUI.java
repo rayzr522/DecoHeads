@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class EditorGUI extends GUI {
 
     public EditorGUI(Player player) {
-        super(player, DecoHeads.getInstance().tr("gui.editor.title"), 1);
+        super(player, DecoHeads.getInstance().tr(false, "gui.editor.title"), 1);
 
         init();
     }
@@ -33,8 +33,8 @@ public class EditorGUI extends GUI {
                 Dimension.ONE,
                 new Dimension(4, 0),
                 e -> search(head -> new HeadEditorGUI(getPlayer(), head).render()),
-                plugin.tr("button.editor.search.name"),
-                plugin.tr("button.editor.search.lore").split("\n")
+                plugin.tr(false, "button.editor.search.name"),
+                plugin.tr(false, "button.editor.search.lore").split("\n")
         );
 
         searchButton.setCloseOnClick(true);
