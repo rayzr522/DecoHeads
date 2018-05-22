@@ -1,5 +1,6 @@
 package me.rayzr522.decoheads.util;
 
+import com.google.common.collect.Multimap;
 import me.rayzr522.decoheads.DecoHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,6 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -69,5 +72,23 @@ public class CustomHead {
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String getTexture(ItemMeta meta) {
+        try {
+            Object profile = Reflector.getFieldValue(meta, "profile");
+            Multimap<String, Object> properties = (Multimap<String, Object>) Reflector.getFieldValue(profile, "properties");
+            List<Object> textures = new ArrayList<>(properties.get("textures"));
+            if (textures.size() < 1) {
+                return null;
+            }
+
+            Object property = textures.get(0);
+            return (String) Reflector.getFieldValue(property, "value");
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

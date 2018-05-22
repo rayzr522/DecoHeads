@@ -74,4 +74,10 @@ public class Reflector {
 
         return null;
     }
+
+    public static Object getFieldValue(Object object, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field f = getField(object.getClass(), fieldName);
+        f.setAccessible(true);
+        return f.get(object);
+    }
 }
