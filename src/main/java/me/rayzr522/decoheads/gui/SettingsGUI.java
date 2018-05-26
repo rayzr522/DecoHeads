@@ -2,11 +2,10 @@ package me.rayzr522.decoheads.gui;
 
 import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.config.Settings;
-import me.rayzr522.decoheads.gui.system.Button;
-import me.rayzr522.decoheads.gui.system.Dimension;
-import me.rayzr522.decoheads.gui.system.GUI;
-import me.rayzr522.decoheads.gui.system.Label;
+import me.rayzr522.decoheads.gui.system.*;
+import me.rayzr522.decoheads.util.Conversations;
 import me.rayzr522.decoheads.util.ItemUtils;
+import me.rayzr522.decoheads.util.TextUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,14 +13,18 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class SettingsGUI extends GUI {
     private static final List<Setting> SETTINGS = Arrays.asList(
+            Setting.bool("custom-heads", settings -> settings.setCustomHeadsEnabled(!settings.isCustomHeadsEnabled()), Settings::isCustomHeadsEnabled),
+            Setting.price("custom-heads-cost", Settings::setCustomHeadsCost, Settings::getCustomHeadsCost),
             Setting.bool("economy", settings -> settings.setEconomyEnabled(DecoHeads.getInstance().getEconomy() != null && !settings.isEconomyEnabled()), Settings::isEconomyEnabled),
-            Setting.bool("show-free-heads", settings -> settings.setShowFreeHeads(!settings.shouldShowFreeHeads()), Settings::shouldShowFreeHeads)
+            Setting.bool("show-free-heads", settings -> settings.setShowFreeHeads(!settings.shouldShowFreeHeads()), Settings::shouldShowFreeHeads),
+            Setting.price("economy-default-cost", Settings::setDefaultHeadCost, Settings::getDefaultHeadCost)
     );
 
     public SettingsGUI(Player player) {
@@ -44,8 +47,10 @@ public class SettingsGUI extends GUI {
                             Dimension.ONE,
                             new Dimension(i, 0),
                             e -> {
-                                setting.onClick();
-                                render();
+                                setting.onClick(e);
+                                if (!e.shouldClose()) {
+                                    render();
+                                }
                             },
                             ""
                     ) {
@@ -60,22 +65,47 @@ public class SettingsGUI extends GUI {
 
     private static class Setting {
         private final String id;
-        private final Consumer<Settings> clickHandler;
+        private final BiConsumer<Settings, ClickEvent> clickHandler;
         private final Supplier<ItemSettings> itemSettingsSupplier;
 
-        Setting(String id, Consumer<Settings> clickHandler, Supplier<ItemSettings> itemSettingsSupplier) {
+        Setting(String id, BiConsumer<Settings, ClickEvent> clickHandler, Supplier<ItemSettings> itemSettingsSupplier) {
             this.id = id;
             this.clickHandler = clickHandler;
             this.itemSettingsSupplier = itemSettingsSupplier;
         }
 
         private static Setting bool(String id, Consumer<Settings> clickHandler, Function<Settings, Boolean> stateProvider) {
-            return new Setting(id, clickHandler, () -> stateProvider.apply(DecoHeads.getInstance().getSettings()) ? new ItemSettings(ChatColor.GREEN, Material.REDSTONE_BLOCK) : new ItemSettings(ChatColor.RED, Material.COAL_BLOCK));
+            return new Setting(id, (settings, e) -> clickHandler.accept(settings), () -> stateProvider.apply(DecoHeads.getInstance().getSettings()) ? new ItemSettings(ChatColor.GREEN, Material.REDSTONE_BLOCK) : new ItemSettings(ChatColor.RED, Material.COAL_BLOCK));
         }
 
-        void onClick() {
+        private static Setting price(String id, BiConsumer<Settings, Double> clickHandler, Function<Settings, Double> stateProvider) {
+            DecoHeads plugin = DecoHeads.getInstance();
+            return new Setting(
+                    id,
+                    (settings, e) -> {
+                        e.setShouldClose(true);
+                        e.getPlayer().closeInventory();
+                        Conversations.getDouble(e.getPlayer(), plugin.tr(String.format("gui.settings.%s.prompt", id)), value -> {
+                            clickHandler.accept(settings, value);
+                            settings.save();
+                            e.getGui().render();
+                        });
+                    },
+                    () -> new ItemSettings(
+                            ChatColor.DARK_AQUA,
+                            Material.REDSTONE_COMPARATOR,
+                            plugin.tr(
+                                    false,
+                                    String.format("gui.settings.%s.format", id),
+                                    TextUtils.formatPrice(stateProvider.apply(plugin.getSettings()))
+                            )
+                    )
+            );
+        }
+
+        void onClick(ClickEvent e) {
             Settings settings = DecoHeads.getInstance().getSettings();
-            clickHandler.accept(settings);
+            clickHandler.accept(settings, e);
             settings.save();
         }
 

@@ -48,10 +48,21 @@ gui:
         title: "&3&l&nCategories"
     settings:
         title: "&3&l&nSettings"
+        custom-heads:
+            name: "Allow custom heads?"
+        custom-heads-cost:
+            name: "Custom heads cost"
+            prompt: "&ePlease enter a new custom head cost in chat:"
+            format: "&bCost: &a{0}"
         economy:
-            name: "Use Economy?"
+            name: "Use economy?"
         show-free-heads:
-            name: "Show Free Heads?"
+            name: "Show free heads?"
+        economy-default-cost:
+            name: "Default head cost"
+            prompt: "&ePlease enter a new default head cost in chat:"
+            format: "&bCost: &a{0}"
+
     search:
         prompt: "&ePlease enter a term to search for heads:"
         searching: "&eSearching for '{0}'... please select a head"
