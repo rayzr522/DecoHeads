@@ -161,7 +161,7 @@ public class HeadsGUI extends GUI {
 
     public List<Head> getHeads() {
         return plugin.getHeadManager().getHeadsFor(getPlayer()).stream()
-                .filter(filter)
+                .filter(filter != null ? filter : head -> true)
                 .collect(Collectors.toList());
     }
 
