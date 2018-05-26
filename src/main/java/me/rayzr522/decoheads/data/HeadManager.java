@@ -3,6 +3,7 @@ package me.rayzr522.decoheads.data;
 import me.rayzr522.decoheads.Category;
 import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.gui.HeadsGUI;
+import me.rayzr522.decoheads.util.ConfigVersionChecker;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +19,12 @@ import java.util.stream.Collectors;
  * @author Rayzr
  */
 public class HeadManager {
+
+    /**
+     * The version to check in the config
+     */
+    private static final int CONFIG_VERSION = 2;
+
     private DecoHeads plugin;
     private List<Head> heads;
 
@@ -25,8 +32,8 @@ public class HeadManager {
         this.plugin = plugin;
     }
 
-    public void load() {
-        YamlConfiguration config = plugin.getConfigHandler().getConfig("heads.yml");
+    public void load() throws IOException {
+        YamlConfiguration config = ConfigVersionChecker.updateConfig("heads.yml", CONFIG_VERSION);
         ConfigurationSection headsSection = config.isConfigurationSection("heads")
                 ? config.getConfigurationSection("heads")
                 : config.createSection("heads");
