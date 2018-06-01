@@ -9,6 +9,7 @@ import me.rayzr522.decoheads.gui.system.GUIListener;
 import me.rayzr522.decoheads.util.ConfigHandler;
 import me.rayzr522.decoheads.util.Reflector;
 import net.milkbowl.vault.economy.Economy;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -59,6 +60,10 @@ public class DecoHeads extends JavaPlugin {
         getCommand("decoheadsadmin").setExecutor(new CommandDecoHeadsAdmin(this));
 
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
+
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.SimplePie("economy_mode", () -> settings.isEconomyEnabled() ? "enabled" : "disabled"));
+        metrics.addCustomChart(new Metrics.SimplePie("custom_heads", () -> settings.isCustomHeadsEnabled() ? "enabled" : "disabled"));
     }
 
     private boolean setupEconomy() {
