@@ -3,6 +3,8 @@
  */
 package me.rayzr522.decoheads.command;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -19,11 +21,12 @@ class MatchComparator implements Comparator<String>, Serializable {
     }
 
     public int compare(String o1, String o2) {
-        boolean s1 = o1.startsWith(filter);
-        boolean s2 = o2.startsWith(filter);
-        if (s1 && s2) {
-            return Integer.compare(o1.replace(filter, "").length(), o2.replace(filter, "").length());
-        }
-        return Boolean.compare(s2, s1);
+        System.out.println(String.format("Distance from '%s' to '%s': %d", filter, o1, StringUtils.getLevenshteinDistance(filter, o1)));
+        System.out.println(String.format("Distance from '%s' to '%s': %d", filter, o2, StringUtils.getLevenshteinDistance(filter, o2)));
+
+        return Integer.compare(
+                StringUtils.getLevenshteinDistance(filter, o1),
+                StringUtils.getLevenshteinDistance(filter, o2)
+        );
     }
 }

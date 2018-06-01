@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -120,8 +121,9 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return Stream.of("reload", "rl", "search", "find", "#")
+            return Stream.of("search", "find", "get")
                     .sorted(new MatchComparator(args[0]))
+                    .peek(System.out::println)
                     .collect(Collectors.toList());
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
             String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
