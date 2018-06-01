@@ -122,15 +122,13 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             return Stream.of("search", "find", "get")
-                    .sorted(new MatchComparator(args[0]))
-                    .peek(System.out::println)
+                    .filter(option -> option.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
             String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
             return plugin.getHeadManager().getHeadsFor(sender).stream()
                     .filter(new NamePredicate(filter))
                     .map(Head::getName)
-                    .sorted(new MatchComparator(filter))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
