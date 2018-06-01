@@ -68,6 +68,10 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
                 gui.render();
             }
         } else if (sub.equals("get") && plugin.getSettings().isCustomHeadsEnabled()) {
+            if (!plugin.checkPermission("use.custom", p, true)) {
+                return true;
+            }
+
             if (args.length < 2) {
                 p.sendMessage(plugin.tr("command.decoheads.get.no-username"));
                 p.sendMessage(plugin.tr("command.decoheads.get.usage"));
