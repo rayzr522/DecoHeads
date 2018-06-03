@@ -127,7 +127,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
         } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
             String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
             return plugin.getHeadManager().getHeadsFor(sender).stream()
-                    .filter(new NamePredicate(filter))
+                    .filter(head -> head.getName().toLowerCase().startsWith(filter.toLowerCase()))
                     .map(Head::getName)
                     .collect(Collectors.toList());
         }
