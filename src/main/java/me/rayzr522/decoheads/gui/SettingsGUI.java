@@ -22,7 +22,7 @@ public class SettingsGUI extends GUI {
     private static final List<Setting> SETTINGS = Arrays.asList(
             Setting.bool("custom-heads", settings -> settings.setCustomHeadsEnabled(!settings.isCustomHeadsEnabled()), Settings::isCustomHeadsEnabled),
             Setting.price("custom-heads-cost", Settings::setCustomHeadsCost, Settings::getCustomHeadsCost),
-            Setting.bool("economy", settings -> settings.setEconomyEnabled(DecoHeads.getInstance().getEconomy() != null && !settings.isEconomyEnabled()), Settings::isEconomyEnabled),
+            Setting.bool("economy", settings -> settings.setEconomyEnabled(!settings.isEconomyEnabled()), Settings::isEconomyEnabled),
             Setting.bool("show-free-heads", settings -> settings.setShowFreeHeads(!settings.shouldShowFreeHeads()), Settings::shouldShowFreeHeads),
             Setting.price("economy-default-cost", Settings::setDefaultHeadCost, Settings::getDefaultHeadCost),
             Setting.bool("updater-enabled", settings -> settings.setUpdaterEnabled(!settings.isUpdaterEnabled()), Settings::isUpdaterEnabled)

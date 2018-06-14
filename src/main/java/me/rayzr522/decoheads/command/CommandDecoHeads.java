@@ -1,6 +1,7 @@
 package me.rayzr522.decoheads.command;
 
 import me.rayzr522.decoheads.DecoHeads;
+import me.rayzr522.decoheads.compat.EconomyWrapper;
 import me.rayzr522.decoheads.data.Head;
 import me.rayzr522.decoheads.gui.CategoryGUI;
 import me.rayzr522.decoheads.gui.HeadsGUI;
@@ -85,7 +86,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             double cost = plugin.getSettings().getCustomHeadsCost();
 
             if (plugin.getSettings().isEconomyEnabled() && cost > 0.0) {
-                Economy eco = plugin.getEconomy();
+                EconomyWrapper eco = plugin.getEconomy();
                 if (eco.getBalance(p) < cost) {
                     p.sendMessage(plugin.tr("economy.not-enough-money", TextUtils.formatPrice(cost)));
                     return true;

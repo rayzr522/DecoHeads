@@ -35,11 +35,13 @@ public class Settings {
     }
 
     public boolean isEconomyEnabled() {
-        return config.getBoolean("economy.enabled");
+        // Ensure economy is not enabled when the economy wrapper is not available
+        return plugin.getEconomy() != null && config.getBoolean("economy.enabled");
     }
 
     public void setEconomyEnabled(boolean economyEnabled) {
-        config.set("economy.enabled", economyEnabled);
+        // Ensure economy is not enabled when the economy wrapper is not available
+        config.set("economy.enabled", plugin.getEconomy() != null && economyEnabled);
     }
 
     public boolean shouldShowFreeHeads() {

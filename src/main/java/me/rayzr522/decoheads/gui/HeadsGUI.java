@@ -1,11 +1,11 @@
 package me.rayzr522.decoheads.gui;
 
 import me.rayzr522.decoheads.DecoHeads;
+import me.rayzr522.decoheads.compat.EconomyWrapper;
 import me.rayzr522.decoheads.data.Head;
 import me.rayzr522.decoheads.gui.system.*;
 import me.rayzr522.decoheads.util.ItemUtils;
 import me.rayzr522.decoheads.util.TextUtils;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -175,7 +175,7 @@ public class HeadsGUI extends GUI {
                 return;
             }
 
-            EconomyResponse response = plugin.getEconomy().withdrawPlayer(e.getPlayer(), head.computeCost());
+            EconomyWrapper.EconomyResponseWrapper response = plugin.getEconomy().withdrawPlayer(e.getPlayer(), head.computeCost());
             if (!response.transactionSuccess()) {
                 e.setShouldClose(true);
                 e.getPlayer().sendMessage(plugin.tr("economy.failed", TextUtils.formatPrice(head.computeCost())));

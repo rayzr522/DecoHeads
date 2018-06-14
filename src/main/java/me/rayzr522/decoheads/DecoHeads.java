@@ -2,6 +2,7 @@ package me.rayzr522.decoheads;
 
 import me.rayzr522.decoheads.command.CommandDecoHeads;
 import me.rayzr522.decoheads.command.CommandDecoHeadsAdmin;
+import me.rayzr522.decoheads.compat.EconomyWrapper;
 import me.rayzr522.decoheads.config.Localization;
 import me.rayzr522.decoheads.config.Settings;
 import me.rayzr522.decoheads.data.HeadManager;
@@ -9,11 +10,9 @@ import me.rayzr522.decoheads.event.PlayerListener;
 import me.rayzr522.decoheads.gui.system.GUIListener;
 import me.rayzr522.decoheads.util.ConfigHandler;
 import me.rayzr522.decoheads.util.Reflector;
-import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.update.spiget.SpigetUpdate;
 
@@ -27,7 +26,7 @@ public class DecoHeads extends JavaPlugin {
     private Localization localization;
     private HeadManager headManager;
 
-    private Economy economy;
+    private EconomyWrapper economy;
     private SpigetUpdate updater;
 
     public static DecoHeads getInstance() {
@@ -50,10 +49,12 @@ public class DecoHeads extends JavaPlugin {
 
         reload();
 
-        if (!setupEconomy()) {
-            getLogger().severe("Failed to find an economy plugin! Disabling economy mode, please re-enable once you have installed an economy plugin.");
-            settings.setEconomyEnabled(false);
-            settings.save();
+        if (!Bukkit.getPluginManager().isPluginEnabled("Vault") || !(economy = new EconomyWrapper()).setup()) {
+            getLogger().warning("Failed to find an economy plugin! Disabling economy mode, please re-enable once you have installed an economy plugin.");
+            if (settings.isEconomyEnabled()) {
+                settings.setEconomyEnabled(false);
+                settings.save();
+            }
         }
 
         CommandDecoHeads commandDecoHeads = new CommandDecoHeads(this);
@@ -68,11 +69,6 @@ public class DecoHeads extends JavaPlugin {
         Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.SimplePie("economy_mode", () -> settings.isEconomyEnabled() ? "enabled" : "disabled"));
         metrics.addCustomChart(new Metrics.SimplePie("custom_heads", () -> settings.isCustomHeadsEnabled() ? "enabled" : "disabled"));
-    }
-
-    private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
-        return rsp != null && (economy = rsp.getProvider()) != null;
     }
 
     @Override
@@ -122,7 +118,7 @@ public class DecoHeads extends JavaPlugin {
         return headManager;
     }
 
-    public Economy getEconomy() {
+    public EconomyWrapper getEconomy() {
         return economy;
     }
 
