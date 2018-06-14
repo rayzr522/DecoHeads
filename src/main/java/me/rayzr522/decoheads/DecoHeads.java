@@ -5,6 +5,7 @@ import me.rayzr522.decoheads.command.CommandDecoHeadsAdmin;
 import me.rayzr522.decoheads.config.Localization;
 import me.rayzr522.decoheads.config.Settings;
 import me.rayzr522.decoheads.data.HeadManager;
+import me.rayzr522.decoheads.event.PlayerListener;
 import me.rayzr522.decoheads.gui.system.GUIListener;
 import me.rayzr522.decoheads.util.ConfigHandler;
 import me.rayzr522.decoheads.util.Reflector;
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.update.spiget.SpigetUpdate;
 
 import java.util.logging.Level;
 
@@ -23,9 +25,10 @@ public class DecoHeads extends JavaPlugin {
     private ConfigHandler configHandler;
     private Settings settings;
     private Localization localization;
+    private HeadManager headManager;
 
     private Economy economy;
-    private HeadManager headManager;
+    private SpigetUpdate updater;
 
     public static DecoHeads getInstance() {
         return instance;
@@ -60,6 +63,7 @@ public class DecoHeads extends JavaPlugin {
         getCommand("decoheadsadmin").setExecutor(new CommandDecoHeadsAdmin(this));
 
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.SimplePie("economy_mode", () -> settings.isEconomyEnabled() ? "enabled" : "disabled"));
@@ -83,6 +87,12 @@ public class DecoHeads extends JavaPlugin {
             settings.load();
             localization = Localization.load("messages.yml");
             headManager.load();
+
+            if (settings.isUpdaterEnabled()) {
+                updater = new SpigetUpdate(this, 24655);
+            } else {
+                updater = null;
+            }
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to load config files:", e);
         }
@@ -125,5 +135,9 @@ public class DecoHeads extends JavaPlugin {
             return false;
         }
         return true;
+    }
+
+    public SpigetUpdate getUpdater() {
+        return updater;
     }
 }

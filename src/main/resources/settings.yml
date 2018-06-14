@@ -12,4 +12,7 @@ economy:
     # Default cost for heads. This is used when the cost of a head is set to -1.
     default-cost: 0.0
 
+# Check for updates?
+updater-enabled: true
+
 version: 1

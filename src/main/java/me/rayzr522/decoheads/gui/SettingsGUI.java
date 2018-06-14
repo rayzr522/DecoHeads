@@ -24,7 +24,8 @@ public class SettingsGUI extends GUI {
             Setting.price("custom-heads-cost", Settings::setCustomHeadsCost, Settings::getCustomHeadsCost),
             Setting.bool("economy", settings -> settings.setEconomyEnabled(DecoHeads.getInstance().getEconomy() != null && !settings.isEconomyEnabled()), Settings::isEconomyEnabled),
             Setting.bool("show-free-heads", settings -> settings.setShowFreeHeads(!settings.shouldShowFreeHeads()), Settings::shouldShowFreeHeads),
-            Setting.price("economy-default-cost", Settings::setDefaultHeadCost, Settings::getDefaultHeadCost)
+            Setting.price("economy-default-cost", Settings::setDefaultHeadCost, Settings::getDefaultHeadCost),
+            Setting.bool("updater-enabled", settings -> settings.setUpdaterEnabled(!settings.isUpdaterEnabled()), Settings::isUpdaterEnabled)
     );
 
     public SettingsGUI(Player player) {

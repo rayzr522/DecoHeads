@@ -73,4 +73,12 @@ public class Settings {
     public void setCustomHeadsCost(double customHeadsCost) {
         config.set("custom-heads.cost", customHeadsCost);
     }
+
+    public boolean isUpdaterEnabled() {
+        return config.getBoolean("updater-enabled");
+    }
+
+    public void setUpdaterEnabled(boolean updaterEnabled) {
+        config.set("updater-enabled", updaterEnabled);
+    }
 }
