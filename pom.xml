@@ -4,7 +4,7 @@
 
     <groupId>me.rayzr522</groupId>
     <artifactId>decoheads</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <name>DecoHeads</name>
     <description>Adds lots of decorative heads that can be used for building / design</description>
     <url>https://git.io/decoheads</url>
@@ -12,6 +12,7 @@
     <properties>
         <java.version>1.8</java.version>
         <bukkit.version>1.12.2-R0.1-SNAPSHOT</bukkit.version>
+        <shading.libpackage>me.rayzr522.decoheads.lib</shading.libpackage>
     </properties>
 
     <repositories>
@@ -76,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.9.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -85,17 +86,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.1</version>
                 <configuration>
                     <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats.</pattern>
-                            <shadedPattern>me.rayzr522.decoheads.lib.bstats.</shadedPattern>
+                            <shadedPattern>${shading.libpackage}.bstats.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.inventivetalent.update.spiget.</pattern>
-                            <shadedPattern>me.rayzr522.decoheads.lib.updater.</shadedPattern>
+                            <shadedPattern>${shading.libpackage}.updater.</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

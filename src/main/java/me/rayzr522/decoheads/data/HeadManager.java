@@ -9,10 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +23,7 @@ public class HeadManager {
     private static final int CONFIG_VERSION = 2;
 
     private DecoHeads plugin;
-    private List<Head> heads;
+    private Set<Head> heads;
 
     public HeadManager(DecoHeads plugin) {
         this.plugin = plugin;
@@ -48,7 +45,7 @@ public class HeadManager {
                             .map(name -> Head.load(name, category, categorySection.getConfigurationSection(name)))
                             .filter(Objects::nonNull);
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public void save() {
@@ -70,7 +67,7 @@ public class HeadManager {
         }
     }
 
-    public List<Head> getHeads() {
+    public Collection<Head> getHeads() {
         return heads;
     }
 
@@ -81,7 +78,7 @@ public class HeadManager {
                 .collect(Collectors.toList());
     }
 
-    public int maxPages(List<Head> heads) {
+    public int maxPages(Collection<Head> heads) {
         return (int) Math.ceil((double) heads.size() / (double) HeadsGUI.SIZE);
     }
 
@@ -98,5 +95,9 @@ public class HeadManager {
             throw new IllegalArgumentException("The head '" + head.getName() + "' already exists!");
         }
         heads.add(head);
+    }
+
+    public void removeHead(Head head) {
+        heads.remove(head);
     }
 }

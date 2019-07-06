@@ -23,7 +23,7 @@ command:
             given: "Gave you the head of '{0}'"
             given-cost: "Gave you the head of '{0}' for {1}"
     decoheadsadmin:
-        usage: "Usage: &7/decoheadsadmin reload|settings|editor|add"
+        usage: "Usage: &7/decoheadsadmin reload|settings|editor|add|remove|disable"
         reloaded: "&eConfig & settings reloaded"
         add:
             usage: "Usage: &7/decoheadsadmin add <name> <category> [cost]"
@@ -33,6 +33,18 @@ command:
             failed-to-retrieve-texture: "&cFailed to retrieve the head texture. You may need to place the head on the ground and then break it to get it to register."
             added: "Added the head '{0}' to the category {1} with cost: {2}"
             added-free: "Added the head '{0}' to the category {1} with no cost"
+        remove:
+            usage: "Usage: &7/decoheadsadmin remove <name>"
+            doesnt-exist: "&cThe head '{0}' cannot be removed because it does not exist!"
+            removed: "Removed the head '{0}'"
+        disable:
+            usage: "Usage: &7/decoheadsadmin disable <name>"
+            doesnt-exist: "&cThe head '{0}' cannot be disabled because it does not exist!"
+            disabled: "Disabled the head '{0}'"
+        enable:
+            usage: "Usage: &7/decoheadsadmin enable <name>"
+            doesnt-exist: "&cThe head '{0}' cannot be enabled because it does not exist!"
+            enabled: "Enabled the head '{0}'"
 
 # ------------------------------------------------------------------------------------------ #
 

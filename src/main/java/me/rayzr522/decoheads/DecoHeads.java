@@ -61,7 +61,9 @@ public class DecoHeads extends JavaPlugin {
         getCommand("decoheads").setExecutor(commandDecoHeads);
         getCommand("decoheads").setTabCompleter(commandDecoHeads);
 
-        getCommand("decoheadsadmin").setExecutor(new CommandDecoHeadsAdmin(this));
+        CommandDecoHeadsAdmin commandDecoHeadsAdmin = new CommandDecoHeadsAdmin(this);
+        getCommand("decoheadsadmin").setExecutor(commandDecoHeadsAdmin);
+        getCommand("decoheadsadmin").setTabCompleter(commandDecoHeadsAdmin);
 
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);

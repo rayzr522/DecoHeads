@@ -25,6 +25,8 @@ public class Head {
     private String uuid;
     private double cost;
 
+    private boolean enabled;
+
     private Head(String name, Category category, ConfigurationSection config) {
         if (!config.isString("texture")) {
             throw new IllegalArgumentException("config for head '" + name + "' is missing 'texture' key!");
@@ -36,6 +38,7 @@ public class Head {
         this.texture = config.getString("texture");
         this.uuid = config.getString("uuid", UUID.randomUUID().toString());
         this.cost = config.getDouble("cost", -1);
+        this.enabled = config.getBoolean("enabled", true);
     }
 
     public Head(String name, Category category, String texture, UUID uuid, double cost) {
@@ -44,6 +47,7 @@ public class Head {
         this.texture = texture;
         this.uuid = uuid.toString();
         this.cost = cost;
+        this.enabled = true;
     }
 
     public static Head load(String name, Category category, ConfigurationSection config) {
@@ -104,7 +108,15 @@ public class Head {
     }
 
     public boolean isUseableBy(CommandSender sender) {
-        return DecoHeads.getInstance().checkPermission(String.format("head.%s", name.toLowerCase().replaceAll("[^a-z0-9-]", "-")), sender, false);
+        return isEnabled() && DecoHeads.getInstance().checkPermission(String.format("head.%s", name.toLowerCase().replaceAll("[^a-z0-9-]", "-")), sender, false);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
@@ -115,6 +127,7 @@ public class Head {
                 ", texture='" + texture + '\'' +
                 ", uuid='" + uuid + '\'' +
                 ", cost=" + cost +
+                ", enabled=" + enabled +
                 '}';
     }
 
