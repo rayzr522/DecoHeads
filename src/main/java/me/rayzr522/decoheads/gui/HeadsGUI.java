@@ -142,9 +142,9 @@ public class HeadsGUI extends GUI {
         DecoHeads plugin = DecoHeads.getInstance();
 
         if (plugin.getSettings().isEconomyEnabled()) {
-            if (head.hasCost() || plugin.getSettings().shouldShowFreeHeads()) {
-                String[] costLore = plugin.tr(false, "item.cost", head.hasCost()
-                        ? TextUtils.formatPrice(head.computeCost())
+            if (head.hasCostFor(getPlayer()) || plugin.getSettings().shouldShowFreeHeads()) {
+                String[] costLore = plugin.tr(false, "item.cost", head.hasCostFor(getPlayer())
+                        ? TextUtils.formatPrice(head.computeCostFor(getPlayer()))
                         : plugin.tr(false, "economy.free")).split("\n");
 
                 ItemUtils.setLore(button.getItem(), costLore);
@@ -168,17 +168,17 @@ public class HeadsGUI extends GUI {
     private void onClickHead(ClickEvent e, Head head) {
         DecoHeads plugin = DecoHeads.getInstance();
 
-        if (head.hasCost() && plugin.getSettings().isEconomyEnabled()) {
-            if (plugin.getEconomy().getBalance(e.getPlayer()) < head.computeCost()) {
+        if (head.hasCostFor(getPlayer()) && plugin.getSettings().isEconomyEnabled()) {
+            if (plugin.getEconomy().getBalance(e.getPlayer()) < head.computeCostFor(getPlayer())) {
                 e.setShouldClose(true);
-                e.getPlayer().sendMessage(plugin.tr("economy.not-enough-money", TextUtils.formatPrice(head.computeCost())));
+                e.getPlayer().sendMessage(plugin.tr("economy.not-enough-money", TextUtils.formatPrice(head.computeCostFor(getPlayer()))));
                 return;
             }
 
-            EconomyWrapper.EconomyResponseWrapper response = plugin.getEconomy().withdrawPlayer(e.getPlayer(), head.computeCost());
+            EconomyWrapper.EconomyResponseWrapper response = plugin.getEconomy().withdrawPlayer(e.getPlayer(), head.computeCostFor(getPlayer()));
             if (!response.transactionSuccess()) {
                 e.setShouldClose(true);
-                e.getPlayer().sendMessage(plugin.tr("economy.failed", TextUtils.formatPrice(head.computeCost())));
+                e.getPlayer().sendMessage(plugin.tr("economy.failed", TextUtils.formatPrice(head.computeCostFor(getPlayer()))));
                 return;
             }
         }

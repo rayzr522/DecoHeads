@@ -8,6 +8,7 @@ import me.rayzr522.decoheads.DecoHeads;
 import me.rayzr522.decoheads.util.CustomHead;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -99,16 +100,24 @@ public class Head {
         this.cost = cost;
     }
 
-    public double computeCost() {
+    public double computeCostFor(Player player) {
+        if (DecoHeads.getInstance().checkPermission(String.format("free.%s", getInternalName()), player, false)) {
+            return 0.0;
+        }
+
         return cost != -1 ? cost : DecoHeads.getInstance().getSettings().getDefaultHeadCost();
     }
 
-    public boolean hasCost() {
-        return computeCost() > 0.0;
+    public boolean hasCostFor(Player player) {
+        return computeCostFor(player) > 0.0;
     }
 
     public boolean isUseableBy(CommandSender sender) {
-        return isEnabled() && DecoHeads.getInstance().checkPermission(String.format("head.%s", name.toLowerCase().replaceAll("[^a-z0-9-]", "-")), sender, false);
+        return isEnabled() && DecoHeads.getInstance().checkPermission(String.format("head.%s", getInternalName()), sender, false);
+    }
+
+    private String getInternalName() {
+        return name.toLowerCase().replaceAll("[^a-z0-9-]", "-");
     }
 
     public boolean isEnabled() {

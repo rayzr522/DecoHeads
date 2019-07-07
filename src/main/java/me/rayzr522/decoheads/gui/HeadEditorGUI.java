@@ -40,8 +40,20 @@ public class HeadEditorGUI extends GUI {
                     @Override
                     public ItemStack simpleRender(Player player, int offsetX, int offsetY) {
                         ItemStack item = super.simpleRender(player, offsetX, offsetY);
-                        ItemUtils.setName(item, plugin.tr(false, "button.head-editor.current-settings.name", head.getName()));
-                        ItemUtils.setLore(item, plugin.tr(false, "button.head-editor.current-settings.lore", head.getName(), head.getUUID(), head.getCategory().name(), head.computeCost(), head.getCost()).split("\n"));
+                        ItemUtils.setName(item, plugin.tr(
+                                false,
+                                "button.head-editor.current-settings.name",
+                                head.getName()
+                        ));
+                        ItemUtils.setLore(item, plugin.tr(
+                                false,
+                                "button.head-editor.current-settings.lore",
+                                head.getName(),
+                                head.getUUID(),
+                                head.getCategory().name(),
+                                head.computeCostFor(player),
+                                head.getCost()
+                        ).split("\n"));
                         return item;
                     }
                 }
