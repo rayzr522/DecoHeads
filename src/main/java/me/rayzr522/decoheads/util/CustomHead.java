@@ -49,12 +49,14 @@ public class CustomHead {
         Objects.requireNonNull(id);
         Objects.requireNonNull(name);
 
-        String colorName = TextUtils.colorize(name);
 
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(colorName);
+
+        if (!name.isEmpty()) {
+            String colorName = TextUtils.colorize(name);
+            meta.setDisplayName(colorName);
+        }
 
         try {
 

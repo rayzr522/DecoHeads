@@ -184,8 +184,17 @@ public class HeadsGUI extends GUI {
         }
 
         ItemStack giveItem = head.getItem();
-        ItemUtils.setName(giveItem, plugin.tr(false, "item.name", head.getName()));
-        ItemUtils.setLore(giveItem, plugin.tr(false, "item.lore").split("\n"));
+
+        String name = plugin.tr(false, "item.name", head.getName());
+        if (!name.isEmpty()) {
+            ItemUtils.setName(giveItem, name);
+        }
+
+        String lore = plugin.tr(false, "item.lore");
+        if (!lore.isEmpty()) {
+            ItemUtils.setLore(giveItem, lore.split("\n"));
+        }
+
         e.getPlayer().getInventory().addItem(giveItem);
     }
 
