@@ -81,7 +81,8 @@ public class GUI implements InventoryHolder {
 
         Dimension pos = new Dimension(slot % 9, slot / 9);
         components.stream()
-                .filter(comp -> pos.subtract(comp.getPosition()).fitsInside(comp.getSize()))
+                .filter(comp -> pos.getX() >= comp.getPosition().getX() && pos.getX() < comp.getPosition().getX() + comp.getSize().getX()
+                        && pos.getY() >= comp.getPosition().getY() && pos.getY() < comp.getPosition().getY() + comp.getSize().getY())
                 .reduce((a, b) -> b)
                 .ifPresent(comp -> {
                     ClickEvent event = new ClickEvent((Player) raw.getWhoClicked(), this, raw.getCurrentItem(), raw.getClick(), pos.subtract(comp.getPosition()));

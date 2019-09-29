@@ -128,7 +128,14 @@ public class HeadsGUI extends GUI {
     }
 
     private Component makeHeadButton(Head head, Dimension position) {
-        Component button = new Component(ItemUtils.setName(head.getItem(), DecoHeads.getInstance().tr(false, "item.name", head.getName())), Dimension.ONE, position) {
+        ItemStack item = head.getItem();
+
+        String name = DecoHeads.getInstance().tr(false, "item.name", head.getName());
+        if (!name.isEmpty()) {
+            ItemUtils.setName(item, name);
+        }
+
+        Component button = new Component(item, Dimension.ONE, position) {
             @Override
             public void onClick(ClickEvent e) {
                 if (clickCallback == null) {
@@ -186,7 +193,9 @@ public class HeadsGUI extends GUI {
         ItemStack giveItem = head.getItem();
 
         String name = plugin.tr(false, "item.name", head.getName());
-        if (!name.isEmpty()) {
+        if (name.isEmpty()) {
+            ItemUtils.setName(giveItem, "");
+        } else {
             ItemUtils.setName(giveItem, name);
         }
 

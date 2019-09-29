@@ -37,6 +37,7 @@ public class ItemUtils {
 
         meta.setLore(loreList);
         item.setItemMeta(meta);
+
         return item;
     }
 
