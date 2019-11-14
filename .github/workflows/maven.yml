@@ -15,7 +15,11 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Prepare artifact
+      run: |
+        mkdir -p output
+        mv target/DecoHeads-*.jar output
     - uses: actions/upload-artifact@master
       with:
         name: 'DecoHeads-*.jar'
-        path: target
+        path: output
