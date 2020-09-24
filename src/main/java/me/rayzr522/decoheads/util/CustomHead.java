@@ -44,17 +44,16 @@ public class CustomHead {
         }
     }
 
-    public static ItemStack getHead(String texture, String id, String name) {
+    public static ItemStack getHead(String texture, String id) {
         Objects.requireNonNull(texture);
         Objects.requireNonNull(id);
-        Objects.requireNonNull(name);
 
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta meta = item.getItemMeta();
 
         try {
 
-            Object profile = GAME_PROFILE_CONSTRUCTOR.newInstance(UUID.fromString(id), name);
+            Object profile = GAME_PROFILE_CONSTRUCTOR.newInstance(UUID.fromString(id), null);
             Object properties = GET_PROPERTIES.invoke(profile);
             INSERT_PROPERTY.invoke(properties, "textures", PROPERTY_CONSTRUCTOR.newInstance("textures", texture));
 

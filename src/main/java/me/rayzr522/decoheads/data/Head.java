@@ -141,6 +141,6 @@ public class Head {
     }
 
     public ItemStack getItem() {
-        return CustomHead.getHead(texture, uuid, name);
+        return CustomHead.getHead(texture, uuid);
     }
 }
