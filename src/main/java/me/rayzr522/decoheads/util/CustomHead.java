@@ -43,11 +43,15 @@ public class CustomHead {
             Bukkit.getPluginManager().disablePlugin(DecoHeads.getInstance());
         }
     }
+    
+    public static ItemStack getHead(String texture, String id){//for getting a custom head without username
+        return getHead(texture, id, null);
+    }
 
-    public static ItemStack getHead(String texture, String id, String name) {
+    private static ItemStack getHead(String texture, String id, String name) {//to get any head, custom or not.
         Objects.requireNonNull(texture);
         Objects.requireNonNull(id);
-        Objects.requireNonNull(name);
+        //note: 'name' can be null to avoid associating a username with the profile
 
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta meta = item.getItemMeta();
