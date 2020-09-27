@@ -75,6 +75,7 @@ public class HeadManager {
         return heads.stream()
                 .filter(head -> head.getCategory().hasPermission(sender))
                 .filter(head -> head.isUseableBy(sender))
+                .sorted(Comparator.comparing(Head::getName, String::compareToIgnoreCase))
                 .collect(Collectors.toList());
     }
 
