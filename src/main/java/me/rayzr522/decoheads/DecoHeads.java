@@ -27,7 +27,7 @@ public class DecoHeads extends JavaPlugin {
     private HeadManager headManager;
 
     private EconomyWrapper economy;
-    private SpigetUpdate updater;
+    private SpigetUpdate updater = null;
 
     public static DecoHeads getInstance() {
         return instance;
@@ -87,9 +87,11 @@ public class DecoHeads extends JavaPlugin {
             headManager.load();
 
             if (settings.isUpdaterEnabled()) {
-                updater = new SpigetUpdate(this, 24655);
-            } else {
-                updater = null;
+                if (getDescription().getVersion().contains("BETA")) {
+                    getLogger().info("Disabled update checker since you're on a beta version of the plugin!");
+                } else {
+                    updater = new SpigetUpdate(this, 24655);
+                }
             }
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to load config files:", e);
