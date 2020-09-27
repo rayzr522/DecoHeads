@@ -4,7 +4,7 @@
 
     <groupId>me.rayzr522</groupId>
     <artifactId>decoheads</artifactId>
-    <version>1.6.0-BETA</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>DecoHeads</name>
     <description>Adds lots of decorative heads that can be used for building / design</description>
     <url>https://git.io/decoheads</url>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>org.inventivetalent.spiget-update</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

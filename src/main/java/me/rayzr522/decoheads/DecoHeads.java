@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.update.spiget.SpigetUpdate;
+import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
 import java.util.logging.Level;
 
@@ -87,11 +88,8 @@ public class DecoHeads extends JavaPlugin {
             headManager.load();
 
             if (settings.isUpdaterEnabled()) {
-                if (getDescription().getVersion().contains("BETA")) {
-                    getLogger().info("Disabled update checker since you're on a beta version of the plugin!");
-                } else {
-                    updater = new SpigetUpdate(this, 24655);
-                }
+                updater = new SpigetUpdate(this, 24655);
+                updater.setVersionComparator(VersionComparator.SEM_VER_SNAPSHOT);
             }
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to load config files:", e);
