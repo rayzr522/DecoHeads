@@ -22,6 +22,11 @@ command:
             no-username: "&cYou must specify a username!"
             given: "Gave you the head of '{0}'"
             given-cost: "Gave you the head of '{0}' for {1}"
+        give:
+            usage: "Usage: &7/decoheads give <head> [player]"
+            invalid-player: "&cThe player '{0}' is not online!"
+            invalid-head: "&cThe head '{0}' does not exist!"
+            given: "Gave '{0}' the head '{1}'"
     decoheadsadmin:
         usage: "Usage: &7/decoheadsadmin reload|settings|editor|add|remove|disable"
         reloaded: "&eConfig & settings reloaded"

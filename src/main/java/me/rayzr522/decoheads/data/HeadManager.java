@@ -88,11 +88,11 @@ public class HeadManager {
     }
 
     public Optional<Head> findByName(String name) {
-        return getHeads().stream().filter(head -> head.getName().toLowerCase().equals(name.toLowerCase())).findFirst();
+        return getHeads().stream().filter(head -> head.getInternalName().toLowerCase().equals(name.toLowerCase())).findFirst();
     }
 
     public void addHead(Head head) {
-        if (findByName(head.getName()).isPresent()) {
+        if (findByName(head.getInternalName()).isPresent()) {
             throw new IllegalArgumentException("The head '" + head.getName() + "' already exists!");
         }
         heads.add(head);

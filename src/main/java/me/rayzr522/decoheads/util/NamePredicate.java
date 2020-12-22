@@ -16,6 +16,6 @@ public class NamePredicate implements Predicate<Head> {
 
     @Override
     public boolean test(Head h) {
-        return h.getName().toLowerCase().contains(filter.toLowerCase());
+        return h.getInternalName().toLowerCase().contains(filter.toLowerCase());
     }
 }
