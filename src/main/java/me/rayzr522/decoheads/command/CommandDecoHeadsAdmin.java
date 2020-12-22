@@ -54,7 +54,7 @@ public class CommandDecoHeadsAdmin implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("disable") || args[0].equalsIgnoreCase("enable")) {
                 String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
                 return plugin.getHeadManager().getHeads().stream()
-                        .filter(head -> head.getName().toLowerCase().startsWith(filter.toLowerCase()))
+                        .filter(head -> head.getInternalName().toLowerCase().startsWith(filter.toLowerCase()))
                         .map(Head::getName)
                         .collect(Collectors.toList());
             }
