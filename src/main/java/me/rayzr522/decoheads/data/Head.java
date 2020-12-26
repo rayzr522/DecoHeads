@@ -116,7 +116,7 @@ public class Head {
         return isEnabled() && DecoHeads.getInstance().checkPermission(String.format("head.%s", getInternalName()), sender, false);
     }
 
-    private String getInternalName() {
+    public String getInternalName() {
         return name.toLowerCase().replaceAll("[^a-z0-9-]", "-");
     }
 

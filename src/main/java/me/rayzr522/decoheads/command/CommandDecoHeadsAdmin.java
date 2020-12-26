@@ -54,8 +54,8 @@ public class CommandDecoHeadsAdmin implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("disable") || args[0].equalsIgnoreCase("enable")) {
                 String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
                 return plugin.getHeadManager().getHeads().stream()
-                        .filter(head -> head.getName().toLowerCase().startsWith(filter.toLowerCase()))
-                        .map(Head::getName)
+                        .filter(head -> head.getInternalName().toLowerCase().startsWith(filter.toLowerCase()))
+                        .map(Head::getInternalName)
                         .collect(Collectors.toList());
             }
         }
@@ -221,7 +221,7 @@ public class CommandDecoHeadsAdmin implements CommandExecutor, TabCompleter {
                 head.setEnabled(false);
                 headManager.save();
 
-                player.sendMessage(plugin.tr("command.decoheadsadmin.disable.disabled", name));
+                player.sendMessage(plugin.tr("command.decoheadsadmin.disable.disabled", head.getName()));
                 break;
             }
             case "enable": {
@@ -248,7 +248,7 @@ public class CommandDecoHeadsAdmin implements CommandExecutor, TabCompleter {
                 head.setEnabled(true);
                 headManager.save();
 
-                player.sendMessage(plugin.tr("command.decoheadsadmin.enable.enabled", name));
+                player.sendMessage(plugin.tr("command.decoheadsadmin.enable.enabled", head.getName()));
                 break;
             }
             default:

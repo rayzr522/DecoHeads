@@ -8,7 +8,8 @@ import me.rayzr522.decoheads.gui.HeadsGUI;
 import me.rayzr522.decoheads.util.ArrayUtils;
 import me.rayzr522.decoheads.util.NamePredicate;
 import me.rayzr522.decoheads.util.TextUtils;
-import net.milkbowl.vault.economy.Economy;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,10 +19,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,6 +35,7 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(plugin.tr("command.only-players"));
@@ -69,6 +71,27 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
             } else {
                 gui.render();
             }
+        } else if (sub.equals("give")) {
+            if (args.length < 2) {
+                p.sendMessage(plugin.tr("command.decoheads.find.usage"));
+                return true;
+            }
+
+            Head head = plugin.getHeadManager().findByName(args[1]).orElse(null);
+            if (head == null) {
+                p.sendMessage(plugin.tr("command.decoheads.give.invalid-head", args[1]));
+                return true;
+            }
+
+            Player target = args.length > 2 ? Bukkit.getPlayer(args[2]) : p;
+
+            if (target == null) {
+                p.sendMessage(plugin.tr("command.decoheads.give.invalid-player", args[2]));
+                return true;
+            }
+
+            target.getInventory().addItem(head.getItem());
+            p.sendMessage(plugin.tr("command.decoheads.give.given", target.getName(), head.getName()));
         } else if (sub.equals("get") && plugin.getSettings().isCustomHeadsEnabled()) {
             if (!plugin.checkPermission("use.custom", p, true)) {
                 return true;
@@ -122,14 +145,18 @@ public class CommandDecoHeads implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return Stream.of("search", "find", "get")
+            return Stream.of("search", "find", "get", "give")
                     .filter(option -> option.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
-        } else if (args.length > 1 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find"))) {
-            String filter = ArrayUtils.concat(Arrays.copyOfRange(args, 1, args.length), " ");
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase("search") || args[0].equalsIgnoreCase("find") || args[0].equalsIgnoreCase("give"))) {
             return plugin.getHeadManager().getHeadsFor(sender).stream()
-                    .filter(head -> head.getName().toLowerCase().startsWith(filter.toLowerCase()))
-                    .map(Head::getName)
+                    .filter(head -> head.getInternalName().toLowerCase().startsWith(args[1].toLowerCase()))
+                    .map(Head::getInternalName)
+                    .collect(Collectors.toList());
+        } else if (args.length == 3 && (args[0].equalsIgnoreCase("give"))) {
+            return Bukkit.getOnlinePlayers().stream()
+                    .filter(player -> player.getName().toLowerCase().startsWith(args[2].toLowerCase()))
+                    .map(Player::getName)
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();

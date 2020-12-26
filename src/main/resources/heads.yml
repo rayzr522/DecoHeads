@@ -1006,15 +1006,15 @@ heads:
       cost: -1.0
       texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ4OThjNDBlNDdjNWQyZDc2OTI0MDY1MzYwNzY4MDY1ZDYyNGVlNWI5ZWUwYmU5ZTEyYjk4ZmI3N2M3NiJ9fX0=
       uuid: 2f380f4a-64c3-4b2c-af18-6c491692e649
-    Ä:
+    A Umlaut:
       cost: -1.0
       texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGM5YzJiYmQ3YjdmNzIwNGRjZWI1NzI5YTZmYmE3ZmQ0NWQ2ZjE5M2YzNzYwZWM1OWE2ODA3NTMzZTYzYiJ9fX0=
       uuid: 8a2ecdf9-9be0-4dac-90b5-560587de6772
-    Ü:
+    U Umlaut:
       cost: -1.0
       texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2FlYzUzZTRhNmQyMjFhZmQ3Mjk3YjY1ZTU1YmU4NzkxM2NmOWNiN2Y0ZjQ1NDdmNzE4NjEyMDcwMWQ4ZCJ9fX0=
       uuid: 6961d9d9-e0f8-49f8-9d25-d099a1830efe
-    Ö:
+    O Umlaut:
       cost: -1.0
       texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzgzZDQyYmNiOWI4ZTY2YzE2MTY2Y2NmMjYxZTJmOWY3OGM2OGVlNzg4NmRhMjI1ZTQzODk1Y2RiY2FmNWYifX19
       uuid: 57d010fb-824f-4ab2-b34e-ba24535a94ea
